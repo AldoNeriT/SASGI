@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { InstitucionService } from '../../services/institucion/institucion.service';
 import { Institucion } from '../../models/institucion.model';
 import { UsuarioService } from '../../services/service.index';
+import { WebsocketService } from '../../services/websocket/websocket.service';
 
 // declare function init_plugins();
 
@@ -27,7 +28,8 @@ export class InstitucionComponent implements OnInit {
   cargando = true;
 
   constructor( public _institucionService: InstitucionService,
-               public _usuarioService: UsuarioService ) { }
+               public _usuarioService: UsuarioService,
+               public _webSocketServive: WebsocketService ) { }
 
   ngOnInit() {
     // init_plugins();
@@ -40,6 +42,16 @@ export class InstitucionComponent implements OnInit {
     });
 
     this.cargarInstituciones();
+    this.escucharSocket();
+  }
+
+  escucharSocket() {
+    this._webSocketServive.listen('cambio-institucion')
+        .subscribe( ( data: any ) => {
+          console.log('Socket: ', data);
+
+          this.cargarInstituciones();
+        });
   }
 
   cargarInstituciones() {

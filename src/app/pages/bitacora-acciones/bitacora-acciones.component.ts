@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BitacoraService, UsuarioService, InstitucionService } from '../../services/service.index';
 import { Bitacora } from '../../models/bitacora.model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { WebsocketService } from '../../services/websocket/websocket.service';
 
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
@@ -41,7 +42,8 @@ export class BitacoraAccionesComponent implements OnInit {
                public _usuarioService: UsuarioService,
                public _institucionService: InstitucionService,
                public router: Router,
-               public activatedRoute: ActivatedRoute ) {
+               public activatedRoute: ActivatedRoute,
+               public _webSocketServive: WebsocketService ) {
 
   }
 
@@ -75,6 +77,20 @@ export class BitacoraAccionesComponent implements OnInit {
 
     this.cargarBitacoras();
     this.cargarInstitucion();
+    this.escucharSocket();
+  }
+
+  escucharSocket() {
+    this._webSocketServive.listen('cambio-bitacora')
+        .subscribe( ( data: any ) => {
+          // console.log('Socket: ', data);
+
+          floating_labels();
+          inicializando_datePicker();
+
+          this.cargarBitacoras();
+          this.cargarInstitucion();
+        });
   }
 
   cargarInstitucion() {

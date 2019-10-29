@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NormaService, UsuarioService } from '../../services/service.index';
 import { Norma } from '../../models/norma.model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { WebsocketService } from '../../services/websocket/websocket.service';
 
 import Swal from 'sweetalert2';
 import * as $ from 'jquery';
@@ -33,7 +34,8 @@ export class NormasComponent implements OnInit {
   constructor( public _normaService: NormaService,
                public _usuarioService: UsuarioService,
                public router: Router,
-               public activatedRoute: ActivatedRoute ) {
+               public activatedRoute: ActivatedRoute,
+               public _webSocketServive: WebsocketService ) {
 
   }
 
@@ -55,6 +57,17 @@ export class NormasComponent implements OnInit {
     });
 
     this.cargarNormas();
+    this.escucharSocket();
+  }
+
+  escucharSocket() {
+    this._webSocketServive.listen('cambio-norma')
+        .subscribe( ( data: any ) => {
+          // console.log('Socket: ', data);
+
+          floating_labels();
+          this.cargarNormas();
+        });
   }
 
   cargarNormas() {

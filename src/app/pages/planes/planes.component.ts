@@ -5,6 +5,7 @@ import { Plan } from '../../models/plan.model';
 import { Auditoria } from '../../models/auditoria.model';
 import { Usuario } from '../../models/usuario.model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { WebsocketService } from '../../services/websocket/websocket.service';
 
 import Swal from 'sweetalert2';
 import * as $ from 'jquery';
@@ -32,7 +33,8 @@ export class PlanesComponent implements OnInit {
                public _auditoriaService: AuditoriaService,
                public _usuarioService: UsuarioService,
                public router: Router,
-               public activatedRoute: ActivatedRoute ) { }
+               public activatedRoute: ActivatedRoute,
+               public _webSocketServive: WebsocketService ) { }
 
   ngOnInit() {
     // init_plugins();
@@ -40,6 +42,19 @@ export class PlanesComponent implements OnInit {
 
     this.cargarPlanes();
     this.cargarAuditorias();
+    this.escucharSocket();
+  }
+
+  escucharSocket() {
+    this._webSocketServive.listen('cambio-plan')
+        .subscribe( ( data: any ) => {
+          // console.log('Socket: ', data);
+
+          inicializando_dateRange();
+
+          this.cargarPlanes();
+          this.cargarAuditorias();
+        });
   }
 
   cargarPlanes() {

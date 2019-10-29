@@ -4,6 +4,7 @@ import { NormaService, TablaService, UsuarioService } from '../../services/servi
 import { Norma } from '../../models/norma.model';
 import { Tabla } from '../../models/tabla.model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { WebsocketService } from '../../services/websocket/websocket.service';
 
 import Swal from 'sweetalert2';
 import * as $ from 'jquery';
@@ -18,7 +19,8 @@ export class TablaComponent implements OnInit {
 
   constructor( public _normaService: NormaService,
                public _tablaService: TablaService,
-               public _usuarioService: UsuarioService ) {
+               public _usuarioService: UsuarioService,
+               public _webSocketServive: WebsocketService ) {
 
   }
 
@@ -35,6 +37,18 @@ export class TablaComponent implements OnInit {
     floating_labels();
     this.cargarNormas();
     this.cargarTablas();
+    this.escucharSocket();
+  }
+
+  escucharSocket() {
+    this._webSocketServive.listen('cambio-tabla')
+        .subscribe( ( data: any ) => {
+          // console.log('Socket: ', data);
+
+          floating_labels();
+          this.cargarNormas();
+          this.cargarTablas();
+        });
   }
 
   cargarNormas() {

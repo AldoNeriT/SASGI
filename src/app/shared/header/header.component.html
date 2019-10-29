@@ -46,14 +46,14 @@
                 <!-- ============================================================== -->
                 <!-- Search -->
                 <!-- ============================================================== -->
-                <li class="nav-item hidden-xs-down search-box"> <a class="nav-link hidden-sm-down waves-effect waves-dark"><i class="ti-search"></i></a>
+                <!-- <li class="nav-item hidden-xs-down search-box"> <a class="nav-link hidden-sm-down waves-effect waves-dark"><i class="ti-search"></i></a>
                     <form class="app-search">
                         <input type="text" class="form-control" placeholder="Buscar y enter"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
-                </li>
+                </li> -->
                 <!-- ============================================================== -->
                 <!-- Messages -->
                 <!-- ============================================================== -->
-                <li class="nav-item dropdown">
+                <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-email"></i>
                         <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
                     </a>
@@ -64,25 +64,25 @@
                             </li>
                             <li>
                                 <div class="message-center">
-                                    <!-- Message -->
+                                    
                                     <a>
                                         <div class="user-img"> <img src="assets/images/users/1.jpg" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
                                         <div class="mail-contnet">
                                             <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span> </div>
                                     </a>
-                                    <!-- Message -->
+                                    
                                     <a>
                                         <div class="user-img"> <img src="assets/images/users/2.jpg" alt="user" class="img-circle"> <span class="profile-status busy pull-right"></span> </div>
                                         <div class="mail-contnet">
                                             <h5>Sonu Nigam</h5> <span class="mail-desc">I've sung a song! See you at</span> <span class="time">9:10 AM</span> </div>
                                     </a>
-                                    <!-- Message -->
+                                    
                                     <a>
                                         <div class="user-img"> <img src="assets/images/users/3.jpg" alt="user" class="img-circle"> <span class="profile-status away pull-right"></span> </div>
                                         <div class="mail-contnet">
                                             <h5>Arijit Sinh</h5> <span class="mail-desc">I am a singer!</span> <span class="time">9:08 AM</span> </div>
                                     </a>
-                                    <!-- Message -->
+                                    
                                     <a>
                                         <div class="user-img"> <img src="assets/images/users/4.jpg" alt="user" class="img-circle"> <span class="profile-status offline pull-right"></span> </div>
                                         <div class="mail-contnet">
@@ -95,7 +95,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> -->
                 <!-- ============================================================== -->
                 <!-- End Messages -->
                 <!-- ============================================================== -->
@@ -116,7 +116,7 @@
                             <li>
                                 <div class="dw-user-box text-center">
                                     <!-- <div class="u-img"><img [src]="usuario.img | imagen" alt="user"></div> -->
-                                    <div class="u-img"><img src="assets/images/users/icon-user.png" alt="user"></div>
+                                    <!-- <div class="u-img"><img src="assets/images/users/icon-user.png" alt="user"></div> -->
                                     <div class="u-text">
                                         <h4> {{ usuario.nombre + ' ' + usuario.primer_Apellido + ' ' + (usuario.segundo_Apellido || '') }} </h4>
                                         <p *ngIf="usuario.tipo_Usuario === 'ROOT'" class="text-muted">ROOT</p>
@@ -131,8 +131,8 @@
                             </li>
                             <li role="separator" class="divider"></li>
                             <li><a routerLink="/perfil"><i class="mdi mdi-account"></i> Mi Perfil</a></li>
-                            <li><a><i class="mdi mdi-email"></i> Mensajes</a></li>
-                            <li role="separator" class="divider"></li>
+                            <!-- <li><a><i class="mdi mdi-email"></i> Mensajes</a></li> -->
+                            <!-- <li role="separator" class="divider"></li> -->
                             <li><a routerLink="/account-settings"><i class="mdi mdi-settings"></i> Ajustes</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a (click)="_usuarioService.logout()" class="pointer"><i class="mdi mdi-power"></i> Cerrar Sesión</a></li>

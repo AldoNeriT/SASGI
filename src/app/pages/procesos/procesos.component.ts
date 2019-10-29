@@ -4,6 +4,7 @@ import { ProcesoService, UsuarioService } from '../../services/service.index';
 import { SubprocesoService } from '../../services/subproceso/subproceso.service';
 import { Proceso } from '../../models/proceso.model';
 import { Subproceso } from '../../models/subproceso.model';
+import { WebsocketService } from '../../services/websocket/websocket.service';
 
 import Swal from 'sweetalert2';
 import * as $ from 'jquery';
@@ -35,7 +36,8 @@ export class ProcesosComponent implements OnInit {
 
   constructor( public _procesoService: ProcesoService,
                public _subprocesoService: SubprocesoService,
-               public _usuarioService: UsuarioService, ) { }
+               public _usuarioService: UsuarioService,
+               public _webSocketServive: WebsocketService ) { }
 
   ngOnInit() {
     // init_plugins();
@@ -62,6 +64,17 @@ export class ProcesosComponent implements OnInit {
     });
 
     this.cargarProcesos();
+    this.escucharSocket();
+  }
+
+  escucharSocket() {
+    this._webSocketServive.listen('cambio-proceso')
+        .subscribe( ( data: any ) => {
+          // console.log('Socket: ', data);
+
+          floating_labels();
+          this.cargarProcesos();
+        });
   }
 
   // ************************************************

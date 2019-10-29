@@ -35,10 +35,11 @@ export class UsuariosComponent implements OnInit {
   }
 
   escucharSocket() {
-    console.log('entro');
     this._webSocketServive.listen('cambio-usuario')
         .subscribe( ( data: any ) => {
-          console.log('Socket: ', data);
+          // console.log('Socket: ', data);
+
+          this.cargarUsuariosInactivos();
           this.cargarUsuarios();
           inicializando_table();
         });
