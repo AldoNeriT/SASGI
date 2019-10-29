@@ -1,0 +1,1000 @@
+<div *ngIf="cargando" id="loading" class="row" style="padding-top: 20px;">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <span class="font-weight-bold">Cargando Datos</span>
+            <br><br>
+            <i class="fa fa-spinner fa-spin fa-3x text-themecolor"></i>
+            <br><br>
+            <span>Por favor espere un momento...</span>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- CONTENIDO ROOT, ADMIN Y AUDITOR LIDER-->
+<!-- ============================================================== -->
+<div *ngIf="(_usuarioService.usuario.tipo_Usuario === 'ROOT') || (_usuarioService.usuario.tipo_Usuario === 'ADMIN') || (_usuarioService.usuario.tipo_Usuario === 'AUDITOR_LIDER')">
+    <div *ngIf="!cargando">
+        <!-- ============================================================== -->
+        <!-- AUDITORIA -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Auditoría: <span class="font-bold">{{ auditoriaNombreV }}</span></h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <div *ngIf="!mostrarFormTitulo" class="row">
+                            <div class="col-12">
+                                <h6 class="card-subtitle">No. de Auditoría: <span class="font-bold">{{ noAuditoriaV }}</span></h6>
+                                <h6 class="card-subtitle">Proceso: <span class="font-bold">{{ procesoV }}</span></h6>
+                                <h6 class="card-subtitle">Fecha: <span class="font-bold">{{ fechaV }}</span></h6>
+                                <h6 class="card-subtitle">Auditor Líder: <span class="font-bold">{{ auditorLiderV }}</span></h6>
+                                <h6 class="card-subtitle">Grupo Auditor: <span class="font-bold">{{ grupoAuditorV }}</span></h6>
+                                <h6 class="card-subtitle">Norma de Referencia: <span class="font-bold">{{ normasV }}</span></h6>
+                                <button (click)="editarTitulo()" class="btn btn-outline-secondary btn-sm btn-rounded">Editar Campos</button>
+                            </div>
+                        </div>
+                        <div *ngIf="mostrarFormTitulo" class="row">
+                            <div class="col-12">
+                                <form ngNativeValidate [formGroup]="formaTitulo" (ngSubmit)="editarTituloS()" id="formTitulo" class="floating-labels m-t-0 " ngNativeValidate>
+                                    <h6 class="card-subtitle">No. de Auditoría: <span class="font-bold">{{ noAuditoriaV }}</span></h6>
+                                    <div class="form-group m-b-40 m-t-40 focused">
+                                        <input formControlName="proceso" name="proceso" id="proceso" type="text" class="form-control" required>
+                                        <span class="bar"></span>
+                                        <label for="proceso">Proceso:</label>
+                                    </div>
+                                    <div class="form-group m-b-40 m-t-40 focused">
+                                        <input formControlName="fecha" name="fecha" id="fecha" type="text" class="form-control datepicker-autoclose" required>
+                                        <span class="bar"></span>
+                                        <label for="fecha">Fecha:</label>
+                                    </div>
+                                    <h6 class="card-subtitle">Auditor Líder: <span class="font-bold">{{ auditorLiderV }}</span></h6>
+                                    <h6 class="card-subtitle">Grupo Auditor: <span class="font-bold">{{ grupoAuditorV }}</span></h6>
+                                    <h6 class="card-subtitle">Norma de Referencia: <span class="font-bold">{{ normasV }}</span></h6>
+                                    <button class="btn btn-outline-secondary btn-sm btn-rounded" type="submit">Guardar Cambios</button>&nbsp;
+                                    <button (click)="editarTitulo()" class="btn btn-outline-secondary btn-sm btn-rounded" type="button">Cancelar</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 40px;">
+            <div class="col-12 btn-group">
+                <button (click)="imprimir( 1 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-package-down"></i></button>
+                <button (click)="imprimir( 2 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-open-in-new"></i></button>
+                <button (click)="imprimir( 3 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-printer"></i></button>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- OBJETIVO -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Objetivo</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <p class="card-text">{{ objetivoV }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- ALCANCE -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Alcance</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <p class="card-text">{{ alcanceV }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- PERSONAL CONTACTADO -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Personal Contactado</h4>
+                        <h6 class="card-subtitle  text-themecolor">Anotar al personal contactado responsable del proceso de acuerdo a la estructura orgánica del Instituto Tecnológico Centro, ejemp: Director(a), Subdirector(a) y Jefe(a) de Departamento.</h6>
+                        <h6 class="card-subtitle  text-themecolor"><span class="font-bold">Nota: </span>El personal contactado solo es representativo de los cargos más relevantes en cada proceso.</h6>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table full-color-table full-info-table hover-table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th class="text-center">Nombre</th>
+                                        <th class="text-center">Puesto</th>
+                                        <th class="text-center"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let per of personal" class="text-center">
+                                        <td>{{ per.nombre }}</td>
+                                        <td>{{ per.puesto }}</td>
+                                        <td class="text-center"><button (click)="eliminarPersonal( per )" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash-o"></i></button></td>
+                                    </tr>
+                                    <tr class="text-center pointer">
+                                        <td colspan="3" data-toggle="modal" data-target="#modalAgregar1"><i class="mdi mdi-plus"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- NO CONFORMIDADES -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">No Conformidades</h4>
+                        <h6 class="card-subtitle  text-themecolor"><span class="font-bold">Nota: </span>Esta parte incrementa dependiendo de las Tablas de "No Conformidades" y "Oportunidades de Mejora".</h6>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <p class="card-text">En la revisión al Sistema de Gestión Integral se encontraron un total de <span class="font-bold">{{ totalNC }}</span> No Conformidades y <span class="font-bold">{{ totalOM }}</span> Oportunidades de Mejora.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- TABLA -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <h4 class="card-title">Tabla</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <hr class="m-t-0 m-b-40">
+                        </div>
+                    </div> -->
+                        <div class="table-responsive">
+                            <table class="table full-color-table full-info-table hover-table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th rowspan="2" class="text-center">Número</th>
+                                        <th rowspan="2" class="text-center">Requisito de la Norma</th>
+                                        <th [attr.colspan]="totalNormas" class="text-center">NORMA</th>
+                                        <th colspan="2" class="text-center">DOCUMENTO DE REFERENCIA</th>
+                                    </tr>
+                                    <tr>
+                                        <th *ngFor="let norm of normas" class="text-center">{{ norm.nombreNorma }}</th>
+                                        <th class="text-center">Revisión</th>
+                                        <th class="text-center">Resultado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let tab of tablas">
+                                        <td>{{ tab.numero }}</td>
+                                        <td>{{ tab.requisito }}</td>
+                                        <td *ngFor="let norm of normas" class="text-center">
+                                            <span *ngFor=" let normTab of tab.normas">
+                                                        <span *ngIf="norm._id === normTab._id" class="font-bold">X</span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <input name="g1_{{ tab._id }}" type="radio" id="r11_{{ tab._id }}" class="with-gap radio-col-indigo" checked/>
+                                                <label for="r11_{{ tab._id }}"><span style="color: #67757C;">A</span></label>&nbsp;
+
+                                                <input name="g1_{{ tab._id }}" type="radio" id="r12_{{ tab._id }}" class="with-gap radio-col-indigo" />
+                                                <label for="r12_{{ tab._id }}"><span style="color: #67757C;">NA</span></label>&nbsp;
+
+                                                <input name="g1_{{ tab._id }}" type="radio" id="r13_{{ tab._id }}" class="with-gap radio-col-indigo" />
+                                                <label for="r13_{{ tab._id }}"><span style="color: #67757C;">EP</span></label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <input name="g2_{{ tab._id }}" type="radio" id="r21_{{ tab._id }}" class="with-gap radio-col-blue" checked/>
+                                                <label for="r21_{{ tab._id }}"><span style="color: #67757C;">AD</span></label>&nbsp;
+
+                                                <input name="g2_{{ tab._id }}" type="radio" id="r22_{{ tab._id }}" class="with-gap radio-col-blue" />
+                                                <label for="r22_{{ tab._id }}"><span style="color: #67757C;">NC</span></label>&nbsp;
+
+                                                <input name="g2_{{ tab._id }}" type="radio" id="r23_{{ tab._id }}" class="with-gap radio-col-blue" />
+                                                <label for="r23_{{ tab._id }}"><span style="color: #67757C;">NR</span></label>&nbsp;
+
+                                                <input name="g2_{{ tab._id }}" type="radio" id="r24_{{ tab._id }}" class="with-gap radio-col-blue" />
+                                                <label for="r24_{{ tab._id }}"><span style="color: #67757C;">EP</span></label>&nbsp;
+
+                                                <input name="g2_{{ tab._id }}" type="radio" id="r25_{{ tab._id }}" class="with-gap radio-col-blue" />
+                                                <label for="r25_{{ tab._id }}"><span style="color: #67757C;">NA</span></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <span class="help-block text-themecolor"><small>Revisión: ( <span class="font-bold">A</span> = Aplica, <span class="font-bold">NA</span> = No Aplica, <span class="font-bold">EP</span> = Exclusión Permitida )</small>
+                        </span><br>
+                        <span class="help-block text-themecolor"><small>Resultado: ( <span class="font-bold">AD</span> = Adecuado, <span class="font-bold">NC</span> = No Conforme, <span class="font-bold">NR</span> = No Revisado, <span class="font-bold">EP</span>                        = Exclusión Permitida, <span class="font-bold">NA</span> = No Aplica )</small>
+                        </span>
+
+                        <div class="text-center" style="padding-top: 30px;">
+                            <button (click)="matrizGuardar()" class="btn btn-outline-secondary btn-sm btn-rounded">Guardar Cambios</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- OPORTUNIDADES DE MEJORA -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Oportunidades de Mejora</h4>
+                        <h6 class="card-subtitle text-themecolor text-themecolor">Anotar las oportunidades de mejora detectadas durante la auditoria.</h6>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table full-color-table full-info-table hover-table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th class="text-center">Oportunidades de Mejora</th>
+                                        <th class="text-center"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let op of oportunidadesMejoraV; let i=index;" class="text-center">
+                                        <td>{{ i+1 }}. {{ op }}</td>
+                                        <td class="text-center"><button (click)="eliminarOM( i )" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash-o"></i></button></td>
+                                    </tr>
+                                    <tr class="text-center pointer">
+                                        <td colspan="2" data-toggle="modal" data-target="#modalAgregar2"><i class="mdi mdi-plus"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- COMENTARIOS -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Comentarios</h4>
+                        <h6 class="card-subtitle text-themecolor text-themecolor">Anotar los comentarios sobre la apertura y disposición de las personas responsables de los procesos durante la auditoria.</h6>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+
+                        <div *ngIf="!mostrarFormCom" class="row">
+                            <div class="col-12">
+                                <p class="card-text">{{ comentariosV }}</p>
+                                <button (click)="editarComentarios()" class="btn btn-outline-secondary btn-sm btn-rounded">Editar</button>
+                            </div>
+                        </div>
+                        <div *ngIf="mostrarFormCom" class="row">
+                            <div class="col-12">
+                                <form ngNativeValidate [formGroup]="formaComentarios" (ngSubmit)="editarComentariosS()" id="formComentarios" class="floating-labels m-t-0 " ngNativeValidate>
+                                    <div class="form-group m-b-40 m-t-40 focused">
+                                        <textarea formControlName="comentarios" name="comentarios" id="comentarios" type="text" class="form-control" required></textarea>
+                                        <span class="bar"></span>
+                                        <label for="comentarios">Comentarios:</label>
+                                    </div>
+                                    <button class="btn btn-outline-secondary btn-sm btn-rounded" type="submit">Guardar Cambios</button>&nbsp;
+                                    <button (click)="editarComentarios()" class="btn btn-outline-secondary btn-sm btn-rounded" type="button">Cancelar</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- NO CONFORMIDADES -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">No Conformidades</h4>
+                        <h6 class="card-subtitle text-themecolor text-themecolor">Anotar las conclusiones a las que se llegó en la auditoria punto 5 de la descripción del procedimiento.</h6>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table full-color-table full-info-table hover-table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th class="text-center">No.</th>
+                                        <th class="text-center">Descripción del Hallazgo</th>
+                                        <th class="text-center">Requisito</th>
+                                        <th class="text-center"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let hall of hallazgos; let i=index" class="text-center">
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ hall.hallazgo }}</td>
+                                        <td>{{ hall.requisito }}</td>
+                                        <td class="text-center"><button (click)="eliminarHallazgo( hall )" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash-o"></i></button></td>
+                                    </tr>
+                                    <tr class="text-center pointer">
+                                        <td colspan="4" data-toggle="modal" data-target="#modalAgregar3"><i class="mdi mdi-plus"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- CONCLUSIONES -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Conclusiones de Auditoría</h4>
+                        <h6 class="card-subtitle text-themecolor">Anotar las conclusiones de la auditoria conforme al resultado obtenido declarando el nivel de madurez de los Sistemas de Gestión.</h6>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+
+                        <div *ngIf="!mostrarFormConc" class="row">
+                            <div class="col-12">
+                                <p class="card-text">{{ conclusionesV }}</p>
+                                <button (click)="editarConclusiones()" class="btn btn-outline-secondary btn-sm btn-rounded">Editar</button>
+                            </div>
+                        </div>
+                        <div *ngIf="mostrarFormConc" class="row">
+                            <div class="col-12">
+                                <form ngNativeValidate [formGroup]="formaConclusiones" (ngSubmit)="editarConclusionesS()" id="formConclusiones" class="floating-labels m-t-0 " ngNativeValidate>
+                                    <div class="form-group m-b-40 m-t-40 focused">
+                                        <textarea formControlName="conclusiones" name="conclusiones" id="conclusiones" type="text" class="form-control" required></textarea>
+                                        <span class="bar"></span>
+                                        <label for="conclusiones">Conclusiones:</label>
+                                    </div>
+                                    <button class="btn btn-outline-secondary btn-sm btn-rounded" type="submit">Guardar Cambios</button>&nbsp;
+                                    <button (click)="editarConclusiones()" class="btn btn-outline-secondary btn-sm btn-rounded" type="button">Cancelar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- FIRMAS -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-lg-4 col-md-12">
+                <div class="ribbon-wrapper card" style="height: 85%;">
+                    <div class="ribbon ribbon-info ribbon-right">Auditor Líder</div>
+                    <div class="card-body text-center">
+                        <span class="font-bold">{{ auditorLiderV }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="ribbon-wrapper card" style="height: 85%;">
+                    <div class="ribbon ribbon-info ribbon-right">Recibí de Conformidad</div>
+                    <div class="card-body text-center">
+                        <span class="font-bold">{{ directorV }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="ribbon-wrapper card" style="height: 85%;">
+                    <div class="ribbon ribbon-info ribbon-right">Fechas de Auditoría</div>
+
+                    <div *ngIf="!mostrarFormFechas" class="card-body text-center">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="card-text font-bold">{{ fechasV }}</p>
+                                <button (click)="editarFechas()" class="btn btn-outline-secondary btn-sm btn-rounded">Editar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="mostrarFormFechas" class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <form ngNativeValidate [formGroup]="formaFechas" (ngSubmit)="editarFechasS()" id="formFechas" class="floating-labels m-t-0 " ngNativeValidate>
+                                    <div class="form-group m-b-40 m-t-40 focused">
+                                        <input formControlName="fechas" name="fechas" id="fechas" type="text" class="form-control input-daterange-datepicker" required>
+                                        <span class="bar"></span>
+                                        <label for="fechas">Fechas</label>
+                                    </div>
+                                    <button class="btn btn-outline-secondary btn-sm btn-rounded" type="submit">Guardar Cambios</button>&nbsp;
+                                    <button (click)="editarFechas()" class="btn btn-outline-secondary btn-sm btn-rounded" type="button">Cancelar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- FECHA DE EMISIÓN DEL INFORME -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-lg-4 col-md-12">
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="ribbon-wrapper card">
+                    <div class="ribbon ribbon-info ribbon-right">Fecha de Emisión del Informe</div>
+                    <div *ngIf="!mostrarFormFechaEmision" class="card-body text-center">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="card-text font-bold">{{ fechaEmisionV }}</p>
+                                <button (click)="editarFechaEmision()" class="btn btn-outline-secondary btn-sm btn-rounded">Editar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="mostrarFormFechaEmision" class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <form ngNativeValidate [formGroup]="formaFechaEmision" (ngSubmit)="editarFechaEmisionS()" id="formFechaEmision" class="floating-labels m-t-0 " ngNativeValidate>
+                                    <div class="form-group m-b-40 m-t-40 focused">
+                                        <input formControlName="fechaEmision" name="fechaEmision" id="fechaEmision" type="text" class="form-control datepicker-autoclose" required>
+                                        <span class="bar"></span>
+                                        <label for="fechaEmision">Fecha:</label>
+                                    </div>
+                                    <button class="btn btn-outline-secondary btn-sm btn-rounded" type="submit">Guardar Cambios</button>&nbsp;
+                                    <button (click)="editarFechaEmision()" class="btn btn-outline-secondary btn-sm btn-rounded" type="button">Cancelar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- BOTON FINAL -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-lg-12 col-md-12 text-center">
+                <button (click)="terminado()" class="btn btn-info btn-rounded btn-lg">Dar por terminada la Auditoría</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- AUDITOR-->
+<!-- ============================================================== -->
+<div *ngIf="_usuarioService.usuario.tipo_Usuario === 'AUDITOR'">
+    <div *ngIf="!cargando">
+        <!-- ============================================================== -->
+        <!-- AUDITORIA -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Auditoría: <span class="font-bold">{{ auditoriaNombreV }}</span></h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="card-subtitle">No. de Auditoría: <span class="font-bold">{{ noAuditoriaV }}</span></h6>
+                                <h6 class="card-subtitle">Proceso: <span class="font-bold">{{ procesoV }}</span></h6>
+                                <h6 class="card-subtitle">Fecha: <span class="font-bold">{{ fechaV }}</span></h6>
+                                <h6 class="card-subtitle">Auditor Líder: <span class="font-bold">{{ auditorLiderV }}</span></h6>
+                                <h6 class="card-subtitle">Grupo Auditor: <span class="font-bold">{{ grupoAuditorV }}</span></h6>
+                                <h6 class="card-subtitle">Norma de Referencia: <span class="font-bold">{{ normasV }}</span></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- OBJETIVO -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Objetivo</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <p class="card-text">{{ objetivoV }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- ALCANCE -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Alcance</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <p class="card-text">{{ alcanceV }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- PERSONAL CONTACTADO -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Personal Contactado</h4>
+                        <h6 class="card-subtitle  text-themecolor">Anotar al personal contactado responsable del proceso de acuerdo a la estructura orgánica del Instituto Tecnológico Centro, ejemp: Director(a), Subdirector(a) y Jefe(a) de Departamento.</h6>
+                        <h6 class="card-subtitle  text-themecolor"><span class="font-bold">Nota: </span>El personal contactado solo es representativo de los cargos más relevantes en cada proceso.</h6>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table full-color-table full-info-table hover-table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th class="text-center">Nombre</th>
+                                        <th class="text-center">Puesto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let per of personal" class="text-center">
+                                        <td>{{ per.nombre }}</td>
+                                        <td>{{ per.puesto }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- NO CONFORMIDADES -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">No Conformidades</h4>
+                        <h6 class="card-subtitle  text-themecolor"><span class="font-bold">Nota: </span>Esta parte incrementa dependiendo de las Tablas de "No Conformidades" y "Oportunidades de Mejora".</h6>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <p class="card-text">En la revisión al Sistema de Gestión Integral se encontraron un total de <span class="font-bold">{{ totalNC }}</span> No Conformidades y <span class="font-bold">{{ totalOM }}</span> Oportunidades de Mejora.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- TABLA -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <h4 class="card-title">Tabla</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div> -->
+                        <div class="table-responsive">
+                            <table class="table full-color-table full-info-table hover-table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th rowspan="2" class="text-center">Número</th>
+                                        <th rowspan="2" class="text-center">Requisito de la Norma</th>
+                                        <th [attr.colspan]="totalNormas" class="text-center">NORMA</th>
+                                        <th colspan="2" class="text-center">DOCUMENTO DE REFERENCIA</th>
+                                    </tr>
+                                    <tr>
+                                        <th *ngFor="let norm of normas" class="text-center">{{ norm.nombreNorma }}</th>
+                                        <th class="text-center">Revisión</th>
+                                        <th class="text-center">Resultado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let tab of tablas">
+                                        <td>{{ tab.numero }}</td>
+                                        <td>{{ tab.requisito }}</td>
+                                        <td *ngFor="let norm of normas" class="text-center">
+                                            <span *ngFor=" let normTab of tab.normas">
+                                                <span *ngIf="norm._id === normTab._id" class="font-bold">X</span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <input name="g1_{{ tab._id }}" type="radio" id="r11_{{ tab._id }}" class="with-gap radio-col-indigo" checked disabled/>
+                                                <label for="r11_{{ tab._id }}"><span style="color: #67757C;">A</span></label>&nbsp;
+                                                <input name="g1_{{ tab._id }}" type="radio" id="r12_{{ tab._id }}" class="with-gap radio-col-indigo" disabled/>
+                                                <label for="r12_{{ tab._id }}"><span style="color: #67757C;">NA</span></label>&nbsp;
+                                                <input name="g1_{{ tab._id }}" type="radio" id="r13_{{ tab._id }}" class="with-gap radio-col-indigo" disabled/>
+                                                <label for="r13_{{ tab._id }}"><span style="color: #67757C;">EP</span></label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <input name="g2_{{ tab._id }}" type="radio" id="r21_{{ tab._id }}" class="with-gap radio-col-blue" checked disabled/>
+                                                <label for="r21_{{ tab._id }}"><span style="color: #67757C;">AD</span></label>&nbsp;
+                                                <input name="g2_{{ tab._id }}" type="radio" id="r22_{{ tab._id }}" class="with-gap radio-col-blue" disabled/>
+                                                <label for="r22_{{ tab._id }}"><span style="color: #67757C;">NC</span></label>&nbsp;
+                                                <input name="g2_{{ tab._id }}" type="radio" id="r23_{{ tab._id }}" class="with-gap radio-col-blue" disabled/>
+                                                <label for="r23_{{ tab._id }}"><span style="color: #67757C;">NR</span></label>&nbsp;
+                                                <input name="g2_{{ tab._id }}" type="radio" id="r24_{{ tab._id }}" class="with-gap radio-col-blue" disabled/>
+                                                <label for="r24_{{ tab._id }}"><span style="color: #67757C;">EP</span></label>&nbsp;
+                                                <input name="g2_{{ tab._id }}" type="radio" id="r25_{{ tab._id }}" class="with-gap radio-col-blue" disabled/>
+                                                <label for="r25_{{ tab._id }}"><span style="color: #67757C;">NA</span></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <span class="help-block text-themecolor"><small>Revisión: ( <span class="font-bold">A</span> = Aplica, <span class="font-bold">NA</span> = No Aplica, <span class="font-bold">EP</span> = Exclusión Permitida )</small>
+                        </span><br>
+                        <span class="help-block text-themecolor"><small>Resultado: ( <span class="font-bold">AD</span> = Adecuado, <span class="font-bold">NC</span> = No Conforme, <span class="font-bold">NR</span> = No Revisado, <span class="font-bold">EP</span>                        = Exclusión Permitida, <span class="font-bold">NA</span> = No Aplica )</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- OPORTUNIDADES DE MEJORA -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Oportunidades de Mejora</h4>
+                        <h6 class="card-subtitle text-themecolor text-themecolor">Anotar las oportunidades de mejora detectadas durante la auditoria.</h6>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table full-color-table full-info-table hover-table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th class="text-center">Oportunidades de Mejora</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let op of oportunidadesMejoraV; let i=index;" class="text-center">
+                                        <td>{{ op }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- COMENTARIOS -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Comentarios</h4>
+                        <h6 class="card-subtitle text-themecolor text-themecolor">Anotar los comentarios sobre la apertura y disposición de las personas responsables de los procesos durante la auditoria.</h6>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="card-text">{{ comentariosV }}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- NO CONFORMIDADES -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">No Conformidades</h4>
+                        <h6 class="card-subtitle text-themecolor text-themecolor">Anotar las conclusiones a las que se llegó en la auditoria punto 5 de la descripción del procedimiento.</h6>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table full-color-table full-info-table hover-table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th class="text-center">No.</th>
+                                        <th class="text-center">Descripción del Hallazgo</th>
+                                        <th class="text-center">Requisito</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let hall of hallazgos; let i=index" class="text-center">
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ hall.hallazgo }}</td>
+                                        <td>{{ hall.requisito }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- CONCLUSIONES -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Conclusiones de Auditoría</h4>
+                        <h6 class="card-subtitle text-themecolor">Anotar las conclusiones de la auditoria conforme al resultado obtenido declarando el nivel de madurez de los Sistemas de Gestión.</h6>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="card-text">{{ conclusionesV }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- FIRMAS -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-lg-4 col-md-12">
+                <div class="ribbon-wrapper card" style="height: 85%;">
+                    <div class="ribbon ribbon-info ribbon-right">Auditor Líder</div>
+                    <div class="card-body text-center">
+                        <span class="font-bold">{{ auditorLiderV }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="ribbon-wrapper card" style="height: 85%;">
+                    <div class="ribbon ribbon-info ribbon-right">Recibí de Conformidad</div>
+                    <div class="card-body text-center">
+                        <span class="font-bold">{{ directorV }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="ribbon-wrapper card" style="height: 85%;">
+                    <div class="ribbon ribbon-info ribbon-right">Fechas de Auditoría</div>
+
+                    <div class="card-body text-center">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="card-text font-bold">{{ fechasV }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- FECHA DE EMISIÓN DEL INFORME -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-lg-4 col-md-12">
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="ribbon-wrapper card">
+                    <div class="ribbon ribbon-info ribbon-right">Fecha de Emisión del Informe</div>
+                    <div class="card-body text-center">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="card-text font-bold">{{ fechaEmisionV }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- ============================================================== -->
+<!-- MODAL PERSONAL CONTACTADO -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalAgregar1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Agregar Personal</h4>
+            </div>
+            <div class="modal-body">
+                <form ngNativeValidate [formGroup]="formaPersonal" (ngSubmit)="editarPersonalS()" class="floating-labels m-t-40" ngNativeValidate>
+                    <div class="form-group m-b-40">
+                        <input formControlName="nombre" name="nombre" id="nombre" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="nombre">Nombre:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <input formControlName="puesto" name="puesto" id="puesto" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="puesto">Puesto:</label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL OPORTUNIDADES DE MEJORA -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalAgregar2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Agregar Oportunidad de Mejora</h4>
+            </div>
+            <div class="modal-body">
+                <form ngNativeValidate [formGroup]="formaOM" (ngSubmit)="editarOMS()" class="floating-labels m-t-40" ngNativeValidate>
+                    <div class="form-group m-b-40">
+                        <input formControlName="oportunidad" name="oportunidad" id="oportunidad" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="oportunidad">Oportunidad de Mejora:</label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL NO CONFORMIDADES -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalAgregar3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Agregar No Conformidad</h4>
+            </div>
+            <div class="modal-body">
+                <form ngNativeValidate [formGroup]="formaHallazgo" (ngSubmit)="editarHallazgoS()" class="floating-labels m-t-40" ngNativeValidate>
+                    <div class="form-group m-b-40">
+                        <input formControlName="hallazgo" name="hallazgo" id="hallazgo" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="hallazgo">Descripción del Hallazgo:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <input formControlName="requisito" name="requisito" id="requisito" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="requisito">Requisito:</label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

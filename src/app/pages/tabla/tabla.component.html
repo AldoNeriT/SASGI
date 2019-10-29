@@ -1,0 +1,130 @@
+<div *ngIf="cargando" id="loading" class="row" style="padding-top: 20px;">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <span class="font-weight-bold">Cargando Datos</span>
+            <br><br>
+            <i class="fa fa-spinner fa-spin fa-3x text-themecolor"></i>
+            <br><br>
+            <span>Por favor espere un momento...</span>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!cargando">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body table-responsive">
+
+                    <table class="table full-color-table full-info-table hover-table">
+                        <thead class="text-center">
+                            <tr>
+                                <th rowspan="2" class="text-center">Número</th>
+                                <th rowspan="2" class="text-center">Requisito de la Norma</th>
+                                <th [attr.colspan]="totalNormas" class="text-center">NORMA</th>
+                                <th rowspan="2" class="text-center"></th>
+                            </tr>
+                            <tr>
+                                <th *ngFor="let norm of normas" class="text-center">{{ norm.nombreNorma }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let tab of tablas">
+                                <td>{{ tab.numero }}</td>
+                                <td>{{ tab.requisito }}</td>
+                                <td *ngFor="let norm of normas" class="text-center">
+                                    <span *ngFor=" let normTab of tab.normas">
+                                    <span *ngIf="norm._id === normTab._id" class="font-bold">X</span>
+                                    </span>
+                                </td>
+                                <td class="text-center"><button (click)="eliminarFila( tab )" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash-o"></i></button></td>
+                            </tr>
+                            <tr *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'" class="pointer text-center">
+                                <td [attr.colspan]="2 + totalNormas  + 1" class="text-info" data-toggle="modal" data-target="#modalTablaAgregar"><i class="mdi mdi-plus"></i> Fila</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <table class="table full-color-table full-muted-table hover-table">
+                    <thead class="text-center">
+                        <tr>
+                            <th rowspan="2" class="text-center">Número</th>
+                            <th rowspan="2" class="text-center">Requisito de la Norma</th>
+                            <th colspan="3" class="text-center">Normas</th>
+                            <th colspan="2" class="text-center">Documento de Referencia</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Norma 1</th>
+                            <th class="text-center">Norma 2</th>
+                            <th class="text-center">Norma 3</th>
+                            <th class="text-center">Revisión</th>
+                            <th class="text-center">Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="pointer text-center">
+                            <td colspan="7" data-toggle="modal" data-target="#modalTablaAgregar"><i class="mdi mdi-plus"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- ============================================================== -->
+<!-- MODAL AGREGAR -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalTablaAgregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Agregar Fila</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate (ngSubmit)="agregarFila()">
+                    <div class="form-group m-b-40">
+                        <input name="numero" id="numero" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="numero">Número:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <input name="requisito" id="requisito" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="requisito">Requisito de la Norma:</label>
+                    </div>
+                    <div *ngFor="let norma of normas; let i=index" class="form-group m-b-40">
+                        <input type="checkbox" id="ch_{{ norma._id }}" class="chk-col-blue" />
+                        <label for="ch_{{ norma._id }}">{{ norma.nombreNorma }}</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

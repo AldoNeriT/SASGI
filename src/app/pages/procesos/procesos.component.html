@@ -1,0 +1,246 @@
+<div *ngIf="cargando" id="loading" class="row" style="padding-top: 20px;">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <span class="font-weight-bold">Cargando Datos</span>
+            <br><br>
+            <i class="fa fa-spinner fa-spin fa-3x text-themecolor"></i>
+            <br><br>
+            <span>Por favor espere un momento...</span>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- TABS DE PROCESOS -->
+<!-- ============================================================== -->
+
+<div *ngIf="!cargando">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card" style="overflow-x: auto;">
+                <div class="card-body">
+                    <div class="vtabs">
+                        <ul id="list-procesos" class="nav nav-tabs tabs-vertical" role="tablist">
+                            <li *ngFor="let proceso of procesos; index as i" class="nav-item">
+                                <a id="a-{{ proceso._id }}" (click)="cargarSubprocesosProceso( proceso._id )" class="nav-link" data-toggle="tab" href="#{{ proceso._id }}" role="tab" aria-expanded="false">{{ proceso.nombreProceso }}</a>
+                            </li>
+
+                            <li *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'" class="nav-item text-center">
+                                <a class="nav-link" data-toggle="tab" role="tab" aria-expanded="false" data-toggle="modal" data-target="#modalProcesoAgregar"><span>
+                                    <i class="mdi mdi-plus"></i>
+                                </span></a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content col-sm-12">
+
+                            <div *ngIf="cargando2" id="loading" class="row" style="padding-top: 20px;">
+                                <div class="col-sm-12">
+                                    <div class="text-center">
+                                        <span class="font-weight-bold">Cargando Datos</span>
+                                        <br><br>
+                                        <i class="fa fa-spinner fa-spin fa-3x text-themecolor"></i>
+                                        <br><br>
+                                        <span>Por favor espere un momento...</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngFor="let proceso of procesos" class="tab-pane" id="{{ proceso._id }}" role="tabpanel" aria-expanded="false">
+                                <div *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'" class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <button type="button" (click)="formEditable( proceso )" class="btn btn-outline-warning btn-block" data-toggle="modal" data-target="#modalProcesoEditar"><i class="mdi mdi-pencil"></i></button>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <button type="button" (click)="eliminarProceso( proceso )" class="btn btn-outline-danger btn-block"><i class="mdi mdi-delete"></i></button>
+                                    </div>
+                                </div>
+                                <div *ngIf="!cargando2" class="table-responsive" style="padding-top: 20px;">
+                                    <table class="table full-color-table full-info-table hover-table color-bordered-table info-bordered-table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1px; padding-left: 0px; padding-right: 0px"></th>
+                                                <th>Nombre</th>
+                                                <th>URL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'">
+                                            <tr *ngFor="let subproceso of subprocesos" class="pointer">
+                                                <td style="width: 1px; padding-left: 0px; padding-right: 0px">
+                                                    <div class="btn-group">
+                                                        <div class="dropdown-menu text-center animated pulse">
+                                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                                <button (click)="formEditableSub( subproceso )" class="btn btn-outline-info" data-toggle="modal" data-target="#modalSubprocesoEditar">
+                                                                    <i class="fa fa-edit"></i>
+                                                                </button>&nbsp;
+                                                                <button (click)="eliminarSubproceso( subproceso )" class="btn btn-outline-secondary">
+                                                                    <i class="fa fa-trash-o"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ subproceso.nombreSubproceso }}</td>
+                                                <!-- <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ subproceso.archivoDigital }}</td> -->
+                                                <td>
+                                                    <a href="{{ subproceso.archivoDigital }}">{{ subproceso.archivoDigital }}</a>
+                                                </td>
+                                            </tr>
+                                            <tr class="pointer text-center">
+                                                <td colspan="3" data-toggle="modal" data-target="#modalSubprocesoAgregar"><i class="mdi mdi-plus"></i></td>
+                                            </tr>
+                                        </tbody>
+
+                                        <tbody *ngIf="_usuarioService.usuario.tipo_Usuario === 'AUDITOR_LIDER'">
+                                            <tr *ngFor="let subproceso of subprocesos">
+                                                <td style="width: 1px; padding-left: 0px; padding-right: 0px">
+                                                </td>
+                                                <td>{{ subproceso.nombreSubproceso }}</td>
+                                                <td>{{ subproceso.archivoDigital }}</td>
+                                                <td>
+                                                    <a href="{{ subproceso.archivoDigital }}">{{ subproceso.archivoDigital }}</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL AGREGAR -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalProcesoAgregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Agregar Proceso</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="forma" (ngSubmit)="agregarProceso()">
+                    <div class="form-group m-b-40">
+                        <input formControlName="nombre" name="nombre" id="nombre" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="nombre">Nombre:</label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL EDITAR -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalProcesoEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Editar Proceso</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="formaEditar" (ngSubmit)="editarProceso()">
+                    <div class="form-group m-b-40">
+                        <input #txtNombre formControlName="nombre" name="nombre" id="nombre" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="nombre">Nombre:</label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL AGREGAR SUBPROCESO -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalSubprocesoAgregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Agregar Subproceso</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="formaSub" (ngSubmit)="agregarSubproceso()">
+                    <div class="form-group m-b-40">
+                        <input formControlName="nombre" name="nombre" id="nombre" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="nombre">Nombre:</label>
+                    </div>
+
+                    <div class="form-group m-b-40">
+                        <input formControlName="archivo" name="archivo" id="archivo" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="archivo">Archivo Digital:</label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL EDITAR SUBPROCESO -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalSubprocesoEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Editar Subproceso</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="formaEditarSub" (ngSubmit)="editarSubproceso()">
+                    <div class="form-group m-b-40">
+                        <input #txtNombre formControlName="nombre" name="nombre" id="nombre" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="nombre">Nombre:</label>
+                    </div>
+
+                    <div class="form-group m-b-40">
+                        <input formControlName="archivo" name="archivo" id="archivo" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="archivo">Archivo Digital:</label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

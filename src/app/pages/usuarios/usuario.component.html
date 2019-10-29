@@ -1,0 +1,301 @@
+<div *ngIf="cargando" id="loading" class="row" style="padding-top: 20px;">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <span class="font-weight-bold">Cargando Datos</span>
+            <br><br>
+            <i class="fa fa-spinner fa-spin fa-3x text-themecolor"></i>
+            <br><br>
+            <span>Por favor espere un momento...</span>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!cargando">
+
+    <div *ngIf="!mostrarFormPassword" class="row">
+        <div class="col-md-8 col-sm-12">
+            <div class="card">
+                <div class="card-header bg-theme text-white">
+                    {{ titulo }}
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- FORMULARIO DE AGREGAR -->
+                <!-- ============================================================== -->
+                <div *ngIf="mostrarFormAgregar" class="card-body">
+                    <form ngNativeValidate [formGroup]="forma" (ngSubmit)="crearUsuario()">
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-1 m-b-20"></div>
+                                <div class="col-md-4 m-b-20 text-center">
+                                    <label>Número de Empleado</label>
+                                    <input formControlName="numEmpleado" name="numEmpleado" type="number" class="form-control sgi_centrarInp" required>
+                                </div>
+                                <div class="col-md-2 m-b-20"></div>
+                                <div class="col-md-4 m-b-20 text-center">
+                                    <label>Usuario</label>
+                                    <input formControlName="usuario" name="usuario" type="text" class="form-control sgi_centrarInp" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 m-b-20 text-center">
+                                    <label>Nombre</label>
+                                    <input formControlName="nombre" name="nombre" type="text" class="form-control sgi_centrarInp" required>
+                                </div>
+                                <div class="col-md-4 m-b-20 text-center">
+                                    <label>Primer Apellido</label>
+                                    <input formControlName="priApellido" name="priApellido" type="text" class="form-control sgi_centrarInp" required>
+                                </div>
+                                <div class="col-md-4 m-b-20 text-center">
+                                    <label>Segundo Apellido</label>
+                                    <input formControlName="segApellido" name="segApellido" type="text" class="form-control sgi_centrarInp">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 m-b-20 text-center">
+                                    <label>Correo</label>
+                                    <input formControlName="correo" name="correo" type="email" class="form-control sgi_centrarInp" required>
+                                </div>
+                                <div class="col-md-6 m-b-20 text-center">
+                                    <label>Teléfono</label>
+                                    <input formControlName="telefono" name="telefono" type="text" class="form-control sgi_centrarInp" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 m-b-20 text-center">
+                                    <label>Puesto</label>
+                                    <input formControlName="puesto" name="puesto" type="text" class="form-control sgi_centrarInp" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 m-b-20 text-center">
+                                    <label>Contraseña</label>
+                                    <input formControlName="contrasenia" name="contrasenia" type="password" class="form-control sgi_centrarInp" required>
+                                </div>
+                                <div class="col-md-6 m-b-20 text-center">
+                                    <label>Confirmar Contraseña</label>
+                                    <input formControlName="contrasenia2" name="contrasenia2" type="password" class="form-control sgi_centrarInp" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 m-b-20 form-group" *ngIf="forma.errors?.sonIguales && !forma.pristine">
+                                    <p class="text-danger text-center">
+                                        Las contraseñas deben de ser iguales.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3"></div>
+                                <div class="col-md-6 m-b-20 text-center">
+                                    <label>Tipo de Usuario</label>
+                                    <div>
+                                        <select formControlName="tipoUser" name="tipoUser" class="selectpicker pointer m-b-20 m-r-10 custom-select sgi_centrarInp" data-style="btn-info btn-outline-info" required>
+                                            <!-- <option value="">Elige</option> -->
+                                            <option value="ADMIN">Administrador</option>
+                                            <option value="AUDITOR_LIDER">Auditor Líder</option>
+                                            <option value="AUDITOR">Auditor</option>
+                                            <!-- <option value="AUDITADO">Auditado</option> -->
+                                            <option value="ALTA_DIRECCION">Alta Dirección</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-themecolor waves-effect">Guardar</button>
+                            <button routerLink="/usuarios" type="button" class="btn btn-default waves-effect">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- FORMULARIO DE EDITAR -->
+                <!-- ============================================================== -->
+                <div *ngIf="mostrarFormEditar" class="card-body">
+                    <form ngNativeValidate [formGroup]="formaActualizar" (ngSubmit)="actualizarUsuario()">
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-1 m-b-20"></div>
+                                <div class="col-md-4 m-b-20 text-center">
+                                    <label>Número de Empleado</label>
+                                    <input formControlName="numEmpleado" name="numEmpleado" type="number" class="form-control sgi_centrarInp" required>
+                                </div>
+                                <div class="col-md-2 m-b-20"></div>
+                                <div class="col-md-4 m-b-20 text-center">
+                                    <label>Usuario</label>
+                                    <input formControlName="usuario" name="usuario" type="text" class="form-control sgi_centrarInp" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 m-b-20 text-center">
+                                    <label>Nombre</label>
+                                    <input formControlName="nombre" name="nombre" type="text" class="form-control sgi_centrarInp" required>
+                                </div>
+                                <div class="col-md-4 m-b-20 text-center">
+                                    <label>Primer Apellido</label>
+                                    <input formControlName="priApellido" name="priApellido" type="text" class="form-control sgi_centrarInp" required>
+                                </div>
+                                <div class="col-md-4 m-b-20 text-center">
+                                    <label>Segundo Apellido</label>
+                                    <input formControlName="segApellido" name="segApellido" type="text" class="form-control sgi_centrarInp">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 m-b-20 text-center">
+                                    <label>Correo</label>
+                                    <input formControlName="correo" name="correo" type="email" class="form-control sgi_centrarInp" required>
+                                </div>
+                                <div class="col-md-6 m-b-20 text-center">
+                                    <label>Teléfono</label>
+                                    <input formControlName="telefono" name="telefono" type="text" class="form-control sgi_centrarInp" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 m-b-20 text-center">
+                                    <label>Puesto</label>
+                                    <input formControlName="puesto" name="puesto" type="text" class="form-control sgi_centrarInp" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3"></div>
+                                <div class="col-md-6 m-b-20 text-center">
+                                    <label>Tipo de Usuario</label>
+                                    <div>
+                                        <select formControlName="tipoUser" name="tipoUser" class="selectpicker pointer m-b-20 m-r-10 custom-select sgi_centrarInp" data-style="btn-info btn-outline-info" required>
+                                            <!-- <option value="" selected>Elige</option> -->
+                                            <option value="ADMIN">Administrador</option>
+                                            <option value="AUDITOR_LIDER">Auditor Líder</option>
+                                            <option value="AUDITOR">Auditor</option>
+                                            <!-- <option value="AUDITADO">Auditado</option> -->
+                                            <option value="ALTA_DIRECCION">Alta Dirección</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-themecolor waves-effect">Guardar</button>
+                            <button routerLink="/usuarios" type="button" class="btn btn-default waves-effect">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- FORMULARIO DE VER -->
+                <!-- ============================================================== -->
+                <div *ngIf="mostrarFormVer" class="card-body text-center">
+                    <div class="form-group">
+                        <label>Número de Empleado</label><br>
+                        <label class="text-dark font-weight-bold">{{ numEmpleadoV }}</label>
+                    </div>
+                    <div class="form-group">
+                        <label>Usuario</label><br>
+                        <label class="text-dark font-weight-bold">{{ usuarioV }}</label>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre</label><br>
+                        <label class="text-dark font-weight-bold">{{ nombreV + ' ' + priApellidoV + ' ' + segApellidoV }}</label>
+                    </div>
+                    <div class="form-group">
+                        <label>Correo</label><br>
+                        <label class="text-dark font-weight-bold">{{ correoV }}</label>
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label><br>
+                        <label class="text-dark font-weight-bold">{{ telefonoV }}</label>
+                    </div>
+                    <div class="form-group">
+                        <label>Puesto</label><br>
+                        <label class="text-dark font-weight-bold">{{ puestoV }}</label>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de Usuario</label><br>
+                        <!-- <label class="text-dark font-weight-bold">{{ tipoUserV }}</label> -->
+                        <label *ngIf="tipoUserV === 'ADMIN'" class="text-dark font-weight-bold">Administrador</label>
+                        <label *ngIf="tipoUserV === 'AUDITOR_LIDER'" class="text-dark font-weight-bold">Auditor Líder</label>
+                        <label *ngIf="tipoUserV === 'AUDITOR'" class="text-dark font-weight-bold">Auditor</label>
+                        <!-- <label *ngIf="tipoUserV === 'AUDITADO'" class="text-dark font-weight-bold">Auditado</label> -->
+                        <label *ngIf="tipoUserV === 'ALTA_DIRECCION'" class="text-dark font-weight-bold">Alta Dirección</label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button routerLink="/usuarios" type="button" class="btn btn-themecolor waves-effect">Regresar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4 col-sm-12">
+            <div class="card">
+                <div class="card-header bg-theme text-white">
+                    Fotografia
+                </div>
+                <div class="card-body">
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="mostrarFormPassword" class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-theme text-white">
+                    {{ titulo }}
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- FORMULARIO DE LAS CONTRASEÑAS -->
+                <!-- ============================================================== -->
+                <div class="card-body">
+                    <form ngNativeValidate [formGroup]="formaPass" (ngSubmit)="actualizarPass()">
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 m-b-20 text-center">
+                                    <label>Contraseña</label>
+                                    <input formControlName="contrasenia" name="contrasenia" type="password" class="form-control sgi_centrarInp" required>
+                                </div>
+                                <div class="col-md-6 col-sm-12 m-b-20 text-center">
+                                    <label>Confirmar Contraseña</label>
+                                    <input formControlName="contrasenia2" name="contrasenia2" type="password" class="form-control sgi_centrarInp" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 m-b-20 form-group" *ngIf="formaPass.errors?.sonIguales && !formaPass.pristine">
+                                    <p class="text-danger text-center">
+                                        Las contraseñas deben de ser iguales.
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-themecolor waves-effect">Guardar</button>
+                            <button routerLink="/usuarios" type="button" class="btn btn-default waves-effect">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

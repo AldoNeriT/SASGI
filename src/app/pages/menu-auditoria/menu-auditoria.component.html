@@ -1,0 +1,137 @@
+<div *ngIf="cargando" id="loading" class="row" style="padding-top: 20px;">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <span class="font-weight-bold">Cargando Datos</span>
+            <br><br>
+            <i class="fa fa-spinner fa-spin fa-3x text-themecolor"></i>
+            <br><br>
+            <span>Por favor espere un momento...</span>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!cargando">
+    <div *ngIf="pasosV === 1">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="stats">
+                                <h1 class="text-white">Planeación</h1>
+                                <h6 class="text-white">Planeación</h6>
+                                <button (click)="redirigirPlaneacion()" class="btn btn-rounded btn-outline btn-light m-t-10 font-14">Ver</button>
+                            </div>
+                            <div class="stats-icon text-right align-self-end ml-auto"><i class="fa fa-book display-5 op-3 text-dark"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="pasosV === 2">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="stats">
+                                <h1 class="text-white">Planeación</h1>
+                                <h6 class="text-white">Planeación</h6>
+                                <button (click)="redirigirPlaneacion()" class="btn btn-rounded btn-outline btn-light m-t-10 font-14">Ver</button>
+                            </div>
+                            <div class="stats-icon text-right align-self-end ml-auto"><i class="fa fa-book display-5 op-3 text-dark"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="stats">
+                                <h1 class="text-white">Lista de Verificación</h1>
+                                <h6 class="text-white">Lista de Verificación</h6>
+                                <button (click)="redirigirLista()" class="btn btn-rounded btn-outline btn-light m-t-10 font-14">Ver</button>
+                            </div>
+                            <div class="stats-icon text-right align-self-end ml-auto"><i class="fa fa-list display-5 op-3 text-dark"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div *ngIf="(_usuarioService.usuario.tipo_Usuario === 'ROOT') || (_usuarioService.usuario.tipo_Usuario === 'ADMIN') || (_usuarioService.usuario.tipo_Usuario === 'AUDITOR_LIDER')" class="col-md-12 col-sm-12">
+                <div (click)="agregarInforme()" class="card text-dark pointer" style="background-color: #e2e2e2;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="stats">
+                                <h1 class="text-dark">Agregar Informe</h1>
+                                <h6 class="text-dark">Si deseas empezar con el informe, da click aquí</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="pasosV === 3">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="stats">
+                                <h1 class="text-white">Planeación</h1>
+                                <h6 class="text-white">Planeación</h6>
+                                <button (click)="redirigirPlaneacion()" class="btn btn-rounded btn-outline btn-light m-t-10 font-14">Ver</button>
+                            </div>
+                            <div class="stats-icon text-right align-self-end ml-auto"><i class="fa fa-book display-5 op-3 text-dark"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="stats">
+                                <h1 class="text-white">Lista de Verificación</h1>
+                                <h6 class="text-white">Lista de Verificación</h6>
+                                <button (click)="redirigirLista()" class="btn btn-rounded btn-outline btn-light m-t-10 font-14">Ver</button>
+                            </div>
+                            <div class="stats-icon text-right align-self-end ml-auto"><i class="fa fa-list display-5 op-3 text-dark"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="card bg-secondary text-white">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="stats">
+                                <h1 class="text-white">Informe</h1>
+                                <h6 class="text-white">Informe</h6>
+                                <button (click)="redirigirInforme()" class="btn btn-rounded btn-outline btn-light m-t-10 font-14">Ver</button>
+                            </div>
+                            <div class="stats-icon text-right align-self-end ml-auto"><i class="fa fa-file-text display-5 op-3 text-dark"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

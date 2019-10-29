@@ -1,0 +1,282 @@
+<div *ngIf="cargando" id="loading" class="row" style="padding-top: 20px;">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <span class="font-weight-bold">Cargando Datos</span>
+            <br><br>
+            <i class="fa fa-spinner fa-spin fa-3x text-themecolor"></i>
+            <br><br>
+            <span>Por favor espere un momento...</span>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- CONTENIDO -->
+<!-- ============================================================== -->
+
+<div *ngIf="!cargando">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="card-subtitle">ITS: <span class="font-bold">{{ institucionV }}</span></h6>
+                            <h6 class="card-subtitle">Salida No Conforme: <span class="font-bold">FALLA O INCUMPLIMIENTO DEL SERVICIO</span></h6>
+                            <h6 class="card-subtitle">No Conformidad: <span class="font-bold">INCUMPLIMIENTO DE UN REQUISITO</span></h6>
+                            <h6 class="card-subtitle">Incidente: <span class="font-bold">POSIBLES LESIONES O ENFERMEDADES PRODUCIDAS POR CAUSA DEL TRABAJO </span></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-bottom: 40px;">
+        <div class="col-12 btn-group">
+            <button (click)="imprimir( 1 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-package-down"></i></button>
+            <button (click)="imprimir( 2 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-open-in-new"></i></button>
+            <button (click)="imprimir( 3 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-printer"></i></button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table full-color-table full-info-table hover-table">
+                            <thead class="text-center">
+                                <tr>
+                                    <th style="width: 1px; padding-left: 0px; padding-right: 0px"></th>
+                                    <th class="text-center">No.</th>
+                                    <th class="text-center">Fecha</th>
+                                    <th class="text-center">Salida No Conforme/No Conformidad/Incidente</th>
+                                    <th class="text-center">Correción</th>
+                                    <th class="text-center">Causa(s)</th>
+                                    <th class="text-center">Antecedentes</th>
+                                    <th class="text-center">Requiere acción correctiva</th>
+                                    <th class="text-center">Acción Correctiva (Planes de Acción)</th>
+                                    <th class="text-center">Fecha de cumplimiento</th>
+                                    <th class="text-center">Responsable de ejecutar las acciones</th>
+                                    <th class="text-center">Fecha de cierre de la acción</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'">
+                                <tr *ngFor="let bitacora of bitacoras; let i=index" class="text-center pointer">
+                                    <td style="width: 1px; padding-left: 0px; padding-right: 0px">
+                                        <div class="btn-group">
+                                            <div class="dropdown-menu text-center animated pulse">
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <!-- <button (click)="formVer(  )" class="btn btn-outline-info" data-toggle="modal" data-target="#modalBitacoraVer">
+                                                        <i class="fa fa-eye"></i>
+                                                    </button>&nbsp; -->
+                                                    <button (click)="formEditable( bitacora )" class="btn btn-outline-info" data-toggle="modal" data-target="#modalBitacoraEditar">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>&nbsp;
+                                                    <button (click)="eliminarBitacora( bitacora )" class="btn btn-outline-secondary">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ i + 1 }}</td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ bitacora.fecha }}</td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ bitacora.seleccion }}</td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ bitacora.correccion }}</td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ bitacora.causa }}</td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ bitacora.antecedentes }}</td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ bitacora.correctiva }}</td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ bitacora.planes }}</td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ bitacora.fechaCumplimiento }}</td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ bitacora.responsable }}</td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ bitacora.fechaCierre }}</td>
+                                </tr>
+                                <tr class="text-center pointer">
+                                    <td colspan="11" data-toggle="modal" data-target="#modalBitacoraAgregar"><i class="mdi mdi-plus"></i></td>
+                                </tr>
+                            </tbody>
+
+                            <tbody *ngIf="_usuarioService.usuario.tipo_Usuario === 'AUDITOR_LIDER'">
+                                <tr *ngFor="let bitacora of bitacoras; let i=index" class="text-center">
+                                    <td style="width: 1px; padding-left: 0px; padding-right: 0px">
+                                    </td>
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ bitacora.fecha }}</td>
+                                    <td>{{ bitacora.seleccion }}</td>
+                                    <td>{{ bitacora.correccion }}</td>
+                                    <td>{{ bitacora.causa }}</td>
+                                    <td>{{ bitacora.antecedentes }}</td>
+                                    <td>{{ bitacora.correctiva }}</td>
+                                    <td>{{ bitacora.planes }}</td>
+                                    <td>{{ bitacora.fechaCumplimiento }}</td>
+                                    <td>{{ bitacora.responsable }}</td>
+                                    <td>{{ bitacora.fechaCierre }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL AGREGAR -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalBitacoraAgregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Agregar Bitácora</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="forma" (ngSubmit)="agregarBitacora()">
+                    <div class="form-group m-b-40 m-t-40 focused">
+                        <input formControlName="fecha" name="fecha" id="fecha" type="text" class="form-control datepicker-autoclose" required>
+                        <span class="bar"></span>
+                        <label for="fecha">Fecha:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="salida" name="salida" id="salida" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="salida">Salida No Conforme/No Conformidad/Incidente:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="correccion" name="correccion" id="correccion" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="correccion">Corrección:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="causa" name="causa" id="causa" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="causa">Causa(s):</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="antecedentes" name="antecedentes" id="antecedentes" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="antecedentes">Antecedentes:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <label>Requiere acción correctiva:</label><br><br>
+                        <div class="btn-group">
+                            <input name="requiere" type="radio" id="requiereSI" class="with-gap radio-col-indigo" checked/>
+                            <label for="requiereSI"><span style="color: #67757C;">SI</span></label>&nbsp;
+
+                            <input name="requiere" type="radio" id="requiereNO" class="with-gap radio-col-indigo" />
+                            <label for="requiereNO"><span style="color: #67757C;">NO</span></label>&nbsp;
+                        </div>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="accion" name="accion" id="accion" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="accion">Acción Correctiva (Planes de Acción):</label>
+                    </div>
+                    <div class="form-group m-b-40 m-t-40 focused">
+                        <input formControlName="fecha_cumplimiento" name="fecha_cumplimiento" id="fecha_cumplimiento" type="text" class="form-control datepicker-autoclose" required>
+                        <span class="bar"></span>
+                        <label for="fecha_cumplimiento">Fecha de Cumplimiento:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="responsable" name="responsable" id="responsable" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="responsable">Responsable de ejecutar las acciones:</label>
+                    </div>
+                    <div class="form-group m-b-40 m-t-40 focused">
+                        <input formControlName="fecha_cierre" name="fecha_cierre" id="fecha_cierre" type="text" class="form-control datepicker-autoclose" required>
+                        <span class="bar"></span>
+                        <label for="fecha_cierre">Fecha de cierre de la acción:</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL EDITAR -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalBitacoraEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Editar Bitácora</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="formaEditar" (ngSubmit)="editarBitacora()">
+                    <div class="form-group m-b-40 m-t-40 focused">
+                        <input formControlName="fecha2" name="fecha2" id="fecha2" type="text" class="form-control datepicker-autoclose" required>
+                        <span class="bar"></span>
+                        <label for="fecha">Fecha:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="salida2" name="salida2" id="salida2" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="salida">Salida No Conforme/No Conformidad/Incidente:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="correccion2" name="correccion2" id="correccion2" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="correccion">Corrección:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="causa2" name="causa2" id="causa2" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="causa">Causa(s):</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="antecedentes2" name="antecedentes2" id="antecedentes2" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="antecedentes">Antecedentes:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <label>Requiere acción correctiva:</label><br><br>
+                        <div class="btn-group">
+                            <input name="requiere2" type="radio" id="requiereSI2" class="with-gap radio-col-indigo" />
+                            <label for="requiereSI2"><span style="color: #67757C;">SI</span></label>&nbsp;
+
+                            <input name="requiere2" type="radio" id="requiereNO2" class="with-gap radio-col-indigo" />
+                            <label for="requiereNO2"><span style="color: #67757C;">NO</span></label>&nbsp;
+                        </div>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="accion2" name="accion2" id="accion2" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="accion">Acción Correctiva (Planes de Acción):</label>
+                    </div>
+                    <div class="form-group m-b-40 m-t-40 focused">
+                        <input formControlName="fecha_cumplimiento2" name="fecha_cumplimiento2" id="fecha_cumplimiento2" type="text" class="form-control datepicker-autoclose" required>
+                        <span class="bar"></span>
+                        <label for="fecha_cumplimiento">Fecha de Cumplimiento:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="responsable2" name="responsable2" id="responsable2" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="responsable">Responsable de ejecutar las acciones:</label>
+                    </div>
+                    <div class="form-group m-b-40 m-t-40 focused">
+                        <input formControlName="fecha_cierre2" name="fecha_cierre2" id="fecha_cierre2" type="text" class="form-control datepicker-autoclose" required>
+                        <span class="bar"></span>
+                        <label for="fecha_cierre">Fecha de cierre de la acción:</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

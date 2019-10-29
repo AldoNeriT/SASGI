@@ -1,0 +1,145 @@
+<div *ngIf="cargando" id="loading" class="row" style="padding-top: 20px;">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <span class="font-weight-bold">Cargando Datos</span>
+            <br><br>
+            <i class="fa fa-spinner fa-spin fa-3x text-themecolor"></i>
+            <br><br>
+            <span>Por favor espere un momento...</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================== -->
+<!-- CATALOGO DE USUARIOS ACTIVOS -->
+<!-- ============================================================== -->
+<div *ngIf="!cargando">
+    <div *ngIf="mostrarActivos" class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                            <button *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'" [routerLink]="['/usuario','nuevo']" type="button" class="btn btn-rounded btn-themecolor">Agregar Nuevo Usuario</button>
+                        </div>
+                        <div class="col-md-4 col-sm-12 text-center">
+                            <span class="text text-themecolor">{{_usuarioService.totalUsuarios}} Usuarios</span>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <button *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'" (click)="cambiarPapelera()" type="button" class="btn btn-rounded btn-outline-secondary alinear_derecha"><i class="mdi mdi-delete-sweep"></i></button>
+                        </div>
+                    </div>
+                    <div class="table-responsive m-t-40">
+                        <table class="table table-bordered table-striped full-color-table full-muted-table hover-table myTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-dark">Usuario</th>
+                                    <th class="text-dark">Nombre</th>
+                                    <th class="text-dark">Tipo de Usuario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let usuario of usuarios" class="pointer">
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <div class="btn-group">
+                                            <div class="dropdown-menu text-center animated pulse" style="width: 180px;">
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <button [routerLink]="['/usuario', 'ver', usuario._id]" class="btn btn-outline-info">
+                                                        <i class="fa fa-eye"></i>
+                                                    </button>
+                                                    <button *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'" [routerLink]="['/usuario', usuario._id]" class="btn btn-outline-inverse">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                    <button *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'" [routerLink]="['/usuario', 'pass', usuario._id]" class="btn btn-outline-inverse">
+                                                        <i class="fa fa-lock"></i>
+                                                    </button>
+                                                    <button *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'" (click)="desactivarUsuario( usuario )" class="btn btn-outline-danger">
+                                                        <i class="fa fa-folder-open"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{usuario.nombre_Usuario}}
+                                    </td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{usuario.nombre + ' ' + usuario.primer_Apellido + ' ' + (usuario.segundo_Apellido || '')}}</td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <!-- <span class="label label-themecolor">{{usuario.tipo_Usuario}}</span> -->
+                                        <span *ngIf="usuario.tipo_Usuario === 'ADMIN'" class="label label-info">Administrador</span>
+                                        <span *ngIf="usuario.tipo_Usuario === 'AUDITOR_LIDER'" class="label label-light-info">Auditor Líder</span>
+                                        <span *ngIf="usuario.tipo_Usuario === 'AUDITOR'" class="label label-success">Auditor</span>
+                                        <!-- <span *ngIf="usuario.tipo_Usuario === 'AUDITADO'" class="label label-light-success">Auditado</span> -->
+                                        <span *ngIf="usuario.tipo_Usuario === 'ALTA_DIRECCION'" class="label label-inverse">Alta Dirección</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================== -->
+<!-- CATALOGO DE USUARIOS INACTIVOS -->
+<!-- ============================================================== -->
+<div *ngIf="!cargando">
+    <div *ngIf="!mostrarActivos" class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-12"></div>
+                        <div class="col-md-8 col-sm-12 text-center">
+                            <span class="text text-danger">{{_usuarioService.totalUsuarios}} Usuarios en Papelera</span>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <button (click)="cambiarListaU()" type="button" class="btn btn-rounded btn-outline-secondary alinear_derecha"><i class="mdi mdi-account-multiple"></i></button>
+                        </div>
+                    </div>
+                    <div class="table-responsive m-t-40">
+                        <table class="table table-bordered table-striped full-color-table full-muted-table hover-table myTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-dark">Usuario</th>
+                                    <th class="text-dark">Nombre</th>
+                                    <th class="text-dark">Tipo de Usuario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let usuarioIn of usuariosIn" class="pointer">
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <div class="btn-group">
+                                            <div class="dropdown-menu text-center animated pulse" style="width: 180px;">
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <button (click)="activarUsuario( usuarioIn )" class="btn btn-outline-success">
+                                                        <i class="mdi mdi-account-convert"></i>
+                                                    </button>&nbsp;
+                                                    <button (click)="desactivarUsuarioPermanente( usuarioIn )" class="btn btn-outline-danger">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{usuarioIn.nombre_Usuario}}
+                                    </td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{usuarioIn.nombre + ' ' + usuarioIn.primer_Apellido + ' ' + (usuarioIn.segundo_Apellido || '')}}</td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <!-- <span class="label label-themecolor">{{usuario.tipo_Usuario}}</span> -->
+                                        <span *ngIf="usuarioIn.tipo_Usuario === 'ADMIN'" class="label label-info">Administrador</span>
+                                        <span *ngIf="usuarioIn.tipo_Usuario === 'AUDITOR_LIDER'" class="label label-light-info">Auditor Líder</span>
+                                        <span *ngIf="usuarioIn.tipo_Usuario === 'AUDITOR'" class="label label-success">Auditor</span>
+                                        <!-- <span *ngIf="usuarioIn.tipo_Usuario === 'AUDITADO'" class="label label-light-success">Auditado</span> -->
+                                        <span *ngIf="usuarioIn.tipo_Usuario === 'ALTA_DIRECCION'" class="label label-inverse">Alta Dirección</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,320 @@
+<div *ngIf="cargando" id="loading" class="row" style="padding-top: 20px;">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <span class="font-weight-bold">Cargando Datos</span>
+            <br><br>
+            <i class="fa fa-spinner fa-spin fa-3x text-themecolor"></i>
+            <br><br>
+            <span>Por favor espere un momento...</span>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- CONTENIDO -->
+<!-- ============================================================== -->
+
+<div *ngIf="!cargando">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col text-center">
+                            <div class="btn-group sgi_paddNorm">
+                                <button *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'" type="button" class="btn btn-block btn-xl btn-circle btn-outline-secondary" data-toggle="modal" data-target="#modalNormaAgregar">
+                                    <i class="mdi mdi-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- <h1>Total: {{_normaService.totalNormas}}</h1> -->
+                            <hr class="m-t-0 m-b-40">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col text-center">
+
+                            <div *ngFor="let norma of normas" class="btn-group sgi_paddNorm">
+                                <button type="button" class="btn btn-{{norma.color}} dropdown-toggle btn-lg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{norma.nombreNorma}}
+                                </button>
+                                <div class="dropdown-menu text-center animated heartBeat">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button (click)="formVer( norma )" type="button" class="btn btn-outline-{{norma.color}}" data-toggle="modal" data-target="#modalNormaVer">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                        <button *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'" (click)="formEditable( norma )" type="button" class="btn btn-outline-{{norma.color}}" data-toggle="modal" data-target="#modalNormaEditar">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'" (click)="eliminarNorma( norma )" type="button" class="btn btn-outline-{{norma.color}}">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL AGREGAR -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalNormaAgregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Agregar Norma</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="forma" (ngSubmit)="agregarNorma()">
+                    <div class="form-group m-b-40">
+                        <input formControlName="nombre" name="nombre" id="nombre" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="nombre">Nombre:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="descripcion" name="descripcion" id="descripcion" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="descripcion">Descripción:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <input formControlName="archivo" name="archivo" id="archivo" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="archivo">Archivo Digital:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <select formControlName="color" name="color" id="color" class="form-control p-0" required>
+                            <!-- <option value="" selected>Elige</option> -->
+                            <option value="secondary">Blanco</option>
+                            <option value="info">Azul</option>
+                            <option value="success">Verde</option>
+                            <option value="primary">Morado</option>
+                            <option value="danger">Rojo</option>
+                            <option value="warning">Amarillo</option>
+                        </select>
+                        <span class="bar"></span>
+                        <label for="color">Color:</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL EDITAR -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalNormaEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Editar Norma</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="formaEditar" (ngSubmit)="editarNorma()">
+                    <div class="form-group m-b-40">
+                        <input #txtNombre formControlName="nombre" name="nombre" id="nombre" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="nombre">Nombre:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea #txtDescripcion formControlName="descripcion" name="descripcion" id="descripcion" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="descripcion">Descripción:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <input #txtArch formControlName="archivo" name="archivo" id="archivo" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="archivo">Archivo Digital:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <select #txtColor formControlName="color" name="color" id="color" class="form-control p-0" required>
+                            <!-- <option value="" selected>Elige</option> -->
+                            <option value="secondary">Blanco</option>
+                            <option value="info">Azul</option>
+                            <option value="success">Verde</option>
+                            <option value="primary">Morado</option>
+                            <option value="danger">Rojo</option>
+                            <option value="warning">Amarillo</option>
+                        </select>
+                        <span class="bar"></span>
+                        <label for="color">Color:</label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL VER -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalNormaVer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Datos de la Norma</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label class="control-label">Nombre:</label>
+                </div>
+                <div class="form-group">
+                    <label #txtNombreV class="control-label font-weight-bold"></label>
+                </div>
+                <div>
+                    <label class="control-label">Descripción:</label>
+                </div>
+                <div class="form-group">
+                    <label #txtDescripcionV class="control-label font-weight-bold"></label>
+                </div>
+                <div>
+                    <label class="control-label">Archivo Digital:</label>
+                </div>
+                <div class="form-group">
+                    <a #txtArchV id="archDigital" href=""></a>
+                    <!-- <label #txtArchV class="control-label font-weight-bold"></label> -->
+                </div>
+                <div>
+                    <label class="control-label">Color:</label>
+                </div>
+                <div class="form-group">
+                    <label #txtColorV class="control-label font-weight-bold"></label>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL AGREGAR CALIS-->
+<!-- ============================================================== -->
+
+<!-- <div class="modal fade" id="modalNormaEditar2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Editar Norma</h4>
+                
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="formaEditar" (ngSubmit)="editarNorma()">
+                    <div class="form-group m-b-40">
+                        <input #txtNombre formControlName="nombre" name="nombre" id="nombre" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="nombre">Nombre:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea #txtDescripcion formControlName="descripcion" name="descripcion" id="descripcion" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="descripcion">Descripción:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <input #txtArch formControlName="archivo" name="archivo" id="archivo" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="archivo">Archivo Digital:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <select #txtColor formControlName="color" name="color" id="color" class="form-control p-0" required>
+                            <option value="secondary">Blanco</option>
+                            <option value="info">Azul</option>
+                            <option value="success">Verde</option>
+                            <option value="primary">Morado</option>
+                            <option value="danger">Rojo</option>
+                            <option value="warning">Amarillo</option>
+                        </select>
+                        <span class="bar"></span>
+                        <label for="color">Color:</label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="card-body">
+    <h4 class="card-title">Animated Line Inputs Form With Floating Labels</h4>
+    <h6 class="card-subtitle">Just add <code>floating-labels</code> class to the form.</h6>
+    <form class="floating-labels m-t-40">
+        <div class="form-group m-b-40">
+            <input type="text" class="form-control" id="input1">
+            <span class="bar"></span>
+            <label for="input1">Regular Input</label>
+        </div>
+        <div class="form-group m-b-40">
+            <input type="password" class="form-control" id="input2">
+            <span class="bar"></span>
+            <label for="input2">Password</label>
+        </div>
+        <div class="form-group m-b-40">
+            <input type="text" class="form-control" id="input3">
+            <span class="bar"></span>
+            <label for="input3">Placeholder</label>
+        </div>
+        <div class="form-group m-b-40">
+            <input type="text" class="form-control" id="input4">
+            <span class="bar"></span>
+            <label for="input4">Helping text</label>
+            <span class="help-block"><small>A block of help text that breaks onto a new line and may extend beyond one line.</small></span> </div>
+        <div class="form-group m-b-40">
+            <input type="text" class="form-control" id="input5" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="input with tooltip!!">
+            <span class="bar"></span>
+            <label for="input5">Input with tooltip</label>
+        </div>
+        <div class="form-group m-b-40">
+            <select class="form-control p-0" id="input6">
+                    <option></option>
+                    <option>Male</option>
+                    <option>Female</option>
+                </select><span class="bar"></span>
+            <label for="input6">Gender</label>
+        </div>
+        <div class="form-group m-b-5">
+            <textarea class="form-control" rows="4" id="input7"></textarea>
+            <span class="bar"></span>
+            <label for="input7">Text area</label>
+        </div>
+    </form>
+</div> -->

@@ -1,0 +1,176 @@
+<div *ngIf="cargando" id="loading" class="row" style="padding-top: 20px;">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <span class="font-weight-bold">Cargando Datos</span>
+            <br><br>
+            <i class="fa fa-spinner fa-spin fa-3x text-themecolor"></i>
+            <br><br>
+            <span>Por favor espere un momento...</span>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- CONTENIDO ROOT, ADMIN Y AUDITOR LIDER-->
+<!-- ============================================================== -->
+<div *ngIf="(_usuarioService.usuario.tipo_Usuario === 'ROOT') || (_usuarioService.usuario.tipo_Usuario === 'ADMIN') || (_usuarioService.usuario.tipo_Usuario === 'AUDITOR_LIDER')">
+    <div *ngIf="!cargando">
+        <div class="alert alert-warning">
+            <button type="button" class="close pointer" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+            <h3 class="text-warning"><i class="fa fa-exclamation-triangle"></i> Advertencia</h3> Si la Auditoría ya está validada y se hace algún cambio en la Planeación, tendrás que enviarla nuevamente para su validación.
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div style="padding-bottom: 35px;">
+                            <h4 class="card-title">Auditoría: <span class="font-bold">{{ nombreV }}</span></h4>
+                            <h6 class="card-subtitle">Normas de Referencia: <span class="font-bold">{{ normasV }}</span></h6>
+                            <h6 class="card-subtitle">Objetivo: <span class="font-bold">{{ objetivosV }}</span></h6>
+                            <h6 class="card-subtitle">Alcance: <span class="font-bold">{{ alcanceV }}</span></h6>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <div class="btn-group sgi_paddNorm">
+                                    <button type="button" class="btn btn-block btn-xl btn-circle btn-outline-secondary" (click)="redirigirNuevo()">
+                                <i class="mdi mdi-plus"></i>
+                            </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 40px;">
+                            <div class="col-12 text-left btn-group">
+                                <button (click)="imprimir( 1 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-package-down"></i></button>
+                                <button (click)="imprimir( 2 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-open-in-new"></i></button>
+                                <button (click)="imprimir( 3 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-printer"></i></button>
+                            </div>
+                        </div>
+
+                        <div *ngFor="let fecha of arrFechas" style="padding-bottom: 40px; overflow-x: auto;">
+                            <h4 class="card-title text-muted font-bold">Fecha: {{ fecha }}</h4>
+                            <table class="table full-color-table full-muted-table hover-table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th style="width: 1px; padding-left: 0px; padding-right: 0px"></th>
+                                        <th>Horario</th>
+                                        <th>Proceso <span class="font-bold">/</span> Actividad-Requisito <span class="font-bold">/</span> Criterio</th>
+                                        <th>Auditor(es)</th>
+                                        <th>Participantes</th>
+                                        <th>Contacto</th>
+                                        <th>Área / Sitio</th>
+                                        <th>Enviado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let planeacion of planeaciones; let ind=index" class="pointer">
+                                        <td *ngIf="planeacion.fecha === fecha" style="width: 1px; padding-left: 0px; padding-right: 0px">
+                                            <div class="btn-group">
+                                                <div class="dropdown-menu text-center animated pulse">
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                        <button routerLink="/planeacionA/e/{{ planeacion.auditoria._id }}/{{ planeacion._id }}" type="button" class="btn btn-outline-secondary">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                        <button (click)="eliminarPlaneacion( planeacion )" type="button" class="btn btn-outline-secondary">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td *ngIf="planeacion.fecha === fecha" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 130px;">{{ planeacion.horario }}</td>
+                                        <td *ngIf="planeacion.fecha === fecha" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ arrProActCriV[ind] }}</td>
+                                        <td *ngIf="planeacion.fecha === fecha" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <ul style="padding-left: 16px;">
+                                                <li *ngFor="let auditor of planeacion.auditores">{{auditor.nombre + ' ' + auditor.primer_Apellido + ' ' + (auditor.segundo_Apellido || '')}}</li>
+                                            </ul>
+                                        </td>
+                                        <td *ngIf="planeacion.fecha === fecha" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ planeacion.participantes }}</td>
+                                        <td *ngIf="planeacion.fecha === fecha" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ planeacion.contacto }}</td>
+                                        <td *ngIf="planeacion.fecha === fecha" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ planeacion.area }}</td>
+                                        <td *ngIf="planeacion.fecha === fecha" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="text-center"><i *ngIf="planeacion.enviar === false" class="mdi mdi-close-circle-outline mdi-24px text-danger"></i> <i *ngIf="planeacion.enviar === true" class="mdi mdi-check-circle-outline mdi-24px text-success"></i></td>
+                                    </tr>
+                                    <!-- <tr class="pointer text-center" (click)="redirigirNuevo()">
+                                    <td colspan="6"><i class="mdi mdi-plus"></i></td>
+                                </tr> -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button (click)="cambiarEnviar()" type="button" class="btn btn-themecolor waves-effect">Envíar para Validar</button>
+                            <button (click)="regresar()" type="button" class="btn btn-default" data-dismiss="modal">Regresar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- CONTENIDO AUDITOR y DIRECCION -->
+<!-- ============================================================== -->
+<div *ngIf="(_usuarioService.usuario.tipo_Usuario === 'AUDITOR') || (_usuarioService.usuario.tipo_Usuario === 'ALTA_DIRECCION')">
+    <div *ngIf="!cargando">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div style="padding-bottom: 35px;">
+                            <h4 class="card-title">Auditoría: <span class="font-bold">{{ nombreV }}</span></h4>
+                            <h6 class="card-subtitle">Normas de Referencia: <span class="font-bold">{{ normasV }}</span></h6>
+                            <h6 class="card-subtitle">Objetivo: <span class="font-bold">{{ objetivosV }}</span></h6>
+                            <h6 class="card-subtitle">Alcance: <span class="font-bold">{{ alcanceV }}</span></h6>
+                        </div>
+
+                        <div *ngFor="let fecha of arrFechas" style="padding-bottom: 40px; overflow-x: auto;">
+                            <h4 class="card-title text-muted font-bold">Fecha: {{ fecha }}</h4>
+                            <table class="table full-color-table full-muted-table hover-table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>Horario</th>
+                                        <th>Proceso <span class="font-bold">/</span> Actividad-Requisito <span class="font-bold">/</span> Criterio</th>
+                                        <th>Auditor(es)</th>
+                                        <th>Participantes</th>
+                                        <th>Contacto</th>
+                                        <th>Área / Sitio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let planeacion of planeaciones; let ind=index">
+                                        <td *ngIf="planeacion.fecha === fecha" style="width: 130px;">{{ planeacion.horario }}</td>
+                                        <td *ngIf="planeacion.fecha === fecha">{{ arrProActCriV[ind] }}</td>
+                                        <td *ngIf="planeacion.fecha === fecha">
+                                            <ul style="padding-left: 16px;">
+                                                <li *ngFor="let auditor of planeacion.auditores">{{auditor.nombre + ' ' + auditor.primer_Apellido + ' ' + (auditor.segundo_Apellido || '')}}</li>
+                                            </ul>
+                                        </td>
+                                        <td *ngIf="planeacion.fecha === fecha">{{ planeacion.participantes }}</td>
+                                        <td *ngIf="planeacion.fecha === fecha">{{ planeacion.contacto }}</td>
+                                        <td *ngIf="planeacion.fecha === fecha">{{ planeacion.area }}</td>
+                                    </tr>
+                                    <!-- <tr class="pointer text-center" (click)="redirigirNuevo()">
+                                    <td colspan="6"><i class="mdi mdi-plus"></i></td>
+                                </tr> -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button (click)="regresar()" type="button" class="btn btn-default" data-dismiss="modal">Regresar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

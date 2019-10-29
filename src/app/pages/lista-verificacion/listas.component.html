@@ -1,0 +1,68 @@
+<div *ngIf="cargando" id="loading" class="row" style="padding-top: 20px;">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <span class="font-weight-bold">Cargando Datos</span>
+            <br><br>
+            <i class="fa fa-spinner fa-spin fa-3x text-themecolor"></i>
+            <br><br>
+            <span>Por favor espere un momento...</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================== -->
+<!-- VISTA DEL ROOT, ADMINISTRADOR, AUDITOR LIDER y ALTA_DIRECCION -->
+<!-- ============================================================== -->
+<div *ngIf="(_usuarioService.usuario.tipo_Usuario === 'ROOT') || (_usuarioService.usuario.tipo_Usuario === 'ADMIN') || (_usuarioService.usuario.tipo_Usuario === 'AUDITOR_LIDER') || (_usuarioService.usuario.tipo_Usuario === 'ALTA_DIRECCION')">
+    <div *ngIf="!cargando">
+        <div class="row">
+            <div *ngFor="let plan of planeaciones" class="col-md-6 col-sm-12">
+                <div class="ribbon-wrapper card">
+                    <div class="ribbon ribbon-info ribbon-left">{{ plan.proceso.nombreProceso }}</div>
+                    <div class="card-body text-center font-bold" style="padding: 0px;">
+                        <div class="table-responsive m-t-20">
+                            <table class="table full-color-table full-muted2-table hover-table">
+                                <tbody class="text-center">
+                                    <tr *ngFor="let auditor of plan.auditores" class="pointer">
+                                        <td (click)="redirigir( plan._id, auditor._id)">
+                                            <h6>{{ auditor.nombre }}</h6><small class="text-muted">{{auditor.primer_Apellido + ' ' + (auditor.segundo_Apellido || '')}}</small>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- VISTA DEL AUDITOR -->
+<!-- ============================================================== -->
+<div *ngIf="_usuarioService.usuario.tipo_Usuario === 'AUDITOR'">
+    <div *ngIf="!cargando">
+        <div class="row">
+            <div *ngFor="let plan of planeaciones" class="col-md-6 col-sm-12">
+                <div class="ribbon-wrapper card">
+                    <div class="ribbon ribbon-info ribbon-left">{{ plan.proceso.nombreProceso }}</div>
+                    <div class="card-body text-center font-bold" style="padding: 0px;">
+                        <div class="table-responsive m-t-20">
+                            <table class="table full-color-table full-muted2-table hover-table">
+                                <tbody class="text-center">
+                                    <tr *ngFor="let auditor of plan.auditores" class="pointer">
+                                        <td *ngIf="auditor._id === _usuarioService.usuario._id" (click)="redirigir( plan._id, auditor._id)">
+                                            <h6>{{ auditor.nombre }}</h6><small class="text-muted">{{auditor.primer_Apellido + ' ' + (auditor.segundo_Apellido || '')}}</small>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

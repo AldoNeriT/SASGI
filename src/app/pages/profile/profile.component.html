@@ -1,0 +1,167 @@
+<!-- ============================================================== -->
+<!-- FORM NO EDITABLE -->
+<!-- ============================================================== -->
+<div *ngIf="!mostrarEditable" class="card-body">
+    <div class="form-body">
+        <h3 class="box-title">Información del Usuario</h3>
+        <hr class="m-t-0 m-b-40">
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group row">
+                    <label class="control-label text-right col-md-4 col-6">Número de Empleado:</label>
+                    <div class="col-md-8 col-6">
+                        <p class="form-control-static"> {{ usuario.numero_Empleado }} </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group row">
+                    <label class="control-label text-right col-md-4 col-6">Nombre:</label>
+                    <div class="col-md-8 col-6">
+                        <p class="form-control-static"> {{ usuario.nombre + ' ' + usuario.primer_Apellido + ' ' + (usuario.segundo_Apellido || '') }} </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group row">
+                    <label class="control-label text-right col-md-4 col-6">Usuario:</label>
+                    <div class="col-md-8 col-6">
+                        <p class="form-control-static"> {{ usuario.nombre_Usuario }} </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group row">
+                    <label class="control-label text-right col-md-4 col-6">Puesto:</label>
+                    <div class="col-md-8 col-6">
+                        <p class="form-control-static"> {{ usuario.puesto }} </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group row">
+                    <label class="control-label text-right col-md-4 col-6">Correo:</label>
+                    <div class="col-md-8 col-6">
+                        <p class="form-control-static"> {{ usuario.email }} </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group row">
+                    <label class="control-label text-right col-md-4 col-6">Telefono:</label>
+                    <div class="col-md-8 col-6">
+                        <p class="form-control-static"> {{ usuario.telefono }} </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group row">
+                    <label class="control-label text-right col-md-4 col-6">Tipo de Usuario:</label>
+                    <div class="col-md-8 col-6">
+                        <p class="form-control-static"> {{ usuario.tipo_Usuario }} </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button (click)="cargarDatos()" class="btn btn-themecolor waves-effect">Editar</button>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- FORM EDITABLE -->
+<!-- ============================================================== -->
+
+<div *ngIf="mostrarEditable" class="card-body">
+    <form class="form-horizontal" role="form" ngNativeValidate [formGroup]="formaMiPerfil" (ngSubmit)="actualizarMiPerfil()">
+        <div class="form-body">
+            <h3 class="box-title">Información del Usuario</h3>
+            <hr class="m-t-0 m-b-40">
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-4 col-6">Número de Empleado:</label>
+                        <div class="col-md-8 col-6">
+                            <p class="form-control-static"> {{ usuario.numero_Empleado }} </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-4 col-6">Nombre:</label>
+                        <div class="col-md-8 col-6">
+                            <p class="form-control-static"> {{ usuario.nombre + ' ' + usuario.primer_Apellido + ' ' + (usuario.segundo_Apellido || '') }} </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-4 col-6">Usuario:</label>
+                        <div class="col-md-8 col-6">
+                            <p class="form-control-static"> {{ usuario.nombre_Usuario }} </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-4 col-6">Puesto:</label>
+                        <div class="col-md-8 col-6">
+                            <p class="form-control-static"> {{ usuario.puesto }} </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-4 col-6">Correo:</label>
+                        <div class="col-md-8 col-6">
+                            <input formControlName="correo" name="correo" type="email" class="form-control" placeholder="" value="{{ usuario.email }}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-4 col-6">Telefono:</label>
+                        <div class="col-md-8 col-6">
+                            <input formControlName="telefono" name="telefono" type="text" class="form-control" placeholder="" value="{{ usuario.telefono }}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-4 col-6">Tipo de Usuario:</label>
+                        <div class="col-md-8 col-6">
+                            <p class="form-control-static"> {{ usuario.tipo_Usuario }} </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-themecolor waves-effect">Guardar</button>
+            <button (click)="mostrarEditable = !mostrarEditable" type="button" class="btn btn-default waves-effect">Cancelar</button>
+        </div>
+    </form>
+</div>

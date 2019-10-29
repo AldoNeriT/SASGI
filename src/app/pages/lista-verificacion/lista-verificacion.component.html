@@ -1,0 +1,323 @@
+<div *ngIf="cargando" id="loading" class="row" style="padding-top: 20px;">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <span class="font-weight-bold">Cargando Datos</span>
+            <br><br>
+            <i class="fa fa-spinner fa-spin fa-3x text-themecolor"></i>
+            <br><br>
+            <span>Por favor espere un momento...</span>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- VISTA DEL AUDITOR -->
+<!-- ============================================================== -->
+<div *ngIf="!cargando">
+    <div *ngIf="_usuarioService.usuario.tipo_Usuario === 'AUDITOR'">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div style="padding-bottom: 35px;">
+                            <h4 class="card-title">Nombre del Proceso / Procedimiento / Área / Actividad: <br><span class="font-bold">{{ arrProActCriV[0] }}</span></h4><br>
+                            <h6 class="card-subtitle">No. de Auditoría: <span class="font-bold">{{ auditoriaV }}</span></h6>
+                            <h6 class="card-subtitle">Norma: <span class="font-bold">{{ normasV }}</span></h6>
+                            <h6 class="card-subtitle">Auditor: <span class="font-bold">{{ auditorV }}</span></h6>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <hr class="m-t-0 m-b-40">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-6">
+                                    <div class="alert alert-warning">
+                                        <button type="button" class="close pointer" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                                        <h3 class="text-warning"><i class="fa fa-exclamation-triangle"></i> Advertencia</h3> Tienes que tener al menos una fila para que guardes los cambios del Personal entrevistado y la Fecha.
+                                    </div>
+                                    <form id="formEntrevistado" class="floating-labels m-t-40 " ngNativeValidate [formGroup]="formaEntrevistado" (ngSubmit)="editarEntrevistado()">
+                                        <div class="form-group m-b-40">
+                                            <input formControlName="personal" name="personal" id="personal" class="form-control" value="{{ personalV }}" required>
+                                            <span class="bar"></span>
+                                            <label for="personal">Personal entrevistado:</label>
+                                        </div>
+                                        <div class="form-group m-b-40">
+                                            <input formControlName="fecha" name="fecha" id="fecha" type="text" class="form-control datepicker-autoclose" value="{{ fechaV }}" required>
+                                            <span class="bar"></span>
+                                            <label for="fecha">Fecha:</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <button class="btn btn-secondary btn-rounded btn-xs" type="sumbit">Guardar Cambios</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-3"></div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 40px;">
+                            <div class="col-12 text-left btn-group">
+                                <button (click)="imprimir( 1 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-package-down"></i></button>
+                                <button (click)="imprimir( 2 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-open-in-new"></i></button>
+                                <button (click)="imprimir( 3 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-printer"></i></button>
+                            </div>
+                        </div>
+
+                        <div style="padding-bottom: 40px; overflow-x: auto;">
+                            <table class="table full-color-table full-muted-table hover-table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th style="width: 1px; padding-left: 0px; padding-right: 0px"></th>
+                                        <th>Punto de la Norma</th>
+                                        <th>Pregunta</th>
+                                        <th>Documento revisado / párrafo</th>
+                                        <th>Evidencia Encontrada</th>
+                                        <th>Hallazgo</th>
+                                        <th>Valido / Enviado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let lista of listas" class="pointer">
+                                        <td style="width: 1px; padding-left: 0px; padding-right: 0px">
+                                            <div class="btn-group">
+                                                <div class="dropdown-menu text-center animated pulse">
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                        <button *ngIf="(lista.valido === true) && (lista.enviar === true)" (click)="formEditable2( lista )" type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modalListaEditar2">
+                                                    <i class="fa fa-dot-circle-o"></i>
+                                                </button>
+                                                        <button type="button" (click)="formEditable1( lista )" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modalListaEditar1">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                                        <button type="button" (click)="eliminarLista( lista )" class="btn btn-outline-secondary">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{ lista.puntoNorma }} </td>
+                                        <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{ lista.pregunta }} </td>
+                                        <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{ lista.documento }} </td>
+                                        <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{ lista.evidencia }} </td>
+                                        <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{ lista.hallazgos }} </td>
+                                        <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 160px;">
+                                            <i *ngIf="lista.valido === true" class="mdi mdi-check mdi-24px text-success"></i>
+                                            <i *ngIf="lista.valido === false" class="mdi mdi-close mdi-24px text-danger"></i>
+                                            <i *ngIf="lista.enviar === true" class="mdi mdi-check mdi-24px text-success"></i>
+                                            <i *ngIf="lista.enviar === false" class="mdi mdi-close mdi-24px text-danger"></i>
+                                        </td>
+                                    </tr>
+                                    <tr class="pointer text-center">
+                                        <td colspan="7" data-toggle="modal" data-target="#modalListaAgregar"><i class="mdi mdi-plus"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button (click)="cambiarEnviar()" type="button" class="btn btn-themecolor waves-effect">Envíar para Validar</button>
+                            <button (click)="regresar()" type="button" class="btn btn-default" data-dismiss="modal">Regresar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- VISTA DEL ROOT, ADMINISTRADOR, AUDITOR LIDER y ALTA_DIRECCION -->
+<!-- ============================================================== -->
+<div *ngIf="!cargando">
+    <div *ngIf="(_usuarioService.usuario.tipo_Usuario === 'ROOT') || (_usuarioService.usuario.tipo_Usuario === 'ADMIN') || (_usuarioService.usuario.tipo_Usuario === 'AUDITOR_LIDER') || (_usuarioService.usuario.tipo_Usuario === 'ALTA_DIRECCION')">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div style="padding-bottom: 35px;">
+                            <h4 class="card-title">Nombre del Proceso / Procedimiento / Área / Actividad: <br><span class="font-bold">{{ arrProActCriV[0] }}</span></h4><br>
+                            <h6 class="card-subtitle">No. de Auditoría: <span class="font-bold">{{ auditoriaV }}</span></h6>
+                            <h6 class="card-subtitle">Norma: <span class="font-bold">{{ normasV }}</span></h6>
+                            <h6 class="card-subtitle">Auditor: <span class="font-bold">{{ auditorV }}</span></h6>
+                            <h6 class="card-subtitle">Personal Entrevistado: <span class="font-bold">{{ personalV }}</span></h6>
+                            <h6 class="card-subtitle">Fecha: <span class="font-bold">{{ fechaV }}</span></h6>
+                        </div>
+
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="m-t-0 m-b-40">
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 40px;">
+                            <div class="col-12 text-left btn-group">
+                                <button type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-package-down"></i></button>
+                                <button type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-open-in-new"></i></button>
+                                <button type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-printer"></i></button>
+                            </div>
+                        </div>
+
+                        <div style="padding-bottom: 40px; overflow-x: auto;">
+                            <table class="table full-color-table full-muted-table hover-table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>Punto de la Norma</th>
+                                        <th>Pregunta</th>
+                                        <th>Documento revisado / párrafo</th>
+                                        <th>Evidencia Encontrada</th>
+                                        <th>Hallazgo</th>
+                                        <th>Valido</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let lista of listas">
+                                        <td> {{ lista.puntoNorma }} </td>
+                                        <td> {{ lista.pregunta }} </td>
+                                        <td> {{ lista.documento }} </td>
+                                        <td> {{ lista.evidencia }} </td>
+                                        <td> {{ lista.hallazgos }} </td>
+                                        <td style="width: 160px;">
+                                            <i *ngIf="lista.valido === true" class="mdi mdi-check mdi-24px text-success"></i>
+                                            <i *ngIf="lista.valido === false" class="mdi mdi-close mdi-24px text-danger"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button (click)="validarContrasenaLista( _usuarioService.usuario )" *ngIf="(_usuarioService.usuario.tipo_Usuario === 'AUDITOR_LIDER') && (btnValidar === true)" type="button" class="btn btn-themecolor waves-effect">Validar</button>
+                            <a *ngIf="(_usuarioService.usuario.tipo_Usuario === 'AUDITOR_LIDER') && (btnValidar === false)" class="btn btn-outline-secondary disabled" role="button" aria-disabled="true">Validado</a>
+                            <button (click)="regresar()" type="button" class="btn btn-default">Regresar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL AGREGAR -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalListaAgregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Agregar Lista</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="forma" (ngSubmit)="agregarLista()">
+                    <div class="form-group m-b-40">
+                        <input formControlName="norma" name="norma" id="norma" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="norma">Punto de la Norma:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="pregunta" name="pregunta" id="pregunta" type="text" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="pregunta">Pregunta:</label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL EDITAR 1 -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalListaEditar1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Editar Lista</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="formaEditar1" (ngSubmit)="editarLista()">
+                    <div class="form-group m-b-40">
+                        <input formControlName="normaE" name="normaE" id="normaE" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="norma">Punto de la Norma:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="preguntaE" name="preguntaE" id="preguntaE" type="text" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="pregunta">Pregunta:</label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL EDITAR 2 -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalListaEditar2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Completar Lista</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="formaEditar2" (ngSubmit)="completarLista()">
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="documentoE" name="documentoE" id="documentoE" type="text" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="documento">Documento revisado / párrafo:</label>
+                        <span class="help-block text-themecolor"><small>Anotar el nombre del documento revisado, incluyendo Rev., No., párrafo.</small></span>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="evidenciaE" name="evidenciaE" id="evidenciaE" type="text" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="evidencia">Evidencia encontrada:</label>
+                        <span class="help-block text-themecolor"><small>Anotar la evidencia encontrada.</small></span>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="hallazgosE" name="hallazgosE" id="hallazgosE" type="text" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="hallazgos">Hallazgos:</label>
+                        <span class="help-block text-themecolor"><small>NC – No Conformidad<br>O - Observación<br>ODM – Oportunidad de Mejora
+                                </small></span>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

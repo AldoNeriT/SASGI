@@ -1,0 +1,172 @@
+<div *ngIf="cargando" id="loading" class="row" style="padding-top: 20px;">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <span class="font-weight-bold">Cargando Datos</span>
+            <br><br>
+            <i class="fa fa-spinner fa-spin fa-3x text-themecolor"></i>
+            <br><br>
+            <span>Por favor espere un momento...</span>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- CONTENIDO -->
+<!-- ============================================================== -->
+
+
+<div *ngIf="!cargando">
+    <div class="row" id="formEditable">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{{ titulo }}</h4>
+                    <h6 class="card-subtitle">{{ nombreAudiV }}</h6>
+                    <!-- <h6 class="card-subtitle">IdP: {{ idPlan }}</h6>
+                    <h6 class="card-subtitle">IdA: {{ idAuditoria }}</h6>
+                    <h6 class="card-subtitle">Progreso: {{ progresoAudi }}</h6> -->
+
+                    <form *ngIf="mostrarFormAgregar" id="formAgregar" class="floating-labels m-t-40" ngNativeValidate [formGroup]="forma" (ngSubmit)="agregarPlaneacion()">
+                        <div class="form-group m-b-40">
+                            <input formControlName="fecha" name="fecha" id="fecha" type="text" class="form-control datepicker-autoclose" required>
+                            <span class="bar"></span>
+                            <label for="fecha">Fecha:</label>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <div class="clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
+                                <div class="clockpicker " data-placement="bottom" data-align="top" data-autoclose="true">
+                                    <input formControlName="desde" name="desde" id="desde" type="text" class="form-control" required>
+                                    <span class="bar"></span>
+                                    <label for="desde">Desde:</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <div class="clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
+                                <div class="clockpicker " data-placement="bottom" data-align="top" data-autoclose="true">
+                                    <input formControlName="hasta" name="hasta" id="hasta" type="text" class="form-control" required>
+                                    <span class="bar"></span>
+                                    <label for="hasta">Hasta:</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <select formControlName="proceso" name="proceso" id="proceso" class="form-control p-0" required>
+                            <option *ngFor="let proceso of procesos" value="{{ proceso._id }}"> {{ proceso.nombreProceso }} </option>
+                        </select>
+                            <span class="bar"></span>
+                            <label for="proceso">Proceso:</label>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <input formControlName="actividad" name="actividad" id="actividad" type="text" class="form-control">
+                            <span class="bar"></span>
+                            <label for="actividad">Actividad:</label>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <textarea formControlName="criterio" name="criterio" id="criterio" class="form-control"></textarea>
+                            <span class="bar"></span>
+                            <label for="criterio">Criterio:</label>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <h5 class="m-t-20">Auditor(es):</h5>
+                            <select formControlName="auditores" name="auditores" id="auditores" class="select2 m-b-10 select2-multiple" style="width: 100%" multiple="multiple" data-placeholder="Elige" required>
+                                <option *ngFor="let auditor of auditores" value="{{ auditor._id }}"> {{ auditor.nombre + ' ' + auditor.primer_Apellido + ' ' + (auditor.segundo_Apellido || '') }} </option>
+                        </select>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <textarea formControlName="participantes" name="participantes" id="participantes" class="form-control" required></textarea>
+                            <span class="bar"></span>
+                            <label for="participantes">Participantes:</label>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <textarea formControlName="contacto" name="contacto" id="contacto" class="form-control" required></textarea>
+                            <span class="bar"></span>
+                            <label for="contacto">Contacto:</label>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <input formControlName="area" name="area" id="area" class="form-control" required>
+                            <span class="bar"></span>
+                            <label for="area">Área / Sitio:</label>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                            <button (click)="regresar()" type="button" class="btn btn-default" data-dismiss="modal">Regresar</button>
+                        </div>
+                    </form>
+
+                    <!-- ============================================================== -->
+                    <!-- FORM EDITAR -->
+                    <!-- ============================================================== -->
+                    <form *ngIf="mostrarFormEditar" id="formEditable" class="floating-labels m-t-40" ngNativeValidate [formGroup]="formaEditar" (ngSubmit)="actualizarPlaneacion()">
+                        <div class="form-group m-b-40">
+                            <input formControlName="fechaE" name="fechaE" id="fechaE" type="text" class="form-control datepicker-autoclose" required>
+                            <span class="bar"></span>
+                            <label for="fecha">Fecha:</label>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <div class="clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
+                                <div class="clockpicker " data-placement="bottom" data-align="top" data-autoclose="true">
+                                    <input formControlName="desdeE" name="desdeE" id="desdeE" type="text" class="form-control" required>
+                                    <span class="bar"></span>
+                                    <label for="desde">Desde:</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <div class="clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
+                                <div class="clockpicker " data-placement="bottom" data-align="top" data-autoclose="true">
+                                    <input formControlName="hastaE" name="hastaE" id="hastaE" type="text" class="form-control" required>
+                                    <span class="bar"></span>
+                                    <label for="hasta">Hasta:</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <select formControlName="procesoE" name="procesoE" id="procesoE" class="form-control p-0" required>
+                                <option *ngFor="let proceso of procesos" value="{{ proceso._id }}"> {{ proceso.nombreProceso }} </option>
+                            </select>
+                            <span class="bar"></span>
+                            <label for="proceso">Proceso:</label>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <input formControlName="actividadE" name="actividadE" id="actividadE" type="text" class="form-control">
+                            <span class="bar"></span>
+                            <label for="actividad">Actividad:</label>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <textarea formControlName="criterioE" name="criterioE" id="criterioE" class="form-control"></textarea>
+                            <span class="bar"></span>
+                            <label for="criterio">Criterio:</label>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <h5 class="m-t-20">Auditor(es):</h5>
+                            <select formControlName="auditoresE" name="auditoresE" id="auditoresE" class="select2 m-b-10 select2-multiple" style="width: 100%" multiple="multiple" data-placeholder="Elige" required>
+                                <option *ngFor="let auditor of auditores" value="{{ auditor._id }}"> {{ auditor.nombre + ' ' + auditor.primer_Apellido + ' ' + (auditor.segundo_Apellido || '') }} </option>
+                        </select>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <textarea formControlName="participantesE" name="participantesE" id="participantesE" class="form-control" required></textarea>
+                            <span class="bar"></span>
+                            <label for="participantes">Participantes:</label>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <textarea formControlName="contactoE" name="contactoE" id="contactoE" class="form-control" required></textarea>
+                            <span class="bar"></span>
+                            <label for="contacto">Contacto:</label>
+                        </div>
+                        <div class="form-group m-b-40">
+                            <input formControlName="areaE" name="areaE" id="areaE" class="form-control" required>
+                            <span class="bar"></span>
+                            <label for="area">Área / Sitio:</label>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                            <button (click)="regresar()" type="button" class="btn btn-default" data-dismiss="modal">Regresar</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
