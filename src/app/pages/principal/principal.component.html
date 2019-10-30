@@ -1,3 +1,15 @@
+<div *ngIf="cargando" id="loading" class="row" style="padding-top: 20px;">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <span class="font-weight-bold">Cargando Datos</span>
+            <br><br>
+            <i class="fa fa-spinner fa-spin fa-3x text-themecolor"></i>
+            <br><br>
+            <span>Por favor espere un momento...</span>
+        </div>
+    </div>
+</div>
+
 <!-- ============================================================== -->
 <!-- VISTA ROOT Y ADMIN -->
 <!-- ============================================================== -->
@@ -5,7 +17,7 @@
     <div class="row">
         <div class="col text-center">
             <div class="btn-group sgi_paddNorm">
-                <button type="button" class="btn btn-rounded btn-outline-secondary" data-toggle="modal" data-target="#modalNormaAgregar">
+                <button type="button" class="btn btn-rounded btn-outline-secondary" data-toggle="modal" data-target="#modalAvisoAgregar">
                     Nuevo Aviso
                 </button>
             </div>
@@ -13,7 +25,7 @@
     </div>
 
     <div *ngFor="let aviso of avisos" class="alert alert-info">
-        <button type="button" class="close pointer" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+        <button (click)="eliminarAviso( aviso )" type="button" class="close pointer" aria-label="Close"> <span aria-hidden="true">×</span> </button>
         <h3 class="text-info"><i class="fa fa-exclamation-circle"></i> {{ aviso.titulo}}</h3> {{ aviso.aviso }}
     </div>
 
@@ -62,6 +74,40 @@
                     <a class="btn btn-themecolor text-white" role="button">Más</a>
                 </p>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL AGREGAR -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalAvisoAgregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Nuevo Aviso</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="forma" (ngSubmit)="agregarAviso()">
+                    <div class="form-group m-b-40">
+                        <input formControlName="titulo" name="titulo" id="titulo" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="titulo">Título:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <textarea formControlName="aviso" name="aviso" id="aviso" class="form-control" required></textarea>
+                        <span class="bar"></span>
+                        <label for="aviso">Mensaje:</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>
