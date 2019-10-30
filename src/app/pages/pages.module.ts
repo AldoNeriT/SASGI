@@ -33,7 +33,7 @@ import { TablaComponent } from './tabla/tabla.component';
 
 @NgModule({
     declarations: [
-        // PagesComponent,
+        PagesComponent,
         PrincipalComponent,
         InstitucionComponent,
         NormasComponent,

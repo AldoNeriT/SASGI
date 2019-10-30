@@ -57,17 +57,6 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-12 text-center">
-                                    <label class="text-dark">Imagen</label><br>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 text-center" style="padding: 0px 15px 24px">
-                                    <label class="control-label font-weight-bold">{{institucion.img}}</label><br>
-                                </div>
-                            </div>
-
                         </div>
                         <div class="modal-footer">
                             <button *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'" (click)="pasarDatos( institucion )" class="btn btn-themecolor waves-effect">Editar</button>
@@ -112,18 +101,9 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <div class="form-group">
-                                            <label style="padding-bottom: 1px;">Imagen</label>
-                                            <input formControlName="imagen" name="imagen" type="text" class="form-control sgi_centrarInp" value="" required>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                             <div class="modal-footer">
-                                <button (click)="eliminarInstitucion()" type="button" class="btn btn-danger waves-effect">Eliminar</button>
+                                <!-- <button (click)="eliminarInstitucion()" type="button" class="btn btn-danger waves-effect">Eliminar</button> -->
                                 <button type="submit" class="btn btn-themecolor waves-effect">Guardar</button>
                                 <button (click)="mostrarEditable = !mostrarEditable" type="button" class="btn btn-default waves-effect">Cancelar</button>
                             </div>

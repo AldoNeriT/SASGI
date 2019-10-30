@@ -37,8 +37,7 @@ export class InstitucionComponent implements OnInit {
     this.formaInstitucion = new FormGroup({
       nombre: new FormControl( null, Validators.required ),
       domicilio: new FormControl( null, Validators.required ),
-      telefono: new FormControl( null, Validators.required ),
-      imagen: new FormControl( null, Validators.required )
+      telefono: new FormControl( null, Validators.required )
     });
 
     this.cargarInstituciones();
@@ -81,8 +80,7 @@ export class InstitucionComponent implements OnInit {
       let institucion = new Institucion(
         this.formaInstitucion.value.nombre,
         this.formaInstitucion.value.domicilio,
-        this.formaInstitucion.value.telefono,
-        this.formaInstitucion.value.imagen
+        this.formaInstitucion.value.telefono
       );
 
       this._institucionService.crearInstitucion( institucion )
@@ -95,7 +93,6 @@ export class InstitucionComponent implements OnInit {
         this.formaInstitucion.value.nombre,
         this.formaInstitucion.value.domicilio,
         this.formaInstitucion.value.telefono,
-        this.formaInstitucion.value.imagen,
         this.idIns
       );
 
@@ -115,8 +112,7 @@ export class InstitucionComponent implements OnInit {
     this.formaInstitucion.setValue({
       nombre: institucion.nombreInstitucion,
       domicilio: institucion.domicilio,
-      telefono: institucion.telefono,
-      imagen: institucion.img
+      telefono: institucion.telefono
     });
 
     this.idIns = institucion._id;
