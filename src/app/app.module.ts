@@ -22,22 +22,26 @@ import { ServiceModule } from './services/service.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
+import { PagesComponent } from './pages/pages.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    PagesComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     APP_ROUTES,
-    PagesModule,
+    // PagesModule,
     ServiceModule,
     FormsModule,
     ReactiveFormsModule,
     ChartsModule,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
