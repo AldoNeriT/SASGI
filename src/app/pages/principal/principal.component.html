@@ -1,27 +1,67 @@
-<div class="alert alert-info">
-    <button type="button" class="close pointer" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
-    <h3 class="text-info"><i class="fa fa-exclamation-triangle"></i> Avisos</h3> Aquí van los avisos
-</div>
-
-<div class="row">
-    <div class="col-lg-12 col-md-12">
-        <div class="jumbotron">
-            <h1 class="display-4">{{ titulo }} {{ usuario.nombre }}</h1>
-            <p class="lead">Estos son los pendientes que tienes para hoy.</p>
-            <hr class="my-4">
-            <p>Estos son los avisos que dejó tu Administrador</p>
-            <p class="lead">
-                <a class="btn btn-themecolor text-white" role="button">Más</a>
-            </p>
-        </div>
-    </div>
-    <!-- <div class="col-lg-4 col-md-12">
-        <div class="ribbon-wrapper card">
-            <div class="ribbon ribbon-info ribbon-right">Almacenamiento</div>
-            <div class="card-body">
-                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [colors]="pieChartColors" [legend]="pieChartLegend"></canvas>
-                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"></canvas>
+<!-- ============================================================== -->
+<!-- VISTA ROOT Y ADMIN -->
+<!-- ============================================================== -->
+<div *ngIf="(_usuarioService.usuario.tipo_Usuario === 'ROOT') || (_usuarioService.usuario.tipo_Usuario === 'ADMIN')">
+    <div class="row">
+        <div class="col text-center">
+            <div class="btn-group sgi_paddNorm">
+                <button type="button" class="btn btn-rounded btn-outline-secondary" data-toggle="modal" data-target="#modalNormaAgregar">
+                    Nuevo Aviso
+                </button>
             </div>
         </div>
-    </div> -->
+    </div>
+
+    <div *ngFor="let aviso of avisos" class="alert alert-info">
+        <button type="button" class="close pointer" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+        <h3 class="text-info"><i class="fa fa-exclamation-circle"></i> {{ aviso.titulo}}</h3> {{ aviso.aviso }}
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="jumbotron">
+                <h1 class="display-4">{{ titulo }} {{ usuario.nombre }}</h1>
+                <p class="lead">Estos son los pendientes que tienes para hoy.</p>
+                <hr class="my-4">
+                <p>Estos son los avisos que dejó tu Administrador</p>
+                <p class="lead">
+                    <a class="btn btn-themecolor text-white" role="button">Más</a>
+                </p>
+            </div>
+        </div>
+        <!-- <div class="col-lg-4 col-md-12">
+            <div class="ribbon-wrapper card">
+                <div class="ribbon ribbon-info ribbon-right">Almacenamiento</div>
+                <div class="card-body">
+                    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [colors]="pieChartColors" [legend]="pieChartLegend"></canvas>
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"></canvas>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- VISTA AUDITOR LIDER, AUDITOR Y ALTA DIRECCION -->
+<!-- ============================================================== -->
+<div *ngIf="(_usuarioService.usuario.tipo_Usuario === 'AUDITOR_LIDER') || (_usuarioService.usuario.tipo_Usuario === 'AUDITOR') || (_usuarioService.usuario.tipo_Usuario === 'ALTA_DIRECCION')">
+
+    <div *ngFor="let aviso of avisos" class="alert alert-info">
+        <button type="button" class="close pointer" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+        <h3 class="text-info"><i class="fa fa-exclamation-circle"></i> {{ aviso.titulo}}</h3> {{ aviso.aviso }}
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="jumbotron">
+                <h1 class="display-4">{{ titulo }} {{ usuario.nombre }}</h1>
+                <p class="lead">Estos son los pendientes que tienes para hoy.</p>
+                <hr class="my-4">
+                <p>Estos son los avisos que dejó tu Administrador</p>
+                <p class="lead">
+                    <a class="btn btn-themecolor text-white" role="button">Más</a>
+                </p>
+            </div>
+        </div>
+    </div>
 </div>

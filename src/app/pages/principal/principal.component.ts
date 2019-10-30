@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario.model';
-import { UsuarioService, InstitucionService, SettingsService } from '../../services/service.index';
+import { Aviso } from '../../models/aviso.model';
+import { UsuarioService, InstitucionService, SettingsService, AvisosService } from '../../services/service.index';
 
 // declare function init_plugins();
 
@@ -11,9 +12,13 @@ import { UsuarioService, InstitucionService, SettingsService } from '../../servi
 })
 export class PrincipalComponent implements OnInit {
 
+  avisos: Aviso[] = [];
+
   usuario: Usuario;
   hora: number;
   titulo: string;
+
+  cargando = true;
 
   // barChartOptions = {
   //   scaleShowVerticalLines: false,
@@ -42,7 +47,8 @@ export class PrincipalComponent implements OnInit {
 
   constructor( public _usuarioService: UsuarioService,
                public _ajustes: SettingsService,
-               public _institucionService: InstitucionService ) {
+               public _institucionService: InstitucionService,
+               public _avisosService: AvisosService ) {
     this.usuario = this._usuarioService.usuario;
   }
 
@@ -53,6 +59,7 @@ export class PrincipalComponent implements OnInit {
     this.saludo();
     this.almacenamiento();
     this.cargarImagenesInicializar();
+    this.cargarAvisos();
   }
 
   cargarImagenesInicializar() {
@@ -105,6 +112,19 @@ export class PrincipalComponent implements OnInit {
               this.pieChartData = [ ((tam / 1024) / 1024) , ( ((536870912 / 1024)) / 1024 - ((tam / 1024)) / 1024) ];
 
             });
+
+  }
+
+  cargarAvisos() {
+
+    this.cargando = true;
+
+    this._avisosService.cargarAvisos()
+          .subscribe( avisos => {
+            this.avisos = avisos;
+            console.log(avisos);
+            this.cargando = false;
+          });
 
   }
 

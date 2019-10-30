@@ -18,3 +18,4 @@ export { ListaVerificacionService } from './listaVerificacion/lista-verificacion
 export { TablaService } from './tabla/tabla.service';
 export { InformeService } from './informe/informe.service';
 export { BitacoraService } from './bitacora/bitacora.service';
+export { AvisosService } from './avisos/avisos.service';

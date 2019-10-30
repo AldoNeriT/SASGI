@@ -88,7 +88,7 @@ const pagesRoutes: Routes = [
                 path: 'bitacora',
                 component: BitacoraAccionesComponent,
                 canActivate: [ AbcGuard ],
-                data: { titulo: 'Bitacora de Acciones'}
+                data: { titulo: 'Bitácora de Acciones'}
             },
             { path: 'planes', component: PlanesComponent, data: { titulo: 'Plan de Auditorías' } },
             { path: 'menu-auditoria/:idA', component: MenuAuditoriaComponent, data: { titulo: 'Menú de Auditorias' } },
