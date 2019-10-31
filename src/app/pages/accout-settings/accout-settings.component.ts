@@ -75,7 +75,7 @@ export class AccoutSettingsComponent implements OnInit {
     this._ajustes.cargarImagenes()
           .subscribe( imagenes => {
             this.imagenes = imagenes[0];
-            // console.log(this.imagenes);
+            console.log(this.imagenes);
             if ( imagenes[0] ) {
               this.idImg = imagenes[0]._id;
               $('#link_fondo').val(this.imagenes.fondo + '');

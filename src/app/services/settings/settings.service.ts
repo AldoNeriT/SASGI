@@ -100,6 +100,8 @@ export class SettingsService {
 
   cargarImagenes() {
 
+    this.cargarStorage();
+
     let url = URL_SERVICIOS + '/imagen';
 
     // *** TOKEN ***
