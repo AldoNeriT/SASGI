@@ -15,6 +15,7 @@ import * as $ from 'jquery';
 // declare function init_plugins();
 declare function floating_labels();
 declare function inicializando_datePicker();
+declare function cerrarModal( nombreModal );
 
 @Component({
   selector: 'app-bitacora-acciones',
@@ -159,6 +160,7 @@ export class BitacoraAccionesComponent implements OnInit {
     this._bitacoraService.crearBitacora( bitacora )
           .subscribe( resp => {
             this.cargarBitacoras();
+            cerrarModal('modalBitacoraAgregar');
           });
 
   }
@@ -259,6 +261,7 @@ export class BitacoraAccionesComponent implements OnInit {
     this._bitacoraService.crearBitacora( bitacora )
           .subscribe( resp => {
             this.cargarBitacoras();
+            cerrarModal('modalBitacoraEditar');
           });
 
   }

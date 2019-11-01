@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import * as $ from 'jquery';
 
 declare function floating_labels();
+declare function cerrarModal( nombreModal );
 
 @Component({
   selector: 'app-tabla',
@@ -111,6 +112,7 @@ export class TablaComponent implements OnInit {
             floating_labels();
             this.cargarNormas();
             this.cargarTablas();
+            cerrarModal('modalTablaAgregar');
           });
 
   }

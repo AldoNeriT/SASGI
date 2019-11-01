@@ -11,6 +11,7 @@ import * as $ from 'jquery';
 
 // declare function init_plugins();
 declare function floating_labels();
+declare function cerrarModal( nombreModal );
 
 @Component({
   selector: 'app-procesos',
@@ -131,6 +132,7 @@ export class ProcesosComponent implements OnInit {
     this._procesoService.crearProceso( proceso )
           .subscribe( resp => {
             this.cargarProcesos();
+            cerrarModal('modalProcesoAgregar');
           });
 
   }
@@ -156,6 +158,7 @@ export class ProcesosComponent implements OnInit {
     this._procesoService.crearProceso( proceso )
             .subscribe( resp => {
               this.cargarProcesos();
+              cerrarModal('modalProcesoEditar');
             });
 
   }
@@ -207,7 +210,8 @@ export class ProcesosComponent implements OnInit {
 
     this._subprocesoService.crearSubproceso( subproceso )
           .subscribe( resp => {
-            this.cargarSubprocesosProceso( this.idPro ) ;
+            this.cargarSubprocesosProceso( this.idPro );
+            cerrarModal('modalSubprocesoAgregar');
           });
 
   }
@@ -236,7 +240,8 @@ export class ProcesosComponent implements OnInit {
     this._subprocesoService.crearSubproceso( subproceso )
             .subscribe( resp => {
               // this.cargarProcesos();
-              this.cargarSubprocesosProceso( this.idPro ) ;
+              this.cargarSubprocesosProceso( this.idPro );
+              cerrarModal('modalSubprocesoEditar');
             });
 
   }

@@ -10,6 +10,7 @@ import * as $ from 'jquery';
 
 // declare function init_plugins();
 declare function floating_labels();
+declare function cerrarModal( nombreModal );
 
 @Component({
   selector: 'app-normas',
@@ -98,6 +99,7 @@ export class NormasComponent implements OnInit {
     this._normaService.crearNorma( norma )
           .subscribe( resp => {
             this.cargarNormas();
+            cerrarModal('modalNormaAgregar');
           });
 
     // $('#modalNormaAgregar').modal('hide');
@@ -165,7 +167,16 @@ export class NormasComponent implements OnInit {
     this._normaService.crearNorma( norma )
             .subscribe( resp => {
               this.cargarNormas();
+              cerrarModal('modalNormaEditar');
             });
+
+    // $('#modalNormaEditar').modal('hide');
+    
+
+    // $('.show').hide();
+    // $('#modalNormaEditar').removeClass('show');
+    // this.router.navigateByUrl('#/normas', {skipLocationChange: true}).then(() =>
+    // this.router.navigate(['/normas']));
 
   }
 

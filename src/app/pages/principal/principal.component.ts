@@ -7,6 +7,7 @@ import { WebsocketService } from '../../services/websocket/websocket.service';
 
 // declare function init_plugins();
 declare function floating_labels();
+declare function cerrarModal( nombreModal );
 
 import Swal from 'sweetalert2';
 import * as $ from 'jquery';
@@ -179,6 +180,7 @@ export class PrincipalComponent implements OnInit {
             this.almacenamiento();
             this.cargarImagenesInicializar();
             this.cargarAvisos();
+            cerrarModal('modalAvisoAgregar');
           });
 
   }
