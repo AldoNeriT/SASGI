@@ -187,6 +187,16 @@ export class UsuarioComponent implements OnInit {
     if ( ( this.forma.value.tipoUser === 'AUDITOR_LIDER') || ( this.forma.value.tipoUser === 'ALTA_DIRECCION')) {
       // console.log('solo una vez');
 
+      let tp = '';
+
+      if ( this.forma.value.tipoUser === 'AUDITOR_LIDER' ){
+        tp = 'Auditor Líder';
+      }
+
+      if ( this.forma.value.tipoUser === 'ALTA_DIRECCION' ){
+        tp = 'Alta Dirección';
+      }
+
       this._usuarioService.cargarUsuariosPorTipo( this.forma.value.tipoUser )
           .subscribe( resp => {
             // console.log(' RESPUESTA ',resp);
@@ -198,9 +208,9 @@ export class UsuarioComponent implements OnInit {
                   });
             } else {
               Swal.fire({
-                title: '¡Advertencia!',
-                text: `No puedes tener otro usuario como "${this.forma.value.tipoUser}"`,
-                type: 'warning',
+                title: '¡Error!',
+                text: `No puedes tener otro usuario como "${tp}"`,
+                type: 'error',
                 animation: false,
                 customClass: {
                   popup: 'animated tada'
@@ -254,6 +264,16 @@ export class UsuarioComponent implements OnInit {
     if ( ( this.formaActualizar.value.tipoUser === 'AUDITOR_LIDER') || ( this.formaActualizar.value.tipoUser === 'ALTA_DIRECCION')) {
       // console.log('solo una vez');
 
+      let tp = '';
+
+      if ( this.formaActualizar.value.tipoUser === 'AUDITOR_LIDER' ){
+        tp = 'Auditor Líder';
+      }
+
+      if ( this.formaActualizar.value.tipoUser === 'ALTA_DIRECCION' ){
+        tp = 'Alta Dirección';
+      }
+
       this._usuarioService.cargarUsuariosPorTipo( this.formaActualizar.value.tipoUser )
           .subscribe( resp => {
             // console.log(' RESPUESTA ',resp);
@@ -267,9 +287,9 @@ export class UsuarioComponent implements OnInit {
               
             } else {
               Swal.fire({
-                title: '¡Advertencia!',
-                text: `No puedes tener otro usuario como "${this.formaActualizar.value.tipoUser}"`,
-                type: 'warning',
+                title: 'Error!',
+                text: `No puedes tener otro usuario como "${tp}"`,
+                type: 'error',
                 animation: false,
                 customClass: {
                   popup: 'animated tada'
