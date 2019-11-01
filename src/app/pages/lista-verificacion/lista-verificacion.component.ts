@@ -17,6 +17,7 @@ import * as $ from 'jquery';
 
 declare function floating_labels();
 declare function inicializando_datePicker();
+declare function cerrarModal( nombreModal );
 
 @Component({
   selector: 'app-lista-verificacion',
@@ -272,6 +273,7 @@ export class ListaVerificacionComponent implements OnInit {
           this.cargarNormas();
           this.cargarUsuario( this.idU );
           this.cargarListas( this.idP, this.idU);
+          cerrarModal('modalListaAgregar');
         });
   }
 
@@ -363,6 +365,7 @@ export class ListaVerificacionComponent implements OnInit {
               this.cargarNormas();
               this.cargarUsuario( this.idU );
               this.cargarListas( this.idP, this.idU);
+              cerrarModal('modalListaEditar1');
             });
 
   }
@@ -393,6 +396,7 @@ export class ListaVerificacionComponent implements OnInit {
               this.cargarNormas();
               this.cargarUsuario( this.idU );
               this.cargarListas( this.idP, this.idU);
+              cerrarModal('modalListaEditar2');
             });
 
   }

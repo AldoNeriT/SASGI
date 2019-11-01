@@ -22,6 +22,7 @@ import * as $ from 'jquery';
 declare function floating_labels();
 declare function inicializando_datePicker();
 declare function inicializando_dateRange();
+declare function cerrarModal( nombreModal );
 
 @Component({
   selector: 'app-informe',
@@ -701,6 +702,7 @@ export class InformeComponent implements OnInit {
               this.cargarNormas();
               // this.cargarTablas();
               this.cargarInforme( this.idA );
+              cerrarModal('modalAgregar2');
             });
 
   }
@@ -789,6 +791,7 @@ export class InformeComponent implements OnInit {
               this.cargarNormas();
               // this.cargarTablas();
               this.cargarInforme( this.idA );
+              cerrarModal('modalAgregar1');
             });
 
   }
@@ -854,6 +857,7 @@ export class InformeComponent implements OnInit {
               this.cargarNormas();
               // this.cargarTablas();
               this.cargarInforme( this.idA );
+              cerrarModal('modalAgregar3');
             });
 
   }
