@@ -4,6 +4,8 @@ import { UsuarioService } from '../../services/service.index';
 import { Usuario } from '../../models/usuario.model';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import Swal from 'sweetalert2';
+
 // declare function init_plugins();
 
 @Component({
@@ -21,6 +23,7 @@ export class UsuarioComponent implements OnInit {
   titulo: string;
 
   cargando = true;
+  roleUsuario: string;
 
   // *** Variables para los Formularios ***
   mostrarFormAgregar: boolean;
@@ -179,10 +182,40 @@ export class UsuarioComponent implements OnInit {
       this.id
     );
 
-    this._usuarioService.crearUsuario( usuario )
+    // console.log(usuario);
+
+    if ( ( this.forma.value.tipoUser === 'AUDITOR_LIDER') || ( this.forma.value.tipoUser === 'ALTA_DIRECCION')) {
+      // console.log('solo una vez');
+
+      this._usuarioService.cargarUsuariosPorTipo( this.forma.value.tipoUser )
+          .subscribe( resp => {
+            // console.log(' RESPUESTA ',resp);
+            if ( resp.length === 0 ) {
+              // console.log('PUEDES AGREGAR OTRO');
+              this._usuarioService.crearUsuario( usuario )
+                  .subscribe( resp => {
+                    this.router.navigate(['/usuarios']);
+                  });
+            } else {
+              Swal.fire({
+                title: '¡Advertencia!',
+                text: `No puedes tener otro usuario como "${this.forma.value.tipoUser}"`,
+                type: 'warning',
+                animation: false,
+                customClass: {
+                  popup: 'animated tada'
+                }
+              });
+            }
+          });
+
+    } else {
+      // console.log('puede muchas veces');
+      this._usuarioService.crearUsuario( usuario )
           .subscribe( resp => {
             this.router.navigate(['/usuarios']);
           });
+    }
 
   }
 
@@ -216,10 +249,41 @@ export class UsuarioComponent implements OnInit {
       this.id
     );
 
-    this._usuarioService.crearUsuario( usuario )
+    // console.log(usuario);
+
+    if ( ( this.formaActualizar.value.tipoUser === 'AUDITOR_LIDER') || ( this.formaActualizar.value.tipoUser === 'ALTA_DIRECCION')) {
+      // console.log('solo una vez');
+
+      this._usuarioService.cargarUsuariosPorTipo( this.formaActualizar.value.tipoUser )
+          .subscribe( resp => {
+            // console.log(' RESPUESTA ',resp);
+            // console.log(this.roleUsuario);
+            if ( (resp.length === 0) || ( this.roleUsuario === this.formaActualizar.value.tipoUser ) ) {
+              // console.log('PUEDES AGREGAR OTRO');
+              this._usuarioService.crearUsuario( usuario )
+                  .subscribe( resp => {
+                    this.router.navigate(['/usuarios']);
+                  });
+              
+            } else {
+              Swal.fire({
+                title: '¡Advertencia!',
+                text: `No puedes tener otro usuario como "${this.formaActualizar.value.tipoUser}"`,
+                type: 'warning',
+                animation: false,
+                customClass: {
+                  popup: 'animated tada'
+                }
+              });
+            }
+          });
+
+    } else {
+      this._usuarioService.crearUsuario( usuario )
           .subscribe( resp => {
             this.router.navigate(['/usuarios']);
           });
+    }
 
   }
 
@@ -276,7 +340,10 @@ export class UsuarioComponent implements OnInit {
               tipoUser: usuario.tipo_Usuario
             });
 
+            this.roleUsuario = usuario.tipo_Usuario;
+
             this.cargando = false;
+
           });
 
   }

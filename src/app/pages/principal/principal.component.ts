@@ -135,7 +135,7 @@ export class PrincipalComponent implements OnInit {
 
     this._institucionService.almacenamiento()
             .subscribe( resp => {
-              console.log(resp);
+              // console.log(resp);
 
               let tam = resp.tamaño.dataSize + resp.tamaño.indexSize;
 
