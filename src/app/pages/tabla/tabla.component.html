@@ -23,25 +23,40 @@
                         <table class="table full-color-table full-info-table hover-table">
                             <thead class="text-center">
                                 <tr>
+                                    <th rowspan="2" style="width: 1px; padding-left: 0px; padding-right: 0px"></th>
                                     <th rowspan="2" class="text-center">Número</th>
                                     <th rowspan="2" class="text-center">Requisito de la Norma</th>
                                     <th [attr.colspan]="totalNormas" class="text-center">NORMA</th>
-                                    <th rowspan="2" class="text-center"></th>
+                                    <!-- <th rowspan="2" class="text-center"></th> -->
                                 </tr>
                                 <tr>
                                     <th *ngFor="let norm of normas" class="text-center">{{ norm.nombreNorma }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let tab of tablas">
-                                    <td>{{ tab.numero }}</td>
-                                    <td>{{ tab.requisito }}</td>
-                                    <td *ngFor="let norm of normas" class="text-center">
+                                <tr *ngFor="let tab of tablas" class="pointer">
+                                    <td style="width: 1px; padding-left: 0px; padding-right: 0px">
+                                        <div class="btn-group">
+                                            <div class="dropdown-menu text-center animated pulse">
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <button (click)="formEditable( tab )" class="btn btn-outline-info" data-toggle="modal" data-target="#modalTablaEditar">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>&nbsp;
+                                                    <button (click)="eliminarFila( tab )" class="btn btn-outline-secondary">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ tab.numero }}</td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ tab.requisito }}</td>
+                                    <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" *ngFor="let norm of normas" class="text-center">
                                         <span *ngFor=" let normTab of tab.normas">
-                                    <span *ngIf="norm._id === normTab._id" class="font-bold">X</span>
+                                            <span *ngIf="norm._id === normTab._id" class="font-bold">X</span>
                                         </span>
                                     </td>
-                                    <td class="text-center"><button (click)="eliminarFila( tab )" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash-o"></i></button></td>
+                                    <!-- <td class="text-center"><button (click)="eliminarFila( tab )" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash-o"></i></button></td> -->
                                 </tr>
                                 <tr class="pointer text-center">
                                     <td [attr.colspan]="2 + totalNormas  + 1" class="text-info" data-toggle="modal" data-target="#modalTablaAgregar"><i class="mdi mdi-plus"></i> Fila</td>
@@ -123,6 +138,44 @@
                     <div *ngFor="let norma of normas; let i=index" class="form-group m-b-40">
                         <input type="checkbox" id="ch_{{ norma._id }}" class="chk-col-blue" />
                         <label for="ch_{{ norma._id }}">{{ norma.nombreNorma }}</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL EDITAR -->
+<!-- ============================================================== -->
+
+<div class="modal fade" id="modalTablaEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Editar Fila</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" ngNativeValidate (ngSubmit)="editarFila()">
+                    <div class="form-group m-b-40">
+                        <input name="numero2" id="numero2" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="numero2">Número:</label>
+                    </div>
+                    <div class="form-group m-b-40">
+                        <input name="requisito2" id="requisito2" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="requisito2">Requisito de la Norma:</label>
+                    </div>
+                    <div *ngFor="let norma of normas; let i=index" class="form-group m-b-40">
+                        <input type="checkbox" id="ch2_{{ norma._id }}" class="chk-col-blue" />
+                        <label for="ch2_{{ norma._id }}">{{ norma.nombreNorma }}</label>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-themecolor" data-dismiss="">Guardar</button>

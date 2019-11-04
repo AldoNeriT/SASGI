@@ -31,6 +31,7 @@ export class TablaComponent implements OnInit {
   objNormas: any[] = [];
 
   totalNormas = 0;
+  idTab: string;
 
   cargando = true;
 
@@ -81,7 +82,6 @@ export class TablaComponent implements OnInit {
 
   agregarFila() {
 
-
     let numero = $('#numero').val() + '';
     let requisito = $('#requisito').val() + '';
 
@@ -113,6 +113,63 @@ export class TablaComponent implements OnInit {
             this.cargarNormas();
             this.cargarTablas();
             cerrarModal('modalTablaAgregar');
+          });
+
+  }
+
+  formEditable( tabla: any ) {
+
+    $('#numero2').val(tabla.numero);
+    $('#requisito2').val(tabla.requisito);
+
+    this.idTab = tabla._id;
+
+    for ( let n of this.normas ) {
+      $('#ch2_' + n._id).removeAttr('checked');
+    }
+
+    for ( let n of this.normas ) {
+      for ( let n2 of tabla.normas ) {
+        if ( n._id === n2._id ) {
+          console.log('Listo');
+          $('#ch2_' + n._id).attr('checked', 'true');
+        }
+      }
+    }
+
+    $('#modalTablaEditar > div > div > div > form > div.m-b-40').addClass('focused');
+  }
+
+  editarFila() {
+
+    let numero2 = $('#numero2').val() + '';
+    let requisito2 = $('#requisito2').val() + '';
+
+    this.objNormas = [];
+
+    for ( let n of this.normas ) {
+      if ( $('#ch2_' + n._id).prop('checked') ) {
+        this.objNormas.push({_id: n._id});
+      }
+    }
+
+    // console.log('objNormas: ', this.objNormas);
+
+    let tabla = new Tabla(
+      numero2,
+      requisito2,
+      this.objNormas,
+      this.idTab
+    );
+
+    // console.log('Tabla Editar: ', tabla);
+
+    this._tablaService.editarFila( tabla )
+          .subscribe( resp => {
+            floating_labels();
+            this.cargarNormas();
+            this.cargarTablas();
+            cerrarModal('modalTablaEditar');
           });
 
   }

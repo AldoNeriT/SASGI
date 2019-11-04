@@ -69,7 +69,35 @@ export class TablaService {
           showConfirmButton: false,
           timer: 2000
         });
-        return resp.norma;
+        return resp.tabla;
+      }),
+      catchError( err => {
+        Swal.fire('Error', err.error.err.message, 'error');
+        return throwError( err ) ;
+      })
+    );
+
+  }
+
+  editarFila( fila: Tabla ) {
+
+    let url = URL_SERVICIOS + '/tabla/' + fila._id;
+
+    // *** Aqui se ACTUALIZA la Tabla ***
+
+    // *** TOKEN ***
+    url += '?token=' + this.token;
+
+    return this.http.put( url, fila )
+    .pipe(
+      map( (resp: any ) => {
+        Swal.fire({
+          title: 'Fila Actualizada',
+          type: 'success',
+          showConfirmButton: false,
+          timer: 2000
+        });
+        return resp.tabla;
       }),
       catchError( err => {
         Swal.fire('Error', err.error.err.message, 'error');
