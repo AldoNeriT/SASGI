@@ -10,86 +10,92 @@
     </div>
 </div>
 
-<div *ngIf="!cargando">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body table-responsive">
+<!-- ============================================================== -->
+<!-- VISTA ROOT Y ADMINISTRADOR -->
+<!-- ============================================================== -->
+<div *ngIf="(_usuarioService.usuario.tipo_Usuario === 'ROOT') || (_usuarioService.usuario.tipo_Usuario === 'ADMIN')">
+    <div *ngIf="!cargando">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body table-responsive">
 
-                    <table class="table full-color-table full-info-table hover-table">
-                        <thead class="text-center">
-                            <tr>
-                                <th rowspan="2" class="text-center">Número</th>
-                                <th rowspan="2" class="text-center">Requisito de la Norma</th>
-                                <th [attr.colspan]="totalNormas" class="text-center">NORMA</th>
-                                <th rowspan="2" class="text-center"></th>
-                            </tr>
-                            <tr>
-                                <th *ngFor="let norm of normas" class="text-center">{{ norm.nombreNorma }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let tab of tablas">
-                                <td>{{ tab.numero }}</td>
-                                <td>{{ tab.requisito }}</td>
-                                <td *ngFor="let norm of normas" class="text-center">
-                                    <span *ngFor=" let normTab of tab.normas">
+                        <table class="table full-color-table full-info-table hover-table">
+                            <thead class="text-center">
+                                <tr>
+                                    <th rowspan="2" class="text-center">Número</th>
+                                    <th rowspan="2" class="text-center">Requisito de la Norma</th>
+                                    <th [attr.colspan]="totalNormas" class="text-center">NORMA</th>
+                                    <th rowspan="2" class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th *ngFor="let norm of normas" class="text-center">{{ norm.nombreNorma }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let tab of tablas">
+                                    <td>{{ tab.numero }}</td>
+                                    <td>{{ tab.requisito }}</td>
+                                    <td *ngFor="let norm of normas" class="text-center">
+                                        <span *ngFor=" let normTab of tab.normas">
                                     <span *ngIf="norm._id === normTab._id" class="font-bold">X</span>
-                                    </span>
-                                </td>
-                                <td class="text-center"><button (click)="eliminarFila( tab )" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash-o"></i></button></td>
-                            </tr>
-                            <tr *ngIf="_usuarioService.usuario.tipo_Usuario !== 'AUDITOR_LIDER'" class="pointer text-center">
-                                <td [attr.colspan]="2 + totalNormas  + 1" class="text-info" data-toggle="modal" data-target="#modalTablaAgregar"><i class="mdi mdi-plus"></i> Fila</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                        </span>
+                                    </td>
+                                    <td class="text-center"><button (click)="eliminarFila( tab )" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash-o"></i></button></td>
+                                </tr>
+                                <tr class="pointer text-center">
+                                    <td [attr.colspan]="2 + totalNormas  + 1" class="text-info" data-toggle="modal" data-target="#modalTablaAgregar"><i class="mdi mdi-plus"></i> Fila</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- <div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
+<!-- ============================================================== -->
+<!-- VISTA AUDITOR LIDER -->
+<!-- ============================================================== -->
+<div *ngIf="_usuarioService.usuario.tipo_Usuario === 'AUDITOR_LIDER'">
+    <div *ngIf="!cargando">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body table-responsive">
 
-                <table class="table full-color-table full-muted-table hover-table">
-                    <thead class="text-center">
-                        <tr>
-                            <th rowspan="2" class="text-center">Número</th>
-                            <th rowspan="2" class="text-center">Requisito de la Norma</th>
-                            <th colspan="3" class="text-center">Normas</th>
-                            <th colspan="2" class="text-center">Documento de Referencia</th>
-                        </tr>
-                        <tr>
-                            <th class="text-center">Norma 1</th>
-                            <th class="text-center">Norma 2</th>
-                            <th class="text-center">Norma 3</th>
-                            <th class="text-center">Revisión</th>
-                            <th class="text-center">Resultado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr class="pointer text-center">
-                            <td colspan="7" data-toggle="modal" data-target="#modalTablaAgregar"><i class="mdi mdi-plus"></i></td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <table class="table full-color-table full-info-table hover-table">
+                            <thead class="text-center">
+                                <tr>
+                                    <th rowspan="2" class="text-center">Número</th>
+                                    <th rowspan="2" class="text-center">Requisito de la Norma</th>
+                                    <th [attr.colspan]="totalNormas" class="text-center">NORMA</th>
+                                </tr>
+                                <tr>
+                                    <th *ngFor="let norm of normas" class="text-center">{{ norm.nombreNorma }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let tab of tablas">
+                                    <td>{{ tab.numero }}</td>
+                                    <td>{{ tab.requisito }}</td>
+                                    <td *ngFor="let norm of normas" class="text-center">
+                                        <span *ngFor=" let normTab of tab.normas">
+                                    <span *ngIf="norm._id === normTab._id" class="font-bold">X</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div> -->
+</div>
 
 <!-- ============================================================== -->
 <!-- MODAL AGREGAR -->
