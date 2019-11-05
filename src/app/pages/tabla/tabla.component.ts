@@ -40,24 +40,6 @@ export class TablaComponent implements OnInit {
     this.cargarNormas();
     this.cargarTablas();
     this.escucharSocket();
-
-    this.ordenarConTabla();
-  }
-
-  ordenarConTabla() {
-    // let arr = [5, 4, 1, 2, 3, 9, 8, 5, 4, 2, 1, 10, 15, 1];
-    // console.log(arr);
-
-    // for (let i = 0; i < arr.length - 1; i++) {
-    //   for (let j = 0; j < arr.length - 1; j++) {
-    //     if (arr[j] > arr[j + 1]) {
-    //       let tmp = arr[j + 1];
-    //       arr[j + 1] = arr[j];
-    //       arr[j] = tmp;
-    //     }
-    //   }
-    // }
-    // console.log(arr);
   }
 
   escucharSocket() {
