@@ -32,6 +32,7 @@ export class PlanService {
   }
 
   cargarPlanes() {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/plan';
 
@@ -53,6 +54,7 @@ export class PlanService {
   }
 
   cargarPlan( id: string ) {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/plan/' + id;
 

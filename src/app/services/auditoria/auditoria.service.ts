@@ -32,6 +32,7 @@ export class AuditoriaService {
   }
 
   cargarAuditorias() {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/auditoria';
 
@@ -53,6 +54,7 @@ export class AuditoriaService {
   }
 
   cargarAuditoriasGA() {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/auditoria/usuario/grupoauditor';
 
@@ -74,6 +76,7 @@ export class AuditoriaService {
   }
 
   cargarAuditoriasAu() {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/auditoria/usuario/auditados';
 
@@ -95,6 +98,7 @@ export class AuditoriaService {
   }
 
   cargarAuditoria( id: string ) {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/auditoria/' + id;
 
@@ -115,6 +119,7 @@ export class AuditoriaService {
   }
 
   cargarAuditoriasPlan( id: string ) {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/auditoria/plan/' + id;
 

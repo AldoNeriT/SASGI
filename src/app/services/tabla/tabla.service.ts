@@ -32,6 +32,7 @@ export class TablaService {
   }
 
   cargarTabla() {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/tabla';
 

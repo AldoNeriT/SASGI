@@ -32,6 +32,7 @@ export class ListaVerificacionService {
   }
 
   cargarListasPlaneacionUsuario( idP: string, idU: string ) {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/verificacion/planeacion/usuario/' + idP + '/' + idU;
 
@@ -52,6 +53,7 @@ export class ListaVerificacionService {
   }
 
   cargarListasPlaneacionUsuarioEnviar( idP: string, idU: string ) {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/verificacion/planeacion/usuario/enviar/' + idP + '/' + idU;
 

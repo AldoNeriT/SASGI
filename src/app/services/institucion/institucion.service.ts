@@ -33,6 +33,7 @@ export class InstitucionService {
   }
 
   cargarInstituciones() {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/institucion';
 

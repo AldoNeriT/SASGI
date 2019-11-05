@@ -140,6 +140,7 @@ export class UsuarioService {
   }
 
   cargarUsuarios() {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/usuario';
 
@@ -161,6 +162,7 @@ export class UsuarioService {
   }
 
   cargarUsuariosInactivos() {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/usuario/inactivos';
 
@@ -182,6 +184,7 @@ export class UsuarioService {
   }
 
   cargarUsuario( id: string) {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/usuario/' + id;
 

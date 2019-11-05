@@ -33,6 +33,7 @@ export class InformeService {
   }
 
   cargarInforme( id: string ) {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/informe/auditoria/' + id;
 

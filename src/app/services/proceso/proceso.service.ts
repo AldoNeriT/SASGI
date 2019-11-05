@@ -33,6 +33,7 @@ export class ProcesoService {
   }
 
   cargarProcesos() {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/proceso';
 
@@ -54,6 +55,7 @@ export class ProcesoService {
   }
 
   cargarProceso( id: string ) {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/proceso/' + id;
 

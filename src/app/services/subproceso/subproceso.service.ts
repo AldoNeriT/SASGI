@@ -33,6 +33,7 @@ export class SubprocesoService {
   }
 
   cargarSubprocesos() {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/subproceso';
 
@@ -54,6 +55,7 @@ export class SubprocesoService {
   }
 
   cargarSubproceso( id: string ) {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/subproceso/' + id;
 
@@ -74,6 +76,7 @@ export class SubprocesoService {
   }
 
   cargarSubprocesosProceso( id: string ) {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/subproceso/proceso/' + id;
 

@@ -29,6 +29,7 @@ export class AvisosService {
   }
 
   cargarAvisos() {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/aviso';
 

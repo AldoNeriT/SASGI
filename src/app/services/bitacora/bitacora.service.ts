@@ -32,6 +32,7 @@ export class BitacoraService {
   }
 
   cargarBitacoras() {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/bitacora';
 

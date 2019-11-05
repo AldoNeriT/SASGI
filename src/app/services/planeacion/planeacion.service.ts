@@ -33,6 +33,7 @@ export class PlaneacionService {
   }
 
   cargarPlaneacion( id: string ) {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/planeacion/' + id;
 
@@ -53,6 +54,7 @@ export class PlaneacionService {
   }
 
   cargarPlaneacionesAudi( id: string ) {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/planeacion/auditoria/' + id;
 
@@ -77,6 +79,7 @@ export class PlaneacionService {
   }
 
   cargarPlaneacionesAudiUsuario( id: string ) {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/planeacion/auditoria/usuario/' + id;
 
@@ -97,6 +100,7 @@ export class PlaneacionService {
   }
 
   cargarPlaneacionesAudiEnviar( id: string ) {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/planeacion/auditoria/enviar/' + id;
 

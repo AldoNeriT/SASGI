@@ -32,6 +32,7 @@ export class NormaService {
   }
 
   cargarNormas() {
+    this.cargarStorage();
 
     let url = URL_SERVICIOS + '/norma';
 
