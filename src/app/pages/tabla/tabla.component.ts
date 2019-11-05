@@ -40,6 +40,24 @@ export class TablaComponent implements OnInit {
     this.cargarNormas();
     this.cargarTablas();
     this.escucharSocket();
+
+    this.ordenarConTabla();
+  }
+
+  ordenarConTabla() {
+    // let arr = [5, 4, 1, 2, 3, 9, 8, 5, 4, 2, 1, 10, 15, 1];
+    // console.log(arr);
+
+    // for (let i = 0; i < arr.length - 1; i++) {
+    //   for (let j = 0; j < arr.length - 1; j++) {
+    //     if (arr[j] > arr[j + 1]) {
+    //       let tmp = arr[j + 1];
+    //       arr[j + 1] = arr[j];
+    //       arr[j] = tmp;
+    //     }
+    //   }
+    // }
+    // console.log(arr);
   }
 
   escucharSocket() {
@@ -74,7 +92,7 @@ export class TablaComponent implements OnInit {
     this._tablaService.cargarTabla()
           .subscribe( tablas => {
             this.tablas = tablas;
-            // console.log('Tablas: ', tablas);
+            console.log('Tablas: ', tablas);
             this.cargando = false;
           });
 
@@ -84,8 +102,15 @@ export class TablaComponent implements OnInit {
 
     let numero = $('#numero').val() + '';
     let requisito = $('#requisito').val() + '';
+    let num = 0;
 
-
+    let arrNumeros = numero.split('.');
+    if ( isNaN( +arrNumeros[0] ) ) {
+      num = 0;
+    } else {
+      num = +arrNumeros[0];
+    }
+    // console.log(num);
 
 
     this.objNormas = [];
@@ -100,6 +125,7 @@ export class TablaComponent implements OnInit {
 
 
     let tabla = new Tabla(
+      num,
       numero,
       requisito,
       this.objNormas
@@ -131,7 +157,7 @@ export class TablaComponent implements OnInit {
     for ( let n of this.normas ) {
       for ( let n2 of tabla.normas ) {
         if ( n._id === n2._id ) {
-          console.log('Listo');
+          // console.log('Listo');
           $('#ch2_' + n._id).attr('checked', 'true');
         }
       }
@@ -144,6 +170,15 @@ export class TablaComponent implements OnInit {
 
     let numero2 = $('#numero2').val() + '';
     let requisito2 = $('#requisito2').val() + '';
+    let num = 0;
+
+    let arrNumeros2 = numero2.split('.');
+    if ( isNaN( +arrNumeros2[0] ) ) {
+      num = 0;
+    } else {
+      num = +arrNumeros2[0];
+    }
+    // console.log(num);
 
     this.objNormas = [];
 
@@ -156,13 +191,14 @@ export class TablaComponent implements OnInit {
     // console.log('objNormas: ', this.objNormas);
 
     let tabla = new Tabla(
+      num,
       numero2,
       requisito2,
       this.objNormas,
       this.idTab
     );
 
-    // console.log('Tabla Editar: ', tabla);
+    console.log('Tabla Editar: ', tabla);
 
     this._tablaService.editarFila( tabla )
           .subscribe( resp => {
