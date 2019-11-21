@@ -277,17 +277,27 @@
                             <table class="table full-color-table full-info-table hover-table">
                                 <thead class="text-center">
                                     <tr>
+                                        <th style="width: 1px; padding-left: 0px; padding-right: 0px"></th>
                                         <th class="text-center">Oportunidades de Mejora</th>
-                                        <th class="text-center"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let op of oportunidadesMejoraV; let i=index;" class="text-center">
-                                        <td>{{ i+1 }}. {{ op }}</td>
-                                        <td class="text-center"><button (click)="eliminarOM( i )" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash-o"></i></button></td>
-                                    </tr>
-                                    <tr class="text-center pointer">
-                                        <td colspan="2" data-toggle="modal" data-target="#modalAgregar2"><i class="mdi mdi-plus"></i></td>
+                                    <tr *ngFor="let listODM of listasODM; let i=index;" class="text-center pointer">
+                                        <td style="width: 1px; padding-left: 0px; padding-right: 0px">
+                                            <div class="btn-group">
+                                                <div class="dropdown-menu text-center animated pulse">
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                        <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modalAgregar2">
+                                                            <i class="fa fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" (click)="eliminarOM( listODM._id )" class="btn btn-outline-secondary">
+                                                            <i class="fa fa-trash-o"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ i+1 }}. {{ listODM.evidencia }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -355,21 +365,31 @@
                             <table class="table full-color-table full-info-table hover-table">
                                 <thead class="text-center">
                                     <tr>
+                                        <th style="width: 1px; padding-left: 0px; padding-right: 0px"></th>
                                         <th class="text-center">No.</th>
                                         <th class="text-center">Descripción del Hallazgo</th>
                                         <th class="text-center">Requisito</th>
-                                        <th class="text-center"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let hall of hallazgos; let i=index" class="text-center">
-                                        <td>{{ i + 1 }}</td>
-                                        <td>{{ hall.hallazgo }}</td>
-                                        <td>{{ hall.requisito }}</td>
-                                        <td class="text-center"><button (click)="eliminarHallazgo( hall )" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash-o"></i></button></td>
-                                    </tr>
-                                    <tr class="text-center pointer">
-                                        <td colspan="4" data-toggle="modal" data-target="#modalAgregar3"><i class="mdi mdi-plus"></i></td>
+                                    <tr *ngFor="let listNC of listasNC; let i=index" class="text-center pointer">
+                                        <td style="width: 1px; padding-left: 0px; padding-right: 0px">
+                                            <div class="btn-group">
+                                                <div class="dropdown-menu text-center animated pulse">
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                        <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modalAgregar3">
+                                                            <i class="fa fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" (click)="eliminarHallazgo( listNC._id )" class="btn btn-outline-secondary">
+                                                            <i class="fa fa-trash-o"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ i + 1 }}</td>
+                                        <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ listNC.evidencia }}</td>
+                                        <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ listNC.puntoNorma }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -742,8 +762,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let op of oportunidadesMejoraV; let i=index;" class="text-center">
+                                    <!-- <tr *ngFor="let op of oportunidadesMejoraV; let i=index;" class="text-center">
                                         <td>{{ op }}</td>
+                                    </tr> -->
+
+                                    <tr *ngFor="let listODM of listasODM; let i=index;" class="text-center">
+                                        <td>{{ i+1 }}. {{ listODM.evidencia }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -803,10 +827,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let hall of hallazgos; let i=index" class="text-center">
+                                    <!-- <tr *ngFor="let hall of hallazgos; let i=index" class="text-center">
                                         <td>{{ i + 1 }}</td>
                                         <td>{{ hall.hallazgo }}</td>
                                         <td>{{ hall.requisito }}</td>
+                                    </tr> -->
+
+                                    <tr *ngFor="let listNC of listasNC; let i=index" class="text-center">
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ listNC.evidencia }}</td>
+                                        <td>{{ listNC.puntoNorma }}</td>
                                     </tr>
                                 </tbody>
                             </table>

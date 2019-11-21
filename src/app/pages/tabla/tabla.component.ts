@@ -74,7 +74,7 @@ export class TablaComponent implements OnInit {
     this._tablaService.cargarTabla()
           .subscribe( tablas => {
             this.tablas = tablas;
-            console.log('Tablas: ', tablas);
+            // console.log('Tablas: ', tablas);
             this.cargando = false;
           });
 

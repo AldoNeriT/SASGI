@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { NormaService, UsuarioService, AuditoriaService, InstitucionService, TablaService, InformeService } from '../../services/service.index';
+import { NormaService, UsuarioService, AuditoriaService, InstitucionService, TablaService, InformeService, ListaVerificacionService } from '../../services/service.index';
 import { Auditoria } from '../../models/auditoria.model';
 import { Usuario } from '../../models/usuario.model';
 import { Norma } from '../../models/norma.model';
 import { Institucion } from '../../models/institucion.model';
+import { ListaVerificacion } from '../../models/lista-verificacion.model';
 import { Informe } from '../../models/informe.model';
 import { PersonalContactado } from '../../models/personal-contactado.model';
 import { NoConformidades } from '../../models/no-conformidades.model';
@@ -43,6 +44,9 @@ export class InformeComponent implements OnInit {
   hallazgos: NoConformidades[] = [];
   matriz: any[] = [];
   informe: Informe;
+
+  listasNC: ListaVerificacion[] = [];
+  listasODM: ListaVerificacion[] = [];
 
   // Form
   formaTitulo: FormGroup;
@@ -89,6 +93,7 @@ export class InformeComponent implements OnInit {
                public _institucionService: InstitucionService,
                public _tablaService: TablaService,
                public _informeService: InformeService,
+               public _listaVerificacionService: ListaVerificacionService,
                public router: Router,
                public activatedRoute: ActivatedRoute) { 
     activatedRoute.params.subscribe( params => {
@@ -101,6 +106,8 @@ export class InformeComponent implements OnInit {
     inicializando_datePicker();
     inicializando_dateRange();
 
+    this.cargarListasNC( this.idA );
+    this.cargarListasODM( this.idA );
     this.cargarAuditoria( this.idA );
     this.cargarNormas();
     // this.cargarTablas();
@@ -140,6 +147,36 @@ export class InformeComponent implements OnInit {
       hallazgo: new FormControl( null, Validators.required ),
       requisito: new FormControl( null, Validators.required )
     });
+  }
+
+  cargarListasNC( idAuditoria: string) {
+
+    this.cargando = true;
+
+    this._listaVerificacionService.cargarListasPlaneacionNC( idAuditoria )
+        .subscribe( listas => {
+          this.listasNC = listas;
+
+          this.cargando = false;
+          floating_labels();
+          inicializando_datePicker();
+          inicializando_dateRange();
+        });
+  }
+
+  cargarListasODM( idAuditoria: string) {
+
+    this.cargando = true;
+
+    this._listaVerificacionService.cargarListasPlaneacionODM( idAuditoria )
+        .subscribe( listas => {
+          this.listasODM = listas;
+
+          this.cargando = false;
+          floating_labels();
+          inicializando_datePicker();
+          inicializando_dateRange();
+        });
   }
 
   cargarAuditoria( id: string ) {
@@ -267,8 +304,8 @@ export class InformeComponent implements OnInit {
 
             this.idInforme = informe._id;
 
-            this.cargarPersonal( informe._id );
-            this.cargarNoConf( informe._id );
+            // this.cargarPersonal( informe._id );
+            // this.cargarNoConf( informe._id );
             this.cargarTablas();
 
             this._auditoriaService.cargarAuditoria( informe.auditoria._id )
@@ -299,38 +336,38 @@ export class InformeComponent implements OnInit {
 
   }
 
-  cargarPersonal( id: string) {
+  // cargarPersonal( id: string) {
 
-    this.cargando = true;
+  //   this.cargando = true;
 
-    this._informeService.cargarPersonal( id )
-          .subscribe( personal => {
-            this.personal = personal;
-            // console.log('Personal: ', personal);
-            this.cargando = false;
-            floating_labels();
-            inicializando_datePicker();
-            inicializando_dateRange();
-          });
+  //   this._informeService.cargarPersonal( id )
+  //         .subscribe( personal => {
+  //           this.personal = personal;
+  //           // console.log('Personal: ', personal);
+  //           this.cargando = false;
+  //           floating_labels();
+  //           inicializando_datePicker();
+  //           inicializando_dateRange();
+  //         });
 
-  }
+  // }
 
-  cargarNoConf( id: string) {
+  // cargarNoConf( id: string) {
 
-    this.cargando = true;
+  //   this.cargando = true;
 
-    this._informeService.cargarNoConformidades( id )
-          .subscribe( hallazgos => {
-            this.hallazgos = hallazgos;
-            // console.log('Hallazgos: ', hallazgos);
-            this.totalNC = hallazgos.length;
-            this.cargando = false;
-            floating_labels();
-            inicializando_datePicker();
-            inicializando_dateRange();
-          });
+  //   this._informeService.cargarNoConformidades( id )
+  //         .subscribe( hallazgos => {
+  //           this.hallazgos = hallazgos;
+  //           // console.log('Hallazgos: ', hallazgos);
+  //           this.totalNC = hallazgos.length;
+  //           this.cargando = false;
+  //           floating_labels();
+  //           inicializando_datePicker();
+  //           inicializando_dateRange();
+  //         });
 
-  }
+  // }
 
 
 
@@ -467,6 +504,8 @@ export class InformeComponent implements OnInit {
               inicializando_datePicker();
               inicializando_dateRange();
 
+              this.cargarListasNC( this.idA );
+              this.cargarListasODM( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -506,6 +545,8 @@ export class InformeComponent implements OnInit {
               inicializando_datePicker();
               inicializando_dateRange();
 
+              this.cargarListasNC( this.idA );
+              this.cargarListasODM( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -545,6 +586,8 @@ export class InformeComponent implements OnInit {
               inicializando_datePicker();
               inicializando_dateRange();
 
+              this.cargarListasNC( this.idA );
+              this.cargarListasODM( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -586,6 +629,8 @@ export class InformeComponent implements OnInit {
               inicializando_datePicker();
               inicializando_dateRange();
 
+              this.cargarListasNC( this.idA );
+              this.cargarListasODM( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -627,6 +672,8 @@ export class InformeComponent implements OnInit {
               inicializando_datePicker();
               inicializando_dateRange();
 
+              this.cargarListasNC( this.idA );
+              this.cargarListasODM( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -698,6 +745,8 @@ export class InformeComponent implements OnInit {
               inicializando_datePicker();
               inicializando_dateRange();
 
+              this.cargarListasNC( this.idA );
+              this.cargarListasODM( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -750,6 +799,8 @@ export class InformeComponent implements OnInit {
                   inicializando_datePicker();
                   inicializando_dateRange();
 
+                  this.cargarListasNC( this.idA );
+                  this.cargarListasODM( this.idA );
                   this.cargarAuditoria( this.idA );
                   this.cargarNormas();
                   // this.cargarTablas();
@@ -787,6 +838,8 @@ export class InformeComponent implements OnInit {
               inicializando_datePicker();
               inicializando_dateRange();
 
+              this.cargarListasNC( this.idA );
+              this.cargarListasODM( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -818,6 +871,8 @@ export class InformeComponent implements OnInit {
               inicializando_datePicker();
               inicializando_dateRange();
 
+              this.cargarListasNC( this.idA );
+              this.cargarListasODM( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -853,6 +908,8 @@ export class InformeComponent implements OnInit {
               inicializando_datePicker();
               inicializando_dateRange();
 
+              this.cargarListasNC( this.idA );
+              this.cargarListasODM( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -884,6 +941,8 @@ export class InformeComponent implements OnInit {
               inicializando_datePicker();
               inicializando_dateRange();
 
+              this.cargarListasNC( this.idA );
+              this.cargarListasODM( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -992,6 +1051,8 @@ export class InformeComponent implements OnInit {
                     inicializando_datePicker();
                     inicializando_dateRange();
 
+                    this.cargarListasNC( this.idA );
+                    this.cargarListasODM( this.idA );
                     this.cargarAuditoria( this.idA );
                     this.cargarNormas();
                     // this.cargarTablas();
@@ -1011,6 +1072,8 @@ export class InformeComponent implements OnInit {
             inicializando_datePicker();
             inicializando_dateRange();
 
+            this.cargarListasNC( this.idA );
+            this.cargarListasODM( this.idA );
             this.cargarAuditoria( this.idA );
             this.cargarNormas();
             // this.cargarTablas();

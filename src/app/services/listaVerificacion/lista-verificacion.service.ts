@@ -31,6 +31,48 @@ export class ListaVerificacionService {
 
   }
 
+  cargarListasPlaneacionNC( idA: string ) {
+    this.cargarStorage();
+
+    let url = URL_SERVICIOS + '/verificacion';
+
+    // *** TOKEN ***
+    url += '?token=' + this.token;
+
+    return this.http.get( url )
+    .pipe(
+      map( (resp: any ) => {
+        return resp.verificaciones;
+      }),
+      catchError( err => {
+        Swal.fire('Error', err.error.err.message, 'error');
+        return throwError( err ) ;
+      })
+    );
+
+  }
+
+  cargarListasPlaneacionODM( idA: string ) {
+    this.cargarStorage();
+
+    let url = URL_SERVICIOS + '/verificacion';
+
+    // *** TOKEN ***
+    url += '?token=' + this.token;
+
+    return this.http.get( url )
+    .pipe(
+      map( (resp: any ) => {
+        return resp.verificaciones;
+      }),
+      catchError( err => {
+        Swal.fire('Error', err.error.err.message, 'error');
+        return throwError( err ) ;
+      })
+    );
+
+  }
+
   cargarListasPlaneacionUsuario( idP: string, idU: string ) {
     this.cargarStorage();
 

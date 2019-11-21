@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { PlaneacionService, UsuarioService, AuditoriaService, NormaService, ListaVerificacionService } from '../../services/service.index';
+import { PlaneacionService, UsuarioService, AuditoriaService, NormaService, ListaVerificacionService, TablaService } from '../../services/service.index';
 import { Planeacion } from '../../models/planeacion.model';
 import { Institucion } from '../../models/institucion.model';
+import { Tabla } from '../../models/tabla.model';
 import { ListaVerificacion } from '../../models/lista-verificacion.model';
 import { Usuario } from '../../models/usuario.model';
 import { Norma } from 'src/app/models/norma.model';
@@ -36,6 +37,7 @@ export class ListaVerificacionComponent implements OnInit {
   planeacion: any[] = [];
   normas: Norma[] = [];
   listas: ListaVerificacion[] = [];
+  tablas: Tabla[] = [];
 
   arrProActCriV: any[] = [];
 
@@ -60,6 +62,7 @@ export class ListaVerificacionComponent implements OnInit {
                public _usuarioService: UsuarioService,
                public _auditoriaService: AuditoriaService,
                public _normaService: NormaService,
+               public _tablaService: TablaService,
                public _listaVerificacionService: ListaVerificacionService,
                public router: Router,
                public activatedRoute: ActivatedRoute ) {
@@ -72,6 +75,7 @@ export class ListaVerificacionComponent implements OnInit {
   ngOnInit() {
     floating_labels();
     inicializando_datePicker();
+    this.cargarTablas();
     this.cargarPlaneacion( this.idP );
     this.cargarNormas();
     this.cargarUsuario( this.idU );
@@ -101,6 +105,19 @@ export class ListaVerificacionComponent implements OnInit {
 
   regresar() {
     this.router.navigate(['/listas/' + this.idAu]);
+  }
+
+  cargarTablas() {
+
+    this.cargando = true;
+
+    this._tablaService.cargarTabla()
+          .subscribe( tablas => {
+            this.tablas = tablas;
+            // console.log('Tablas: ', tablas);
+            this.cargando = false;
+          });
+
   }
 
   cargarUsuario( id: string) {
@@ -269,6 +286,7 @@ export class ListaVerificacionComponent implements OnInit {
         .subscribe( resp => {
           floating_labels();
           inicializando_datePicker();
+          this.cargarTablas();
           this.cargarPlaneacion( this.idP );
           this.cargarNormas();
           this.cargarUsuario( this.idU );
@@ -331,6 +349,7 @@ export class ListaVerificacionComponent implements OnInit {
             .subscribe( resp => {
               floating_labels();
               inicializando_datePicker();
+              this.cargarTablas();
               this.cargarPlaneacion( this.idP );
               this.cargarNormas();
               this.cargarUsuario( this.idU );
@@ -361,6 +380,7 @@ export class ListaVerificacionComponent implements OnInit {
             .subscribe( resp => {
               floating_labels();
               inicializando_datePicker();
+              this.cargarTablas();
               this.cargarPlaneacion( this.idP );
               this.cargarNormas();
               this.cargarUsuario( this.idU );
@@ -392,6 +412,7 @@ export class ListaVerificacionComponent implements OnInit {
             .subscribe( resp => {
               floating_labels();
               inicializando_datePicker();
+              this.cargarTablas();
               this.cargarPlaneacion( this.idP );
               this.cargarNormas();
               this.cargarUsuario( this.idU );
@@ -421,6 +442,7 @@ export class ListaVerificacionComponent implements OnInit {
           .subscribe( (resp: any) => {
               floating_labels();
               inicializando_datePicker();
+              this.cargarTablas();
               this.cargarPlaneacion( this.idP );
               this.cargarNormas();
               this.cargarUsuario( this.idU );
@@ -464,6 +486,7 @@ export class ListaVerificacionComponent implements OnInit {
                 .subscribe( resp2 => {
                     floating_labels();
                     inicializando_datePicker();
+                    this.cargarTablas();
                     this.cargarPlaneacion( this.idP );
                     this.cargarNormas();
                     this.cargarUsuario( this.idU );
@@ -494,6 +517,7 @@ export class ListaVerificacionComponent implements OnInit {
           .subscribe( resp => {
               floating_labels();
               inicializando_datePicker();
+              this.cargarTablas();
               this.cargarPlaneacion( this.idP );
               this.cargarNormas();
               this.cargarUsuario( this.idU );

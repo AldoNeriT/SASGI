@@ -161,9 +161,9 @@
                         </div>
                         <div class="row" style="padding-bottom: 40px;">
                             <div class="col-12 text-left btn-group">
-                                <button type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-package-down"></i></button>
-                                <button type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-open-in-new"></i></button>
-                                <button type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-printer"></i></button>
+                                <button (click)="imprimir( 1 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-package-down"></i></button>
+                                <button (click)="imprimir( 2 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-open-in-new"></i></button>
+                                <button (click)="imprimir( 3 )" type="button" class="btn btn-rounded btn-themecolor"><i class="mdi mdi-printer"></i></button>
                             </div>
                         </div>
 
@@ -221,8 +221,16 @@
             </div>
             <div class="modal-body">
                 <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="forma" (ngSubmit)="agregarLista()">
-                    <div class="form-group m-b-40">
+                    <!-- <div class="form-group m-b-40">
                         <input formControlName="norma" name="norma" id="norma" type="text" class="form-control" required>
+                        <span class="bar"></span>
+                        <label for="norma">Punto de la Norma:</label>
+                    </div> -->
+                    <div class="form-group m-b-40">
+                        <select formControlName="norma" name="norma" id="norma" class="form-control p-0" required>
+                            <!-- <option value="" selected>Elige</option> -->
+                            <option *ngFor="let tab of tablas" value="{{ tab.numero }}">{{ tab.numero }} - {{ tab.requisito }}</option>
+                        </select>
                         <span class="bar"></span>
                         <label for="norma">Punto de la Norma:</label>
                     </div>
@@ -256,10 +264,18 @@
             </div>
             <div class="modal-body">
                 <form class="floating-labels m-t-40" ngNativeValidate [formGroup]="formaEditar1" (ngSubmit)="editarLista()">
-                    <div class="form-group m-b-40">
+                    <!-- <div class="form-group m-b-40">
                         <input formControlName="normaE" name="normaE" id="normaE" type="text" class="form-control" required>
                         <span class="bar"></span>
                         <label for="norma">Punto de la Norma:</label>
+                    </div> -->
+                    <div class="form-group m-b-40">
+                        <select formControlName="normaE" name="normaE" id="normaE" class="form-control p-0" required>
+                            <!-- <option value="" selected>Elige</option> -->
+                            <option *ngFor="let tab of tablas" value="{{ tab.numero }}">{{ tab.numero }} - {{ tab.requisito }}</option>
+                        </select>
+                        <span class="bar"></span>
+                        <label for="normaE">Punto de la Norma:</label>
                     </div>
                     <div class="form-group m-b-40">
                         <textarea formControlName="preguntaE" name="preguntaE" id="preguntaE" type="text" class="form-control" required></textarea>
@@ -303,12 +319,21 @@
                         <label for="evidencia">Evidencia encontrada:</label>
                         <span class="help-block text-themecolor"><small>Anotar la evidencia encontrada.</small></span>
                     </div>
-                    <div class="form-group m-b-40">
+                    <!-- <div class="form-group m-b-40">
                         <textarea formControlName="hallazgosE" name="hallazgosE" id="hallazgosE" type="text" class="form-control" required></textarea>
                         <span class="bar"></span>
                         <label for="hallazgos">Hallazgos:</label>
                         <span class="help-block text-themecolor"><small>NC – No Conformidad<br>O - Observación<br>ODM – Oportunidad de Mejora
                                 </small></span>
+                    </div> -->
+                    <div class="form-group m-b-40">
+                        <select formControlName="hallazgosE" name="hallazgosE" id="hallazgosE" class="form-control p-0" required>
+                            <!-- <option value="" selected>Elige</option> -->
+                            <option value="NC">No Conformidad</option>
+                            <option value="ODM">Oportunidad de Mejora</option>
+                        </select>
+                        <span class="bar"></span>
+                        <label for="hallazgosE">Punto de la Norma:</label>
                     </div>
 
                     <div class="modal-footer">

@@ -50,7 +50,7 @@ export class ListasComponent implements OnInit {
       this._planeacionService.cargarPlaneacionesAudi( id )
           .subscribe( planeaciones => {
             this.planeaciones = planeaciones;
-            console.log('Planeaciones: ', this.planeaciones);
+            // console.log('Planeaciones: ', this.planeaciones);
 
             this.cargando = false;
 
@@ -59,7 +59,7 @@ export class ListasComponent implements OnInit {
       this._planeacionService.cargarPlaneacionesAudiUsuario( id )
           .subscribe( planeaciones => {
             this.planeaciones = planeaciones;
-            console.log('Planeaciones: ', this.planeaciones);
+            // console.log('Planeaciones: ', this.planeaciones);
 
             this.cargando = false;
  
