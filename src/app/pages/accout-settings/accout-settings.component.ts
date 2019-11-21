@@ -75,7 +75,7 @@ export class AccoutSettingsComponent implements OnInit {
     this._ajustes.cargarImagenes()
           .subscribe( imagenes => {
             this.imagenes = imagenes[0];
-            console.log(this.imagenes);
+            // console.log(this.imagenes);
             if ( imagenes[0] ) {
               this.idImg = imagenes[0]._id;
               $('#link_fondo').val(this.imagenes.fondo + '');
@@ -124,7 +124,7 @@ export class AccoutSettingsComponent implements OnInit {
       this.idImg
     );
 
-    console.log('Img: ', imagen);
+    // console.log('Img: ', imagen);
 
     this._ajustes.cambiarFondo( imagen )
             .subscribe( resp => {
@@ -148,7 +148,7 @@ export class AccoutSettingsComponent implements OnInit {
       this.idImg
     );
 
-    console.log('Img: ', imagen);
+    // console.log('Img: ', imagen);
 
     this._ajustes.cambiarLogoLogin( imagen )
             .subscribe( resp => {
@@ -172,7 +172,7 @@ export class AccoutSettingsComponent implements OnInit {
       this.idImg
     );
 
-    console.log('Img: ', imagen);
+    // console.log('Img: ', imagen);
 
     this._ajustes.cambiarLPC( imagen )
             .subscribe( resp => {
@@ -196,7 +196,7 @@ export class AccoutSettingsComponent implements OnInit {
       this.idImg
     );
 
-    console.log('Img: ', imagen);
+    // console.log('Img: ', imagen);
 
     this._ajustes.cambiarLPO( imagen )
             .subscribe( resp => {
@@ -220,7 +220,7 @@ export class AccoutSettingsComponent implements OnInit {
       this.idImg
     );
 
-    console.log('Img: ', imagen);
+    // console.log('Img: ', imagen);
 
     this._ajustes.cambiarLGC( imagen )
             .subscribe( resp => {
@@ -244,7 +244,7 @@ export class AccoutSettingsComponent implements OnInit {
       this.idImg
     );
 
-    console.log('Img: ', imagen);
+    // console.log('Img: ', imagen);
 
     this._ajustes.cambiarLGO( imagen )
             .subscribe( resp => {

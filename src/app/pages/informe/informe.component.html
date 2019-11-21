@@ -134,18 +134,24 @@
                                     <tr>
                                         <th class="text-center">Nombre</th>
                                         <th class="text-center">Puesto</th>
-                                        <th class="text-center"></th>
+                                        <!-- <th class="text-center"></th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let per of personal" class="text-center">
+                                    <!-- <tr *ngFor="let per of personal" class="text-center">
                                         <td>{{ per.nombre }}</td>
                                         <td>{{ per.puesto }}</td>
                                         <td class="text-center"><button (click)="eliminarPersonal( per )" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash-o"></i></button></td>
                                     </tr>
                                     <tr class="text-center pointer">
                                         <td colspan="3" data-toggle="modal" data-target="#modalAgregar1"><i class="mdi mdi-plus"></i></td>
+                                    </tr> -->
+
+                                    <tr *ngFor="let pl of planeaciones" class="text-center">
+                                        <td>{{ pl.contacto }}</td>
+                                        <td>{{ pl.area }}</td>
                                     </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -168,7 +174,7 @@
                                 <hr class="m-t-0 m-b-40">
                             </div>
                         </div>
-                        <p class="card-text">En la revisión al Sistema de Gestión Integral se encontraron un total de <span class="font-bold">{{ totalNC }}</span> No Conformidades y <span class="font-bold">{{ totalOM }}</span> Oportunidades de Mejora.</p>
+                        <p class="card-text">En la revisión al Sistema de Gestión Integral se encontraron un total de <span class="font-bold">{{ totalNC }}</span> No Conformidades y <span class="font-bold">{{ totalODM }}</span> Oportunidades de Mejora.</p>
                     </div>
                 </div>
             </div>
@@ -277,12 +283,12 @@
                             <table class="table full-color-table full-info-table hover-table">
                                 <thead class="text-center">
                                     <tr>
-                                        <th style="width: 1px; padding-left: 0px; padding-right: 0px"></th>
+                                        <!-- <th style="width: 1px; padding-left: 0px; padding-right: 0px"></th> -->
                                         <th class="text-center">Oportunidades de Mejora</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let listODM of listasODM; let i=index;" class="text-center pointer">
+                                    <!-- <tr *ngFor="let listODM of listasODM; let i=index;" class="text-center pointer">
                                         <td style="width: 1px; padding-left: 0px; padding-right: 0px">
                                             <div class="btn-group">
                                                 <div class="dropdown-menu text-center animated pulse">
@@ -298,6 +304,10 @@
                                             </div>
                                         </td>
                                         <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ i+1 }}. {{ listODM.evidencia }}</td>
+                                    </tr> -->
+
+                                    <tr *ngFor="let listODM of listasODM; let i=index;" class="text-center">
+                                        <td>{{ i+1 }}. {{ listODM.evidencia }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -365,14 +375,14 @@
                             <table class="table full-color-table full-info-table hover-table">
                                 <thead class="text-center">
                                     <tr>
-                                        <th style="width: 1px; padding-left: 0px; padding-right: 0px"></th>
+                                        <!-- <th style="width: 1px; padding-left: 0px; padding-right: 0px"></th> -->
                                         <th class="text-center">No.</th>
                                         <th class="text-center">Descripción del Hallazgo</th>
                                         <th class="text-center">Requisito</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let listNC of listasNC; let i=index" class="text-center pointer">
+                                    <!-- <tr *ngFor="let listNC of listasNC; let i=index" class="text-center pointer">
                                         <td style="width: 1px; padding-left: 0px; padding-right: 0px">
                                             <div class="btn-group">
                                                 <div class="dropdown-menu text-center animated pulse">
@@ -390,6 +400,12 @@
                                         <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ i + 1 }}</td>
                                         <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ listNC.evidencia }}</td>
                                         <td data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ listNC.puntoNorma }}</td>
+                                    </tr> -->
+
+                                    <tr *ngFor="let listNC of listasNC; let i=index" class="text-center">
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ listNC.evidencia }}</td>
+                                        <td>{{ listNC.puntoNorma }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -633,9 +649,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let per of personal" class="text-center">
+                                    <!-- <tr *ngFor="let per of personal" class="text-center">
                                         <td>{{ per.nombre }}</td>
                                         <td>{{ per.puesto }}</td>
+                                    </tr> -->
+
+                                    <tr *ngFor="let pl of planeaciones" class="text-center">
+                                        <td>{{ pl.contacto }}</td>
+                                        <td>{{ pl.area }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -659,7 +680,7 @@
                                 <hr class="m-t-0 m-b-40">
                             </div>
                         </div>
-                        <p class="card-text">En la revisión al Sistema de Gestión Integral se encontraron un total de <span class="font-bold">{{ totalNC }}</span> No Conformidades y <span class="font-bold">{{ totalOM }}</span> Oportunidades de Mejora.</p>
+                        <p class="card-text">En la revisión al Sistema de Gestión Integral se encontraron un total de <span class="font-bold">{{ totalNC }}</span> No Conformidades y <span class="font-bold">{{ totalODM }}</span> Oportunidades de Mejora.</p>
                     </div>
                 </div>
             </div>

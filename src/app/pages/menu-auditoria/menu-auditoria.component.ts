@@ -100,7 +100,7 @@ export class MenuAuditoriaComponent implements OnInit {
   }
 
   agregarInforme() {
-    console.log('Aquí se agregara el Informe');
+    // console.log('Aquí se agregara el Informe');
 
     let auditoria = new Auditoria(
       '',

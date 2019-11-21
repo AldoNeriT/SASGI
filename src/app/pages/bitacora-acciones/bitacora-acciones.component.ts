@@ -155,7 +155,7 @@ export class BitacoraAccionesComponent implements OnInit {
       $('#fecha_cierre').val() + ''
     );
 
-    console.log(bitacora);
+    // console.log(bitacora);
 
     this._bitacoraService.crearBitacora( bitacora )
           .subscribe( resp => {
@@ -206,7 +206,7 @@ export class BitacoraAccionesComponent implements OnInit {
       fecha_cierre2: bitacora.fechaCierre
     });
 
-    console.log(bitacora.correctiva);
+    // console.log(bitacora.correctiva);
 
     $('#requiereSI2').removeAttr('checked');
     $('#requiereNO2').removeAttr('checked');
@@ -256,7 +256,7 @@ export class BitacoraAccionesComponent implements OnInit {
       this.idBit
     );
 
-    console.log(bitacora);
+    // console.log(bitacora);
 
     this._bitacoraService.crearBitacora( bitacora )
           .subscribe( resp => {

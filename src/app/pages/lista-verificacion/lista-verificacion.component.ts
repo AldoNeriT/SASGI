@@ -280,7 +280,7 @@ export class ListaVerificacionComponent implements OnInit {
       fech
     );
 
-    console.log(listaVerificacion);
+    // console.log(listaVerificacion);
 
     this._listaVerificacionService.crearListaVerificacion( listaVerificacion )
         .subscribe( resp => {
@@ -342,7 +342,7 @@ export class ListaVerificacionComponent implements OnInit {
       this.idLista
     );
 
-    console.log(listaVerificacion);
+    // console.log(listaVerificacion);
 
 
     this._listaVerificacionService.cambioMasivoEntrevistado( listaVerificacion, this.idP )

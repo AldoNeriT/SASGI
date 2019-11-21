@@ -34,7 +34,7 @@ export class ListaVerificacionService {
   cargarListasPlaneacionNC( idA: string ) {
     this.cargarStorage();
 
-    let url = URL_SERVICIOS + '/verificacion';
+    let url = URL_SERVICIOS + '/verificacion/auditoria/noconformidad/' + idA;
 
     // *** TOKEN ***
     url += '?token=' + this.token;
@@ -55,7 +55,7 @@ export class ListaVerificacionService {
   cargarListasPlaneacionODM( idA: string ) {
     this.cargarStorage();
 
-    let url = URL_SERVICIOS + '/verificacion';
+    let url = URL_SERVICIOS + '/verificacion/auditoria/oportunidad/' + idA;
 
     // *** TOKEN ***
     url += '?token=' + this.token;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { NormaService, UsuarioService, AuditoriaService, InstitucionService, TablaService, InformeService, ListaVerificacionService } from '../../services/service.index';
+import { NormaService, UsuarioService, AuditoriaService, InstitucionService, TablaService, InformeService, ListaVerificacionService, PlaneacionService } from '../../services/service.index';
 import { Auditoria } from '../../models/auditoria.model';
 import { Usuario } from '../../models/usuario.model';
 import { Norma } from '../../models/norma.model';
@@ -9,6 +9,7 @@ import { ListaVerificacion } from '../../models/lista-verificacion.model';
 import { Informe } from '../../models/informe.model';
 import { PersonalContactado } from '../../models/personal-contactado.model';
 import { NoConformidades } from '../../models/no-conformidades.model';
+import { Planeacion } from '../../models/planeacion.model';
 import { Tabla } from '../../models/tabla.model';
 import { Matriz } from '../../models/matriz.model';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -48,6 +49,8 @@ export class InformeComponent implements OnInit {
   listasNC: ListaVerificacion[] = [];
   listasODM: ListaVerificacion[] = [];
 
+  planeaciones: Planeacion[] = [];
+
   // Form
   formaTitulo: FormGroup;
   formaComentarios: FormGroup;
@@ -84,7 +87,7 @@ export class InformeComponent implements OnInit {
   normasV: string;
 
   totalNC: number;
-  totalOM: number;
+  totalODM: number;
 
 
   constructor( public _normaService: NormaService,
@@ -93,6 +96,7 @@ export class InformeComponent implements OnInit {
                public _institucionService: InstitucionService,
                public _tablaService: TablaService,
                public _informeService: InformeService,
+               public _planeacionService: PlaneacionService,
                public _listaVerificacionService: ListaVerificacionService,
                public router: Router,
                public activatedRoute: ActivatedRoute) { 
@@ -108,6 +112,7 @@ export class InformeComponent implements OnInit {
 
     this.cargarListasNC( this.idA );
     this.cargarListasODM( this.idA );
+    this.cargarPlaneacionesAudi( this.idA );
     this.cargarAuditoria( this.idA );
     this.cargarNormas();
     // this.cargarTablas();
@@ -156,6 +161,7 @@ export class InformeComponent implements OnInit {
     this._listaVerificacionService.cargarListasPlaneacionNC( idAuditoria )
         .subscribe( listas => {
           this.listasNC = listas;
+          this.totalNC = this.listasNC.length;
 
           this.cargando = false;
           floating_labels();
@@ -171,12 +177,28 @@ export class InformeComponent implements OnInit {
     this._listaVerificacionService.cargarListasPlaneacionODM( idAuditoria )
         .subscribe( listas => {
           this.listasODM = listas;
+          this.totalODM = this.listasODM.length;
 
           this.cargando = false;
           floating_labels();
           inicializando_datePicker();
           inicializando_dateRange();
         });
+  }
+
+  cargarPlaneacionesAudi( id: string ) {
+
+    this.cargando = true;
+
+    this._planeacionService.cargarPlaneacionesAudi( id )
+        .subscribe( planeaciones => {
+          this.planeaciones = planeaciones;
+          // console.log('Planeaciones: ', this.planeaciones);
+
+          this.cargando = false;
+
+        });
+
   }
 
   cargarAuditoria( id: string ) {
@@ -300,7 +322,7 @@ export class InformeComponent implements OnInit {
             this.oportunidadesMejoraV = informe.oportunidadesMejora;
 
             // console.log('OPOPOP', this.oportunidadesMejoraV);
-            this.totalOM = this.oportunidadesMejoraV.length;
+            // this.totalOM = this.oportunidadesMejoraV.length;
 
             this.idInforme = informe._id;
 
@@ -506,6 +528,7 @@ export class InformeComponent implements OnInit {
 
               this.cargarListasNC( this.idA );
               this.cargarListasODM( this.idA );
+              this.cargarPlaneacionesAudi( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -547,6 +570,7 @@ export class InformeComponent implements OnInit {
 
               this.cargarListasNC( this.idA );
               this.cargarListasODM( this.idA );
+              this.cargarPlaneacionesAudi( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -588,6 +612,7 @@ export class InformeComponent implements OnInit {
 
               this.cargarListasNC( this.idA );
               this.cargarListasODM( this.idA );
+              this.cargarPlaneacionesAudi( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -631,6 +656,7 @@ export class InformeComponent implements OnInit {
 
               this.cargarListasNC( this.idA );
               this.cargarListasODM( this.idA );
+              this.cargarPlaneacionesAudi( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -674,6 +700,7 @@ export class InformeComponent implements OnInit {
 
               this.cargarListasNC( this.idA );
               this.cargarListasODM( this.idA );
+              this.cargarPlaneacionesAudi( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -747,6 +774,7 @@ export class InformeComponent implements OnInit {
 
               this.cargarListasNC( this.idA );
               this.cargarListasODM( this.idA );
+              this.cargarPlaneacionesAudi( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -801,6 +829,7 @@ export class InformeComponent implements OnInit {
 
                   this.cargarListasNC( this.idA );
                   this.cargarListasODM( this.idA );
+                  this.cargarPlaneacionesAudi( this.idA );
                   this.cargarAuditoria( this.idA );
                   this.cargarNormas();
                   // this.cargarTablas();
@@ -840,6 +869,7 @@ export class InformeComponent implements OnInit {
 
               this.cargarListasNC( this.idA );
               this.cargarListasODM( this.idA );
+              this.cargarPlaneacionesAudi( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -873,6 +903,7 @@ export class InformeComponent implements OnInit {
 
               this.cargarListasNC( this.idA );
               this.cargarListasODM( this.idA );
+              this.cargarPlaneacionesAudi( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -910,6 +941,7 @@ export class InformeComponent implements OnInit {
 
               this.cargarListasNC( this.idA );
               this.cargarListasODM( this.idA );
+              this.cargarPlaneacionesAudi( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -943,6 +975,7 @@ export class InformeComponent implements OnInit {
 
               this.cargarListasNC( this.idA );
               this.cargarListasODM( this.idA );
+              this.cargarPlaneacionesAudi( this.idA );
               this.cargarAuditoria( this.idA );
               this.cargarNormas();
               // this.cargarTablas();
@@ -1053,6 +1086,7 @@ export class InformeComponent implements OnInit {
 
                     this.cargarListasNC( this.idA );
                     this.cargarListasODM( this.idA );
+                    this.cargarPlaneacionesAudi( this.idA );
                     this.cargarAuditoria( this.idA );
                     this.cargarNormas();
                     // this.cargarTablas();
@@ -1074,6 +1108,7 @@ export class InformeComponent implements OnInit {
 
             this.cargarListasNC( this.idA );
             this.cargarListasODM( this.idA );
+            this.cargarPlaneacionesAudi( this.idA );
             this.cargarAuditoria( this.idA );
             this.cargarNormas();
             // this.cargarTablas();
@@ -1087,25 +1122,25 @@ export class InformeComponent implements OnInit {
     let arrPersonalContactado = [];
     arrPersonalContactado.push([{ text: 'PERSONAL CONTACTADO', fontSize: 10, fillColor: '#dddddd', colSpan: 2, alignment: 'center' }, { text: ' ', fontSize: 10, fillColor: '#dddddd', colSpan: 0, alignment: 'center' }]);
     arrPersonalContactado.push([{ text: 'NOMBRE', fontSize: 10, fillColor: '#dddddd', colSpan: 1, alignment: 'center' }, { text: 'PUESTO', fontSize: 10, fillColor: '#dddddd', colSpan: 1, alignment: 'center' }]);
-    for (let per of this.personal) {
-      arrPersonalContactado.push([{ text: per.nombre, fontSize: 10, colSpan: 1, alignment: 'center' }, { text: per.puesto, fontSize: 10, colSpan: 1, alignment: 'center' }]);
+    for (let pl of this.planeaciones) {
+      arrPersonalContactado.push([{ text: pl.contacto, fontSize: 10, colSpan: 1, alignment: 'center' }, { text: pl.area, fontSize: 10, colSpan: 1, alignment: 'center' }]);
     }
 
     let n = 0;
     let arrOportunidadesMejor = [];
     arrOportunidadesMejor.push([{ text: 'OPORTUNIDADES DE MEJORA', fontSize: 10, fillColor: '#dddddd', colSpan: 1, alignment: 'center' }]);
-    for (let op of this.oportunidadesMejoraV) {
+    for (let listODM of this.listasODM) {
       n++;
-      arrOportunidadesMejor.push([{ text: n + '. ' + op, fontSize: 10, colSpan: 1, alignment: 'center' }]);
+      arrOportunidadesMejor.push([{ text: n + '. ' + listODM.evidencia, fontSize: 10, colSpan: 1, alignment: 'center' }]);
     }
 
     let nn = 0;
     let arrHallazgos = [];
     arrHallazgos.push([{ text: 'NO CONFORMIDADES', fontSize: 10, fillColor: '#dddddd', alignment: 'center', colSpan: 3 }, { text: '', fontSize: 10, fillColor: '#dddddd', alignment: 'center', colSpan: 0 }, { text: '', fontSize: 10, fillColor: '#dddddd', alignment: 'center', colSpan: 0 }]);
     arrHallazgos.push([{ text: 'NO', fontSize: 10, colSpan: 1, fillColor: '#dddddd', alignment: 'center' }, { text: 'DESCRIPCIÓN DEL HALLAZGO', fontSize: 10, colSpan: 1, fillColor: '#dddddd', alignment: 'center' }, { text: 'REQUISITO', fillColor: '#dddddd', alignment: 'center', fontSize: 10, colSpan: 1 }]);
-    for (let hall of this.hallazgos) {
+    for (let listNC of this.listasNC) {
       nn++;
-      arrHallazgos.push([{ text: nn, fontSize: 10, colSpan: 1, alignment: 'center'}, { text: hall.hallazgo, fontSize: 10, colSpan: 1, alignment: 'center' }, { text: hall.requisito, fontSize: 10, colSpan: 1, alignment: 'center'}]);
+      arrHallazgos.push([{ text: nn, fontSize: 10, colSpan: 1, alignment: 'center'}, { text: listNC.evidencia, fontSize: 10, colSpan: 1, alignment: 'center' }, { text: listNC.puntoNorma, fontSize: 10, colSpan: 1, alignment: 'center'}]);
     }
 
     // ************************************************
@@ -1121,7 +1156,7 @@ export class InformeComponent implements OnInit {
 
       for ( let i = 0; i < ( 4 + this.normas.length ); i++) {
         arrTemp.push('');
-        console.log(( 4 + this.normas.length ));
+        // console.log(( 4 + this.normas.length ));
       }
 
       arrC.push(arrTemp);
@@ -1180,7 +1215,7 @@ export class InformeComponent implements OnInit {
 
       i1++;
     }
-    console.log(arrC);
+    // console.log(arrC);
     // FIN MATRIZ EN OBJETO
 
      // FUNCIONA
@@ -1266,7 +1301,7 @@ export class InformeComponent implements OnInit {
           widths: [505],
           body: [
             [{ text: 'NO CONFORMIDADES', fontSize: 10, fillColor: '#dddddd', colSpan: 1, alignment: 'center' }],
-            [{ text: 'En la revisión al Sistema de Gestión Integral se encontraron un total de ' + this.totalNC + ' No Conformidades y ' + this.totalOM + ' Oportunidades de Mejora', fontSize: 10, colSpan: 1, alignment: 'center' }],
+            [{ text: 'En la revisión al Sistema de Gestión Integral se encontraron un total de ' + this.totalNC + ' No Conformidades y ' + this.totalODM + ' Oportunidades de Mejora', fontSize: 10, colSpan: 1, alignment: 'center' }],
           ]
         }
       },

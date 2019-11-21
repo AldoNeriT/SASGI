@@ -118,19 +118,19 @@ export class UsuarioComponent implements OnInit {
     }, { validators: this.sonIguales( 'contrasenia', 'contrasenia2') });
 
     // DATOS TEMPORALES PARA LLENAR EL FORM
-    this.forma.setValue({
-      numEmpleado: '1',
-      usuario: 'test',
-      nombre: 'Juan',
-      priApellido: 'Gonzalez',
-      segApellido: 'Perez',
-      correo: 'test@gmail.com',
-      telefono: '4456589541',
-      puesto: 'Jefe',
-      contrasenia: '123456',
-      contrasenia2: '123456',
-      tipoUser: 'ADMIN'
-    });
+    // this.forma.setValue({
+    //   numEmpleado: '1',
+    //   usuario: 'test',
+    //   nombre: 'Juan',
+    //   priApellido: 'Gonzalez',
+    //   segApellido: 'Perez',
+    //   correo: 'test@gmail.com',
+    //   telefono: '4456589541',
+    //   puesto: 'Jefe',
+    //   contrasenia: '123456',
+    //   contrasenia2: '123456',
+    //   tipoUser: 'ADMIN'
+    // });
   }
 
   sonIguales( campo1: string, campo2: string ) {

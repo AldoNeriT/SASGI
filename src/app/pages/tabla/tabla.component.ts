@@ -180,7 +180,7 @@ export class TablaComponent implements OnInit {
       this.idTab
     );
 
-    console.log('Tabla Editar: ', tabla);
+    // console.log('Tabla Editar: ', tabla);
 
     this._tablaService.editarFila( tabla )
           .subscribe( resp => {

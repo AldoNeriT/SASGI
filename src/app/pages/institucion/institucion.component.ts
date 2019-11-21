@@ -47,7 +47,7 @@ export class InstitucionComponent implements OnInit {
   escucharSocket() {
     this._webSocketServive.listen('cambio-institucion')
         .subscribe( ( data: any ) => {
-          console.log('Socket: ', data);
+          // console.log('Socket: ', data);
 
           this.cargarInstituciones();
         });

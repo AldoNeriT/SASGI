@@ -299,7 +299,7 @@ export class PlaneacionComponent implements OnInit {
       this.id
     );
 
-    console.log('planeacion: ', planeacion);
+    // console.log('planeacion: ', planeacion);
 
     this._planeacionService.crearPlaneacion( planeacion )
           .subscribe( resp => {
