@@ -48,8 +48,8 @@ export class ListaVerificacionComponent implements OnInit {
   normasV: string;
   auditorV: string;
 
-  personalV: string;
-  fechaV: string;
+  personalV: string = ' ';
+  fechaV: string = ' ';
 
   forma: FormGroup;
   formaEditar1: FormGroup;

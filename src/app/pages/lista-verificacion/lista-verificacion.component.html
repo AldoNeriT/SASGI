@@ -31,32 +31,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-3"></div>
-                                <div class="col-6">
-                                    <div class="alert alert-warning">
-                                        <button type="button" class="close pointer" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
-                                        <h3 class="text-warning"><i class="fa fa-exclamation-triangle"></i> Advertencia</h3> Tienes que tener al menos una fila para que guardes los cambios del Personal entrevistado y la Fecha.
-                                    </div>
-                                    <form id="formEntrevistado" class="floating-labels m-t-40 " ngNativeValidate [formGroup]="formaEntrevistado" (ngSubmit)="editarEntrevistado()">
-                                        <div class="form-group m-b-40">
-                                            <input formControlName="personal" name="personal" id="personal" class="form-control" value="{{ personalV }}" required>
-                                            <span class="bar"></span>
-                                            <label for="personal">Personal entrevistado:</label>
-                                        </div>
-                                        <div class="form-group m-b-40">
-                                            <input formControlName="fecha" name="fecha" id="fecha" type="text" class="form-control datepicker-autoclose" value="{{ fechaV }}" required>
-                                            <span class="bar"></span>
-                                            <label for="fecha">Fecha:</label>
-                                        </div>
-                                        <div class="text-center">
-                                            <button class="btn btn-secondary btn-rounded btn-xs" type="sumbit">Guardar Cambios</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-3"></div>
 
-                            </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
@@ -125,6 +100,48 @@
                         <div class="modal-footer">
                             <button (click)="cambiarEnviar()" type="button" class="btn btn-themecolor waves-effect">Envíar para Validar</button>
                             <button (click)="regresar()" type="button" class="btn btn-default" data-dismiss="modal">Regresar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-warning">
+                                    <button type="button" class="close pointer" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                                    <h3 class="text-warning"><i class="fa fa-exclamation-triangle"></i> Advertencia</h3> Tienes que tener al menos una Lista de Verificación para que guardes los cambios del Personal Entrevistado y Fecha.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col-6">
+
+                                <form id="formEntrevistado" class="floating-labels m-t-40 " ngNativeValidate [formGroup]="formaEntrevistado" (ngSubmit)="editarEntrevistado()">
+                                    <div class="form-group m-b-40 focused">
+                                        <input formControlName="personal" name="personal" id="personal" class="form-control" value="{{ personalV }}" required>
+                                        <span class="bar"></span>
+                                        <label for="personal">Personal entrevistado:</label>
+                                    </div>
+                                    <div class="form-group m-b-40 focused">
+                                        <input formControlName="fecha" name="fecha" id="fecha" type="text" class="form-control datepicker-autoclose" value="{{ fechaV }}" required>
+                                        <span class="bar"></span>
+                                        <label for="fecha">Fecha:</label>
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-secondary btn-rounded btn-xs" type="sumbit">Guardar Cambios</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-3"></div>
+
                         </div>
 
                     </div>
@@ -329,11 +346,12 @@
                     <div class="form-group m-b-40">
                         <select formControlName="hallazgosE" name="hallazgosE" id="hallazgosE" class="form-control p-0" required>
                             <!-- <option value="" selected>Elige</option> -->
+                            <option value="C">Conformidad</option>
                             <option value="NC">No Conformidad</option>
                             <option value="ODM">Oportunidad de Mejora</option>
                         </select>
                         <span class="bar"></span>
-                        <label for="hallazgosE">Punto de la Norma:</label>
+                        <label for="hallazgosE">Hallazgo:</label>
                     </div>
 
                     <div class="modal-footer">

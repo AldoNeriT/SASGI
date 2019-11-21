@@ -95,6 +95,18 @@ export class PlaneacionComponent implements OnInit {
     });
 
     // this.condiciones();
+    this.forma.setValue({
+      fecha: ' ',
+      desde:  null,
+      hasta: null,
+      proceso:  null,
+      actividad:  null,
+      criterio:  null,
+      auditores:  null,
+      participantes:  null,
+      contacto:  null,
+      area:  null
+    });
 
   }
 

@@ -27,7 +27,7 @@
                     <h6 class="card-subtitle">Progreso: {{ progresoAudi }}</h6> -->
 
                     <form *ngIf="mostrarFormAgregar" id="formAgregar" class="floating-labels m-t-40" ngNativeValidate [formGroup]="forma" (ngSubmit)="agregarPlaneacion()">
-                        <div class="form-group m-b-40">
+                        <div class="form-group m-b-40 focused">
                             <input formControlName="fecha" name="fecha" id="fecha" type="text" class="form-control datepicker-autoclose" required>
                             <span class="bar"></span>
                             <label for="fecha">Fecha:</label>
